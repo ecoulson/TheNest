@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import Home from './Home';
 import Anouncements from './Anouncements';
+import Navbar from './Navbar';
 import './App.css';
 
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
 		return (
 			<Router>
 				<Switch>
+					<Navbar></Navbar>
 					<Route exact path="/" component={Home}/>
 					<Route path="/a" component={Anouncements}/>
 				</Switch>
