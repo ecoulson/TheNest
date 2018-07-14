@@ -1,0 +1,9 @@
+.feed-container {
+	width: auto;
+	height: 480px;
+	margin: 25px;
+	padding: 10px;
+	border: 1px solid green;
+	background-color: rgb(225,225,225);
+	overflow-y: scroll;
+}

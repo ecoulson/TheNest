@@ -1,31 +1,26 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch
+} from 'react-router-dom';
+import Home from './Home';
+import Anouncements from './Anouncements';
+import Navbar from './Navbar';
 import './App.css';
 
 class App extends Component {
-	state = { users: [] }
-
-	componentDidMount() {
-		fetch('/users')
-			.then(res => res.json())
-			.then(users => this.setState({ users }));
-	}
-
 	render() {
 		return (
-			<div className="App">
-				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<h1 className="App-title">Welcome to React</h1>
-				</header>
-				<p className="App-intro">
-					To get started, edit <code>src/App.js</code> and save to reload.
-				</p>
-				<h1>Users</h1>
-				{this.state.users.map(user =>
-					<div key={user.id}>{user.username}</div>
-				)}
-			</div>
+			<Router>
+				<div>
+					<Navbar></Navbar>
+					<Switch>
+						<Route exact path="/" component={Home}/>
+						<Route path="/anouncements" component={Anouncements}/>
+					</Switch>
+				</div>
+			</Router>
 		);
 	}
 }

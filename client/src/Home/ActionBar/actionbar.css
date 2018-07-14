@@ -1,0 +1,46 @@
+.action-bar {
+	width: 100%;
+	height: 50px;
+	background-color: rgb(160, 160, 160);
+}
+
+.application-name {
+	margin: 0;
+	padding: 0;
+	padding-left: 25px;
+	width: 100%;
+	font-size: 28px;
+	height: 50px;
+}
+
+.settings {
+	float: right;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	border-left: 1px solid black;
+}
+
+.settings:hover {
+	background-color: red;
+}
+
+.settings > i {
+	padding-top: 8px;
+}
+
+.notifications {
+	float: right;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	border-left: 1px solid black;
+}
+
+.notifications:hover {
+	background-color: green;
+}
+
+.notifications > i {
+	padding-top: 8px;
+}
