@@ -1,6 +1,14 @@
-@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+ @import url(//fonts.googleapis.com/css?family=Comfortaa);
+
+/* @font-face {
+	font-family: 'Comfortaa2';
+	src: url('./Comfortaa/Comfortaa-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+		/* url('./Comfortaa/Comfortaa-Regular.ttf')  format('woff'), /* Safari, Android, iOS */
+		/* url('./Comfortaa/Comfortaa-Regular.ttf')  format('woff2'), Safari, Android, iOS */
+  /* } */
+
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Comfortaa', cursive;
+  font-family: 'Comfortaa', 'cursive';
 }
