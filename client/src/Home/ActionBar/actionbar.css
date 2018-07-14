@@ -25,7 +25,7 @@
 	background-color: red;
 }
 
-.settings > i {
+.settings > svg {
 	padding-top: 8px;
 }
 
@@ -41,6 +41,6 @@
 	background-color: green;
 }
 
-.notifications > i {
+.notifications > svg {
 	padding-top: 8px;
 }

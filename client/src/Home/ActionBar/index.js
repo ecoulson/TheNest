@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './actionbar.css';
 
 export default class Home extends Component {
@@ -7,8 +8,12 @@ export default class Home extends Component {
 		return (
 			<div className="action-bar">
 				<span className="application-name">The Roost (ASB POC)</span>
-				<Link className="settings" to="/settings"><i className="fas fa-2x fa-cog"></i></Link>
-				<Link className="notifications" to="/notifications"><i className="fab fa-2x fa-earlybirds"></i></Link>
+				<Link className="settings" to="/settings">
+					<FontAwesomeIcon size="2x" icon="cog" />
+				</Link>
+				<Link className="notifications" to="/notifications">
+					<FontAwesomeIcon size="2x" icon={['fab', 'earlybirds']} />
+				</Link>
 			</div>
 		)
 	}
