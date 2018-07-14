@@ -1,0 +1,11 @@
+.data-feed-container {
+	height: 600px;
+	width: 600px;
+	margin: 25px;
+	border: 1px solid magenta;
+}
+
+.data-feed-title {
+	text-align: center;
+	text-decoration: underline;
+}

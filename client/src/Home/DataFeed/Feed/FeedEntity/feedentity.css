@@ -1,0 +1,32 @@
+.feed-entity-container {
+	border: 1px solid yellow;
+	padding: 10px;
+	background-color: rgb(200, 200, 200);
+	margin-bottom: 15px;
+}
+
+.split {
+	width: 100%;
+	border: 1px solid black;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.feed-entity-title {
+	text-transform: capitalize;
+}
+
+.feed-entity-footer {
+	display: flex;
+}
+
+.feed-entity-date {
+	width: 50%;
+	text-align: left;
+}
+
+.feed-entity-author {
+	width: 50%;
+	text-align: right;
+	text-transform: capitalize;
+}
