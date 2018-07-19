@@ -7,7 +7,6 @@ export default class Home extends Component {
 	render() {
 		return (
 			<div className="dashboard-container">
-				<ActionBar></ActionBar>
 				<DataFeed></DataFeed>
 			</div>
 		)

@@ -7,6 +7,7 @@ import {
 import Home from './Home';
 import Anouncements from './Anouncements';
 import Navbar from './Navbar';
+import ActionBar from './ActionBar';
 import './App.css';
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
 			<Router>
 				<div>
 					<Navbar></Navbar>
+					<ActionBar/>
 					<Switch>
 						<Route exact path="/" component={Home}/>
 						<Route path="/anouncements" component={Anouncements}/>
