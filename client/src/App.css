@@ -1,0 +1,7 @@
+.app-container {
+	height: 100vh;
+	padding-left: 200px;
+	background-color: rgb(245, 245, 245);
+	box-sizing: border-box;
+	display: flex;
+}

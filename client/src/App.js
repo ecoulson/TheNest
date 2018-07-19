@@ -17,10 +17,12 @@ class App extends Component {
 				<div>
 					<Navbar></Navbar>
 					<ActionBar/>
-					<Switch>
-						<Route exact path="/" component={Home}/>
-						<Route path="/anouncements" component={Anouncements}/>
-					</Switch>
+					<div className="app-container">
+						<Switch>
+							<Route exact path="/" component={Home}/>
+							<Route path="/anouncements" component={Anouncements}/>
+						</Switch>
+					</div>
 				</div>
 			</Router>
 		);
