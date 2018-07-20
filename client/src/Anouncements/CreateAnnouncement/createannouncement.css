@@ -1,0 +1,10 @@
+.create-container {
+	width: 500px;
+	height: 500px;
+	border: 1px solid pink;
+	margin: 25px;
+}
+
+.title {
+	text-align: center;
+}

@@ -1,0 +1,10 @@
+.container {
+	width: 400px;
+	height: 500px;
+	border: 1px solid purple;
+	margin: 25px;
+}
+
+.title {
+	text-align: center;
+}

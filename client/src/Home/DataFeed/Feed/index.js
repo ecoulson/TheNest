@@ -9,15 +9,24 @@ export default class Feed extends Component {
 			announcements: [],
 			hasFetchedAnnouncements: false,
 		};
+		this.renderAnnouncements = this.renderAnnouncements.bind(this);
 	}
 	
 	componentWillMount() {
 		fetch('/api/announcements')
 			.then(res => res.json())
-			.then(announcements => this.setState({
-				'announcements': announcements, 
-				hasFetchedAnnouncements: true
-			}));
+			.then((announcements) => {
+				this.setState({
+					announcements: announcements, 
+					hasFetchedAnnouncements: true
+				});
+			});
+	}
+
+	renderAnnouncements() {
+		return this.state.announcements.map((announcement) => {
+			return <FeedEntity key={announcement.id} type="announcement" entity={announcement}/>
+		})
 	}
 
 	render() {
@@ -25,11 +34,7 @@ export default class Feed extends Component {
 		if (this.state.hasFetchedAnnouncements) {
 			return (
 				<div className="feed-container">
-					{
-						this.state.announcements.map((x) => {
-							return <FeedEntity key={new Date()} type="announcement" entity={x}/>
-						})
-					}
+					{this.renderAnnouncements()}
 				</div>
 			)
 		} else {

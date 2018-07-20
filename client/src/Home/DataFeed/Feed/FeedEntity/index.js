@@ -6,7 +6,7 @@ export default class FeedEntity extends Component {
 	render() {
 		return (
 			<div className="feed-entity-container">
-				<h2 className="feed-entity-title">{this.props.entity.name}</h2>
+				<h2 className="feed-entity-title">{this.props.entity.title}</h2>
 				<div className="split"/>
 				<div className="feed-entity-body">
 					<p className="feed-entity-desc">{this.props.entity.desc}</p>
