@@ -49,7 +49,7 @@ export default class ApprovalList extends Component {
 
 	render() {
 		return (
-			<div className="list">
+			<div className="entry-list">
 				{this.renderUnapprovedList()}
 			</div>
 		);

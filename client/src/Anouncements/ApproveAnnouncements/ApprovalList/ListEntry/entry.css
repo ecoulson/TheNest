@@ -1,0 +1,55 @@
+.entry {
+	background-color: darkgreen;
+	padding: 15px 5px; 
+	border: 3px solid gold;
+	margin: 5px;
+	transition: all 0.5s ease-in-out;
+	color: white;
+}
+
+.entry:hover {
+	box-shadow: 0px 0px 10px 5px rgb(0,0,0, 0.7);
+}
+
+.entry-title {
+	text-transform: capitalize;
+	padding: 0px 5px;
+}
+
+.approve, .reject {
+	text-transform: capitalize;
+	float:right;
+	background-color: transparent;
+	margin: 0px 10px;
+	font-size: 14px;
+	color: white;
+	outline: none;
+}
+
+.approve:hover, .reject:hover {
+	cursor: pointer;
+}
+
+.approve {
+	border: none;
+	transition: transform 0.25s;
+}
+
+.approve:hover {
+	transform: scale(1.1);
+	color: rgb(50, 235, 50);
+}
+
+.reject {
+	border: none;
+	padding: 6px 11px;
+	margin-top: -5px;
+	transition: color 0.5s, background-color 0.5s;
+}
+
+.reject:hover {
+	color: black;
+	padding: 5px 10px;
+	background-color: red;
+	border: 1px solid black;
+}
