@@ -28,3 +28,25 @@
 	border: 3px solid black;
 	height: 125px;
 }
+
+.form-create {
+	border: 3px solid black;
+	font-size: 18px;
+	padding: 10px 10px;
+	background-color: transparent;
+	transition: 0.5s all ease;
+	font-family: 'comfortaa', 'cursive';
+	font-weight: 600;
+	outline: none;
+}
+
+.form-create:hover {
+	border: 3px solid gold;
+	cursor: pointer;
+	background-color: darkgreen;
+	color: white;
+}
+
+.form-create:focus {
+	transform: scale(1.1);
+}

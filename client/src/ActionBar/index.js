@@ -7,7 +7,7 @@ export default class Home extends Component {
 	render() {
 		return (
 			<div className="action-bar">
-				<span className="application-name">The Roost (ASB POC)</span>
+				<span className="application-name">The Roost</span>
 				<Link className="settings" to="/settings">
 					<FontAwesomeIcon size="2x" icon="cog" />
 				</Link>
