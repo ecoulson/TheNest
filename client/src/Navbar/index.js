@@ -6,8 +6,8 @@ export default class Navbar extends Component {
 	render() {
 		return (
 			<ul className="navbar-container">
-				<Navlink to="/" title="Dashboard"/>
-				<Navlink to="/anouncements" title="Anouncements"/>
+				<Navlink icon="home" to="/" title="Dashboard"/>
+				<Navlink icon="bullhorn" to="/anouncements" title="Anouncements"/>
 			</ul>
 		)
 	}

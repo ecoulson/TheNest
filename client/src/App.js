@@ -8,6 +8,7 @@ import {
 import Home from './Home';
 import Anouncements from './Anouncements';
 import Navbar from './Navbar';
+import ActionBar from './ActionBar';
 import './App.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -24,10 +25,13 @@ class App extends Component {
 			<Router>
 				<div>
 					<Navbar></Navbar>
-					<Switch>
-						<Route exact path="/" component={Home}/>
-						<Route path="/anouncements" component={Anouncements}/>
-					</Switch>
+					<ActionBar/>
+					<div className="app-container">
+						<Switch>
+							<Route exact path="/" component={Home}/>
+							<Route path="/anouncements" component={Anouncements}/>
+						</Switch>
+					</div>
 				</div>
 			</Router>
 		);

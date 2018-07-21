@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import ActionBar from './ActionBar';
-import DataFeed from './DataFeed';
+import Feed from './Feed';
+import Module from '../Module';
 import './home.css';
 
 export default class Home extends Component {
 	render() {
 		return (
-			<div className="dashboard-container">
-				<ActionBar></ActionBar>
-				<DataFeed></DataFeed>
-			</div>
+			<Module width={600} height={600} title="Feathers">
+				<Feed/>
+			</Module>
 		)
 	}
 }

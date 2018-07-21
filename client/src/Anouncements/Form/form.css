@@ -1,0 +1,30 @@
+.form {
+	padding: 25px;
+	text-align: center;
+}
+
+.form-title, .form-author, .form-desc {
+	width:80%;
+	padding: 8px 10px;
+	margin-bottom: 25px;
+	outline: none;
+	border: none;
+	border-bottom: 3px solid black;
+	background-color: transparent;
+	font-size: 16px;
+	font-family: 'comfortaa', 'cursive';
+	transition: all 0.5s ease;
+}
+
+.form-title:hover, .form-author:hover, .form-desc:hover {
+	border-color: gold;
+}
+
+.form-title:focus, .form-author:focus, .form-desc:focus {
+	border-color: darkgreen;
+}
+
+.form-desc {
+	border: 3px solid black;
+	height: 125px;
+}

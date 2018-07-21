@@ -1,0 +1,7 @@
+.feed-container {
+	width: auto;
+	height: 460px;
+	margin: 10px;
+	padding: 10px;
+	overflow-y: scroll;
+}
