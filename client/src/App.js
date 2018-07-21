@@ -14,8 +14,12 @@ import './App.css';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { faCog } from '@fortawesome/free-solid-svg-icons'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { faBullhorn } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faCog);
+library.add(faHome);
+library.add(faBullhorn);
 library.add(fab);
 console.log(fab);
 
