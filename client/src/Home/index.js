@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import DataFeed from './DataFeed';
+import Feed from './Feed';
+import Module from '../Module';
 import './home.css';
 
 export default class Home extends Component {
 	render() {
 		return (
-			<DataFeed></DataFeed>
+			<Module width={600} height={600} title="Feathers">
+				<Feed/>
+			</Module>
 		)
 	}
 }

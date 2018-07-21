@@ -1,9 +1,13 @@
 .navbar-container {
-	width: 200px;
-	background-color: rgb(215, 215, 215);
+	width: 175px;
+	background-color: darkgreen;
 	height: 100vh;
 	margin: 0px;
 	padding: 0px;
 	position: fixed;
 	display: block;
+	padding-top: 115px;
+	margin-bottom: -115px;
+	z-index: 1;
+	border-right: 3px solid rgb(29, 66, 18);
 }

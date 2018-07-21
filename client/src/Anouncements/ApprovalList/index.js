@@ -3,14 +3,20 @@ import './approvallist.css';
 import ListEntry from './ListEntry';
 
 export default class ApprovalList extends Component {
-	constructor() {
+	constructor(props) {
 		super();
 		this.state = {
 			fetched: false,
-			unapproved: []
+			unapproved: props.unapproved
 		}
 		this.renderUnapprovedList = this.renderUnapprovedList.bind(this);
 		this.removeEntry = this.removeEntry.bind(this);
+	}
+
+	componentWillReceiveProps(props) {
+		this.setState({
+			unapproved: props.unapproved
+		})
 	}
 
 	removeEntry(id) {
@@ -25,21 +31,8 @@ export default class ApprovalList extends Component {
 		})
 	}
 
-	componentWillMount() {
-		fetch('/api/announcements/approve', {
-			method: "GET"
-		}).then((res) => {
-			return res.json();
-		}).then((unapproved) => {
-			return this.setState({
-				fetched: true,
-				unapproved: unapproved
-			})
-		});
-	}
-
 	renderUnapprovedList() {
-		return this.state.unapproved.map((announcement) => {
+		return this.props.unapproved.map((announcement) => {
 			return <ListEntry 
 					key={announcement.id} 
 					entry={announcement} 

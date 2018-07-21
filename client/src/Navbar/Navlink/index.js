@@ -6,7 +6,7 @@ export default class Navlink extends Component {
 	render() {
 		return (
 			<Link className="navlink" to={this.props.to}>
-				<span className="navlink-desc">{this.props.title}</span>
+				<i className={`navlink-icon fas fa-1x fa-${this.props.icon}`}/><span className="navlink-desc">{this.props.title}</span>
 			</Link>
 		)
 	}
