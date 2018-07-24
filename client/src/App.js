@@ -8,6 +8,7 @@ import Anouncements from './Anouncements';
 import Navbar from './Navbar';
 import ActionBar from './ActionBar';
 import StatusBar from './StatusBar';
+import NotFound from './NotFound';
 import { spring, AnimatedSwitch } from 'react-router-transition';
 import { AppProvider } from './AppContext';
 import './App.css';
@@ -19,12 +20,13 @@ import {
 	faHome, 
 	faBullhorn,
 	faCrow,
+	faFileAlt
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faCog);
 library.add(faHome);
 library.add(faBullhorn);
-library.add(faCrow);
+library.add(faCrow, faFileAlt);
 library.add(fab);
 
 function mapStyles(styles) {
@@ -72,6 +74,7 @@ class App extends Component {
 							className="route-wrapper">
 							<Route exact path="/" component={Home}/>
 							<Route path="/anouncements" component={Anouncements}/>
+							<Route component={NotFound} />
 						</AnimatedSwitch>
 					</div>
 					<StatusBar/>

@@ -8,6 +8,7 @@ export default class Navbar extends Component {
 			<ul className="navbar-container">
 				<Navlink icon="home" to="/" title="Dashboard"/>
 				<Navlink icon="bullhorn" to="/anouncements" title="Anouncements"/>
+				<Navlink icon="file-alt" to="/resources" title="Resources"/>
 			</ul>
 		)
 	}
