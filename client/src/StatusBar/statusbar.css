@@ -1,0 +1,35 @@
+.status-bar {
+	width: 100vw;
+	height: 50px;
+	background-color: transparent;
+	display: block;
+	position: fixed;
+	bottom:0;
+	z-index: 3;
+	text-align: center;
+	font-size: 26px;
+	box-shadow: 0px 0px 3px 3px rgba(0,0,0,0.7);
+}
+
+.status-info {
+	margin-top:10px;
+	display: block;
+}
+
+.status-enter {
+	left: -100vw;
+}
+
+.status-enter.status-enter-active {
+	left: 0;
+	transition: 500ms;
+}
+
+.status-leave {
+	left: 0;
+}
+
+.status-leave.status-leave-active {
+	left: -100vw;
+	transition: 500ms;
+}

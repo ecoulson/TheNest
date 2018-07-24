@@ -12,7 +12,7 @@
 .application-name {
 	margin: 0;
 	padding: 0;
-	padding-left: 25px;
+	padding-left: 15px;
 	width: 100%;
 	font-size: 28px;
 	height: 50px;
@@ -25,7 +25,7 @@
 	height: 50px;
 	padding: 0px 7px;
 	text-align: center;
-	transition: all 0.25s;
+	transition: all 0.25s ease;
 }
 
 .settings:hover {
@@ -34,6 +34,11 @@
 
 .settings > svg {
 	padding-top: 8px;
+	color: black;
+	transition: all 0.25s ease;
+}
+
+.settings:hover > svg {
 	color: darkgreen;
 }
 
@@ -43,7 +48,7 @@
 	height: 50px;
 	text-align: center;
 	padding: 0px 7px;
-	transition: all 0.25s;
+	transition: all 0.25s ease;
 }
 
 .notifications:hover {
@@ -51,6 +56,23 @@
 }
 
 .notifications > svg {
-	color: darkgreen;
+	color: black;
 	padding-top: 8px;
+	transition: all 0.25s ease;
+}
+
+.notifications:hover > svg {
+	color: darkgreen;
+}
+
+
+.application-logo {
+	color: black;
+	padding-top: 8px;
+	padding-left: 10px;
+	transition: all 0.5s ease;
+}
+
+.action-bar:hover > .application-logo {
+	color: darkgreen;
 }

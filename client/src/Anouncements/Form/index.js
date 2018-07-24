@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { AppContext } from '../../AppContext';
 import FormData from './FormData';
 import './form.css';
 
@@ -37,7 +38,17 @@ export default class Form extends Component {
 
 	handleSubmitClick() {
 		let formData = new FormData(this.state);
-		this.handleSubmittedForm(formData);
+		let validationResult = formData.validate();
+		if (validationResult.isValid) {
+			this.handleSubmittedForm(formData);
+		} else {
+			this.showStatus({
+				message: validationResult.message,
+				color: "red",
+				fontColor: "black",
+				duration: 3
+			})
+		}
 	}
 
 	handleSubmittedForm(formData) {
@@ -51,21 +62,48 @@ export default class Form extends Component {
 		}).then((res) => {
 			return res.json();
 		}).then((payload) => {
-			if (payload.success) {
-				this.props.getUnapproved();
-			}
+			this.showSubmittedStatus(payload.success, this.showStatus);
+			this.setState({
+				title: "",
+				desc: "",
+				author: "",
+			});
 		});
+	}
+
+	showSubmittedStatus(success) {
+		if (success) {
+			this.showStatus({
+				message: "Successfully Submitted Announcement For Approval",
+				color: "green",
+				fontColor: "white",
+				duration: 3
+			});
+			this.props.getUnapproved();
+		} else {
+			this.showStatus({
+				message: "Failed To Submit Announcement For Approval",
+				color: "red",
+				fontColor: "black",
+				duration: 3
+			});
+		}
 	}
 
 	render() {
 		return (
 			<div className="form">
-				<input onChange={this.handleTitleInput} placeholder="Title..." className="form-title"/>
+				<AppContext.Consumer>
+					{context => {
+						this.showStatus = context.showStatus
+					}}
+				</AppContext.Consumer>
+				<input value={this.state.title} onChange={this.handleTitleInput} placeholder="Title..." className="form-title"/>
 				<br/>
-				<textarea onChange={this.handleAnnouncmentInput} placeholder="Announcement..." className="form-desc">
+				<textarea value={this.state.desc} onChange={this.handleAnnouncmentInput} placeholder="Announcement..." className="form-desc">
 				</textarea>
 				<br/>
-				<input onChange={this.handleAuthorInput} className="form-author" placeholder="Author..."/>
+				<input value={this.state.author} onChange={this.handleAuthorInput} className="form-author" placeholder="Author..."/>
 				<br/>
 				<input onClick={this.handleSubmitClick} className="form-create" type="button" value="Submit Announcement"/>
 			</div>

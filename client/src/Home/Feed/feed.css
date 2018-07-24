@@ -5,3 +5,27 @@
 	padding: 10px;
 	overflow-y: scroll;
 }
+
+
+.feather-info {
+	margin-top:10px;
+	display: block;
+}
+
+.feather-enter {
+	opacity: 0;
+}
+
+.feather-enter.feather-enter-active {
+	opacity: 1;
+	transition: 500ms;
+}
+
+.feather-leave {
+	opacity: 0;
+}
+
+.feather-leave.feather-leave-active {
+	opacity: 1;
+	transition: 500ms;
+}

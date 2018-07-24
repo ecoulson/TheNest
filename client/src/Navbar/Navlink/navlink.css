@@ -11,6 +11,7 @@
 
 .navlink:hover {
 	text-decoration: underline;
+	color: gold;
 	transform: scale(1.01);
 }
 

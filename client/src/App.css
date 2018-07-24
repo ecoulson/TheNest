@@ -7,3 +7,11 @@
 	box-sizing: border-box;
 	display: flex;
 }
+
+.route-wrapper {
+	position: relative;
+}
+
+.route-wrapper > div {
+	position: absolute;
+}

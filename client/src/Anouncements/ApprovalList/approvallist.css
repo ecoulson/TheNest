@@ -4,3 +4,21 @@
 	padding: 0;
 	max-height: 415px;
 }
+
+.approval-enter {
+	width: 0px;
+}
+
+.approval-enter.approval-enter-active {
+	width: 95%;
+	transition: 250ms;
+}
+
+.approval-leave {
+	width: 95%;
+}
+
+.approval-leave.approval-leave-active {
+	width: 0px;
+	transition: 250ms;
+}

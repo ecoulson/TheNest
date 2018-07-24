@@ -7,12 +7,13 @@ export default class Home extends Component {
 	render() {
 		return (
 			<div className="action-bar">
+				<FontAwesomeIcon className="application-logo" size="2x" icon="crow" />
 				<span className="application-name">The Roost</span>
-				<Link className="settings" to="/settings">
-					<FontAwesomeIcon size="2x" icon="cog" />
-				</Link>
 				<Link className="notifications" to="/notifications">
 					<FontAwesomeIcon size="2x" icon={['fab', 'earlybirds']} />
+				</Link>
+				<Link className="settings" to="/settings">
+					<FontAwesomeIcon size="2x" icon="cog" />
 				</Link>
 			</div>
 		)

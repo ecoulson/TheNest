@@ -8,7 +8,7 @@ const db = {
 }
 
 router.get('/', function(req, res, next) {
-	let results = query("announcements", { approved: true })
+	let results = query("announcements", { approved: true }, "dateCreated");
 	let announcements = asList(results);
 	return res.json(announcements);
 });
@@ -17,7 +17,8 @@ router.post('/', function(req, res, next) {
 	req.body.approved = false;
 	store("announcements", req.body);
 	return res.send({
-		success: true
+		success: true,
+		announcement: getEntry("announcements", id - 1)
 	});
 });
 
@@ -31,14 +32,15 @@ router.post('/approve/', function(req, res, next) {
 	entry.approved = true;
 	update("announcements", entry.id, entry);
 	return res.send({
-		success: true
+		success: true,
+		announcement: entry
 	})
 });
 
 router.post('/reject/', function(req, res, next) {
 	remove("announcements", req.body.id);
 	return res.send({
-		success: true
+		success: true, 
 	})
 })
 
@@ -51,7 +53,7 @@ function getEntry(table, id) {
 	return db[table][id];
 }
 
-function query(tableName, conditions) {
+function query(tableName, conditions, orderBy) {
 	let table = db[tableName];
 	let results = [];
 	for (let id in table) {
@@ -60,6 +62,9 @@ function query(tableName, conditions) {
 			results.push(announcement);
 		}
 	}
+	results.sort((a, b) => {
+		return a[orderBy] < b[orderBy];
+	})
 	return results;
 }
 

@@ -1,42 +1,81 @@
-
 import React, { Component } from 'react';
 import {
 	BrowserRouter as Router,
-	Route,
-	Switch
+	Route
 } from 'react-router-dom';
 import Home from './Home';
 import Anouncements from './Anouncements';
 import Navbar from './Navbar';
 import ActionBar from './ActionBar';
+import StatusBar from './StatusBar';
+import { spring, AnimatedSwitch } from 'react-router-transition';
+import { AppProvider } from './AppContext';
 import './App.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faCog } from '@fortawesome/free-solid-svg-icons'
-import { faHome } from '@fortawesome/free-solid-svg-icons'
-import { faBullhorn } from '@fortawesome/free-solid-svg-icons'
+import { 
+	faCog, 
+	faHome, 
+	faBullhorn,
+	faCrow,
+} from '@fortawesome/free-solid-svg-icons'
 
 library.add(faCog);
 library.add(faHome);
 library.add(faBullhorn);
+library.add(faCrow);
 library.add(fab);
-console.log(fab);
+
+function mapStyles(styles) {
+	return {
+		opacity: styles.opacity,
+		transform: `scale(${styles.scale})`,
+	};
+}
+  
+function bounce(val) {
+	return spring(val, {
+		stiffness: 400,
+		damping: 25,
+	});
+}
+  
+const bounceTransition = {
+	atEnter: {
+		opacity: 0,
+		scale: 1.1,
+	},
+	atLeave: {
+		opacity: bounce(0),
+		scale: bounce(0.9),
+	},
+	atActive: {
+		opacity: bounce(1),
+		scale: bounce(1),
+	},
+};
 
 class App extends Component {
 	render() {
 		return (
 			<Router>
-				<div>
+				<AppProvider>
 					<Navbar></Navbar>
 					<ActionBar/>
 					<div className="app-container">
-						<Switch>
+						<AnimatedSwitch
+							atEnter={bounceTransition.atEnter}
+							atLeave={bounceTransition.atLeave}
+							atActive={bounceTransition.atActive}
+							mapStyles={mapStyles}
+							className="route-wrapper">
 							<Route exact path="/" component={Home}/>
 							<Route path="/anouncements" component={Anouncements}/>
-						</Switch>
+						</AnimatedSwitch>
 					</div>
-				</div>
+					<StatusBar/>
+				</AppProvider>
 			</Router>
 		);
 	}

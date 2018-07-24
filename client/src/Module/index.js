@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './module.css';
 
-export default class Home extends Component {
+export default class Module extends Component {
 	render() {
 		let style = {
 			width: this.props.width,

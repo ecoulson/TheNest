@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-	"start": "node bin/www",
-	"heroku-postbuild": "cd client && npm install && npm run build"
+    "start": "node bin/www",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -12,7 +12,12 @@
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
+    "jquery": "^3.3.1",
     "moment": "^2.22.2",
-    "morgan": "~1.9.0"
+    "morgan": "~1.9.0",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-animate-height": "^2.0.3",
+    "react-router-transition": "^1.2.1",
+    "react-tooltip": "^3.6.1"
   }
 }

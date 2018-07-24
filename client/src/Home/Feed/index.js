@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import FeedEntity from './FeedEntity';
 import './feed.css';
 
@@ -26,19 +27,19 @@ export default class Feed extends Component {
 	renderAnnouncements() {
 		return this.state.announcements.map((announcement) => {
 			return <FeedEntity key={announcement.id} type="announcement" entity={announcement}/>
-		})
+		});
 	}
 
 	render() {
-		console.log(this.state);
-		if (this.state.hasFetchedAnnouncements) {
-			return (
-				<div className="feed-container">
+		return (
+			<div className="feed-container">
+				<ReactCSSTransitionGroup
+					transitionName="feather"
+					transitionEnterTimeout={250}
+					transitionLeaveTimeout={250}>
 					{this.renderAnnouncements()}
-				</div>
-			)
-		} else {
-			return <div className="feed-container"/>;
-		}
+				</ReactCSSTransitionGroup>
+			</div>
+		)
 	}
 }
