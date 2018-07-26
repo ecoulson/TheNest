@@ -1,0 +1,21 @@
+.search-filter {
+	border: none;
+	border-bottom: 3px solid black;
+	outline: none;
+	padding: 5px;
+	font-size: 14px;
+	background-color: transparent;
+	margin: 15px 5%;
+	transition: all 0.5s ease;
+	width: 30%;
+	height: 25px;
+	font-family: "comfortaa", "cursive";
+}
+
+.search-filter:hover {
+	border-bottom: 3px solid gold;
+}
+
+.search-filter:focus {
+	border-bottom: 3px solid darkgreen;
+}

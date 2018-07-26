@@ -17,6 +17,7 @@
     "morgan": "~1.9.0",
     "react-addons-css-transition-group": "^15.6.2",
     "react-animate-height": "^2.0.3",
+    "react-dropdown": "^1.5.0",
     "react-router-transition": "^1.2.1",
     "react-tooltip": "^3.6.1"
   }

@@ -1,0 +1,58 @@
+.select-filter:hover .select-filter-options {
+	cursor: pointer;
+	max-height: 300px;
+	border: 3px solid gold;
+}
+
+.select-filter:hover .select-filter-current {
+	border: 3px solid gold;
+	border-bottom: none;
+	color: white;
+	background-color: darkgreen;
+	cursor: pointer;
+}
+
+.select-filter {
+	padding: 5px;
+	text-align: center;
+	width: 100px;
+	margin: 10px;
+}
+
+.select-filter-current {
+	border: 3px solid black;
+	width: 100px;
+	height: 30px;
+	padding-top: 7px;
+	display: block;
+	margin-bottom: -5px;
+	text-transform: capitalize;
+	border-bottom: none;
+	transition: all 0.5s ease;
+	background-color: rgb(202, 202, 202);
+}
+
+.select-filter-options {
+	width: 100px;
+	display: block;
+	font-size: 16px;
+	text-align: center;
+	max-height: 0;
+	transition: max-height 0.5s ease, border 0.5s ease;
+	overflow: hidden;
+	border: 3px solid black;
+	position: absolute;
+	background-color: rgb(202, 202, 202);
+	z-index: 4;
+	margin-top:3px;
+}
+
+.select-filter-option {
+	transition: 0.5s max-height ease;
+	padding: 5px;
+}
+
+.select-filter-option:hover {
+	color: white;
+	background-color: darkgreen;
+}

@@ -59,4 +59,6 @@
 	display: none;
 	margin-top: 10px;
 	margin-left: 5px;
+	margin-bottom: 0;
+	word-wrap: break-word;
 }

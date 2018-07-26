@@ -29,6 +29,10 @@
 	font-size: 18px;
 }
 
+.feed-entity-desc {
+	word-wrap: break-word;
+}
+
 .feed-entity-footer {
 	font-size: 12px;
 	padding-top:5px;

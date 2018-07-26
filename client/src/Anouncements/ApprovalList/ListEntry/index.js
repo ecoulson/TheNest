@@ -78,7 +78,7 @@ export default class ListEntry extends Component {
 				opacity: 0,
 			},
 			showingDesc: false
-		})
+		});
 		fetch(`/api/announcements/reject/`, {
 			method: "POST",
 			headers: {
@@ -102,14 +102,17 @@ export default class ListEntry extends Component {
 		return JSON.stringify(this.state.entry);
 	}
 
-	showDesc() {
+	showDesc(e) {
 		let element = document.getElementById(`list-desc-entry-${this.state.entry.id}`);
-		if (element !== null) {
+		console.log(e.target.className === "approve");
+		if (element !== null && e.target.className.trim() !== "approve") {
 			$(element).slideToggle();
-			this.setState({
-				showingDesc: !this.state.showingDesc
-			});
-		}	
+		} else {
+			$(element).hide(0);
+		}
+		this.setState({
+			showingDesc: !this.state.showingDesc
+		});
 	}
 
 	render() {
