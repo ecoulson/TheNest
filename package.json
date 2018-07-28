@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "set PORT=3001 && node bin/www",
+    "start": "PORT=3001 node bin/www",
 	"heroku-postbuild": "cd client && npm install && npm run build",
 	"postinstall": "cd client && npm install && npm run build"
   },
@@ -28,5 +28,8 @@
     "react-router-transition": "^1.2.1",
     "react-select": "^2.0.0",
     "react-tooltip": "^3.6.1"
+  },
+  "engines": {
+	  "node": "8.11.3"
   }
 }
