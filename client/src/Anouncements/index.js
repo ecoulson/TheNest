@@ -26,7 +26,7 @@ export default class Anouncements extends Component {
 			this.setState({
 				unapproved: unapproved
 			})
-		});
+		})
 	}
 	
 	render() {

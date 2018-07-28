@@ -80,12 +80,10 @@ export default class ApprovalList extends Component {
 
 	removeEntry(id) {
 		let unapproved = this.state.unapproved;
-		console.log(id);
 		for (let i = 0; i < unapproved.length; i++) {
 			if (unapproved[i].id === id) {
 				this.addToRejectedAnnouncements(unapproved[i], i);
 				unapproved.splice(i, 1);
-				console.log(unapproved);
 			}
 		}
 		this.setState({

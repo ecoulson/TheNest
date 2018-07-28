@@ -5,3 +5,8 @@ body {
   padding: 0;
   font-family: 'Comfortaa', 'cursive';
 }
+
+input {
+	border-radius: 0;
+	-webkit-appearance: none;
+}

@@ -4,6 +4,7 @@
 	margin: 25px;
 	transition: 0.5s all ease;
 	background-color: rgb(234, 234, 234);
+	overflow:auto; 
 }
 
 .module-container:hover {
@@ -23,6 +24,7 @@
 	transition: 0.5s all ease;
 	margin-bottom: 3px solid black;
 	word-wrap: break-word;
+	text-transform: capitalize;
 }
 
 .module-header {

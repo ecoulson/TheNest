@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import Home from './Home';
 import Anouncements from './Anouncements';
+import ActiveAnnouncement from './ActiveAnnouncement';
 import Navbar from './Navbar';
 import ActionBar from './ActionBar';
 import StatusBar from './StatusBar';
@@ -83,7 +84,7 @@ class App extends Component {
 							className="route-wrapper">
 							<Route exact path="/" component={Home}/>
 							<Route exact path="/announcements" component={Anouncements}/>
-							<Route path="/announcements/:id" component={NotFound}/>
+							<Route path="/announcements/:id" component={ActiveAnnouncement}/>
 							<Route component={NotFound} />
 						</AnimatedSwitch>
 					</div>

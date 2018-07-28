@@ -15,7 +15,6 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 	req.body.approved = false;
-	console.log(req.body);
 	store("announcements", req.body);
 	return res.send({
 		success: true,
@@ -43,7 +42,12 @@ router.post('/reject/', function(req, res, next) {
 	return res.send({
 		success: true, 
 	})
-})
+});
+
+router.get('/:id', function(req, res, next) {
+	let announcement = getEntry("announcements", req.params.id);
+	return res.json(announcement);
+});
 
 function store(table, body) {
 	body.id = id;
