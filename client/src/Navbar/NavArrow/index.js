@@ -8,10 +8,10 @@ export default class NavArrow extends Component {
 		}
 
 		return (
-			<div style={style} onClick={this.props.toggleNavbar} className="navbar-arrow">
+			<div style={style} className="navbar-arrow">
 				{this.props.isOpen ? 
-					<FontAwesomeIcon size="2x" icon="chevron-left"/> :
-					<FontAwesomeIcon size="2x" icon="chevron-right"/>
+					<FontAwesomeIcon onClick={this.props.toggleNavbar} size="2x" icon="chevron-left"/> :
+					<FontAwesomeIcon onClick={this.props.toggleNavbar} size="2x" icon="chevron-right"/>
 				}
 			</div>
 		)

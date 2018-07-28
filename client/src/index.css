@@ -7,5 +7,9 @@ body {
 }
 
 input, textarea {
-	border-radius: 0;
+	border-radius: none;
+}
+
+input:focus {
+	border-radius: none;
 }
