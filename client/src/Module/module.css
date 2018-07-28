@@ -4,7 +4,6 @@
 	margin: 25px;
 	transition: 0.5s all ease;
 	background-color: rgb(234, 234, 234);
-	overflow:auto; 
 }
 
 .module-container:hover {
