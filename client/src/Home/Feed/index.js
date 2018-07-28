@@ -64,7 +64,7 @@ export default class Feed extends Component {
 	filterByType() {
 		if (this.state.filters.type !== null) {
 			return this.state.announcements.filter((announcement) => {
-				return announcement.type == this.state.filters.type.toLowerCase();
+				return announcement.type === this.state.filters.type.toLowerCase();
 			})
 		} else {
 			return this.state.announcements;
@@ -74,11 +74,14 @@ export default class Feed extends Component {
 	filterBySearch() {
 		return this.state.announcements.filter((announcement) => {
 			let search = this.state.filters.search.toLowerCase();
+			let grade = parseInt(search.toLowerCase().replace("grade", "").trim());
 			let date = moment(announcement.dateCreated).format("MMMM Do, YY h:mA")
 			return announcement.title.toLowerCase().startsWith(search) ||
 					announcement.desc.toLowerCase().startsWith(search) ||
 					announcement.author.toLowerCase().startsWith(search) ||
-					date.toLowerCase().startsWith(search)
+					date.toLowerCase().startsWith(search) ||
+					announcement.grades.includes(grade) ||
+					announcement.type == search
 		})
 	}
 

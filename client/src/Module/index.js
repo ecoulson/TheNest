@@ -2,13 +2,31 @@ import React, { Component } from 'react';
 import './module.css';
 
 export default class Module extends Component {
-	render() {
-		let style = {
-			width: this.props.width,
-			height: this.props.height
+	constructor(props) {
+		super();
+		this.state = {
+			...props,
+			screenWidth: window.innerWidth,
 		}
+
+		window.addEventListener("resize", () => {
+			this.setState({
+				screenWidth: window.innerWidth,
+			});
+		})
+	}
+
+	getSize() {
+		let width = window.innerWidth;
+		return {
+			width: width > 1224 ? this.props.width : "100%",
+			height: this.props.height,
+		}
+	}
+
+	render() {
 		return (
-			<div style={style} className="module-container">
+			<div style={this.getSize()} className="module-container">
 				<div className="module-header">
 					<h1 className="module-title">{this.props.title}</h1>
 				</div>

@@ -20,14 +20,23 @@ import {
 	faHome, 
 	faBullhorn,
 	faCrow,
-	faFileAlt
+	faFileAlt,
+	faFutbol,
+	faPaintBrush,
+	faTheaterMasks,
+	faMusic,
+	faUsers,
+	faChevronLeft,
+	faChevronRight,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faCog);
 library.add(faHome);
 library.add(faBullhorn);
-library.add(faCrow, faFileAlt);
+library.add(faCrow, faFileAlt, faFutbol, faPaintBrush, faMusic, faUsers);
+library.add(faTheaterMasks, faChevronLeft, faChevronRight);
 library.add(fab);
+
 
 function mapStyles(styles) {
 	return {

@@ -46,15 +46,17 @@ export default class Home extends Component {
 
 	render() {
 		return (
-			<Module width={600} height={600} title="Feathers">
-				<div style={{width: "100%", display: "flex"}}>
-					<FeedFilter set={this.setGrade} value={this.state.grade} type="select" by="grade"/>
-					<FeedFilter set={this.setType} value={this.state.type} type="select" by="type"/>
-					<FeedFilter set={this.setSearch} value={this.state.search} type="search" by="all"/>
-					<input onClick={this.clear} className="clear" value="Clear" type="button"/>
-				</div>
-				<Feed filters={this.state}/>
-			</Module>
+			<div className="home-container">
+				<Module width={"75%"} height={"auto"} title="Feathers">
+					<div style={{width: "100%", display: "flex", flexWrap: "wrap"}}>
+						<input onClick={this.clear} className="clear" value="Clear" type="button"/>
+						<FeedFilter set={this.setGrade} value={this.state.grade} type="select" by="grade"/>
+						<FeedFilter set={this.setType} value={this.state.type} type="select" by="type"/>
+						<FeedFilter set={this.setSearch} value={this.state.search} type="search" by="all"/>
+					</div>
+					<Feed filters={this.state}/>
+				</Module>
+			</div>
 		)
 	}
 }

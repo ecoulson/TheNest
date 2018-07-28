@@ -1,11 +1,10 @@
 .feed-container {
 	width: auto;
-	height: 460px;
+	height: 400px;
 	margin: 10px;
 	padding: 10px;
 	overflow-y: scroll;
 }
-
 
 .feather-info {
 	margin-top:10px;

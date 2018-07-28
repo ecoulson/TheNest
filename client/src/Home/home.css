@@ -9,8 +9,16 @@
 	outline: none;
 	height: 40px;
 	margin-top: 15px;
-	margin-right: 15px;
+	margin-left: 15px;
+	margin-right: 5px;
 	background-color: rgb(202, 202, 202);
+	display: none;
+}
+
+@media screen and (min-width: 768px) {
+	.clear {
+		display: block;
+	}
 }
 
 .clear:hover {
@@ -18,4 +26,24 @@
 	cursor: pointer;
 	background-color: darkred;
 	color: white;
+}
+
+.home-container {
+	display: flex;
+	width: 100vw;
+	height: -webkit-calc(100vh - 60px);
+	height:    -moz-calc(100vh - 60px);
+	height:         calc(100vh - 60px);
+	padding-top: 60px;
+	flex-wrap: wrap;
+}
+
+@media screen and (min-width: 768px) {
+	.home-container {
+		padding-left: 200px;
+		padding-top: 50px;
+		width: -webkit-calc(100vw - 200px);
+		width:    -moz-calc(100vw - 200px);
+		width:         calc(100vw - 200px);
+	}
 }

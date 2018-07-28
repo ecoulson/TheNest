@@ -20,9 +20,9 @@ const options = {
 		{value: "sports", label: "Sports"},
 		{value: "art", label: "Art"},
 		{value: "theatre", label: "Theatre"},
-		{value: "music", label: "Music"},
+		{value: "band", label: "Band"},
 		{value: "general", label: "General"},
-		{value: "form", label: "Form"},
+		{value: "club", label: "Club"},
 	]
 };
 
@@ -154,7 +154,7 @@ export default class Form extends Component {
 		this.state = {
 			title: "",
 			desc: "",
-			author: "Test",
+			author: "Guest",
 			grades: [],
 			type: ""
 		}
@@ -275,8 +275,7 @@ export default class Form extends Component {
 						value={this.state.type}
 						/>
 				</div>
-				<br/>
-				<input onClick={this.handleSubmitClick} className="form-create" type="button" value="Submit Announcement"/>
+				<input onClick={this.handleSubmitClick} className="form-create" type="button" value="Submit"/>
 			</div>
 		)
 	}

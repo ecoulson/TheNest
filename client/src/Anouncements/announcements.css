@@ -1,3 +1,20 @@
 .announcement-container {
 	display: flex;
+	width: 100vw;
+	height: 100vh;
+	padding-top: 60px;
+	flex-wrap: wrap;
+	height: -webkit-calc(100vh - 60px);
+	height:    -moz-calc(100vh - 60px);
+	height:         calc(100vh - 60px);
+}
+
+@media screen and (min-width: 768px) {
+	.announcement-container {
+		padding-left: 200px;
+		padding-top: 50px;
+		width: -webkit-calc(100vw - 200px);
+		width:    -moz-calc(100vw - 200px);
+		width:         calc(100vw - 200px);
+	}
 }

@@ -21,9 +21,9 @@ export default class FeedFilter extends Component {
 					"Sports",
 					"Art",
 					"Theatre",
-					"Music",
+					"Band",
 					"General",
-					"Form"
+					"Clubs"
 				]
 			},
 		}

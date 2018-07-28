@@ -1,6 +1,7 @@
 .form {
 	padding: 25px;
 	text-align: center;
+	display: block;
 }
 
 .form-title, .form-author, .form-desc {
@@ -27,6 +28,7 @@
 .form-desc {
 	border: 3px solid black;
 	height: 125px;
+	resize: none;
 }
 
 .form-create {
@@ -38,6 +40,7 @@
 	font-family: 'comfortaa', 'cursive';
 	font-weight: 600;
 	outline: none;
+	width: 75%;
 }
 
 .form-create:hover {

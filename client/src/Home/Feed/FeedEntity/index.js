@@ -1,27 +1,47 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './feedentity.css';
+
+const icons = {
+	"sports": "futbol",
+	"art": "paint-brush",
+	"theatre": "theater-masks",
+	"band": "music",
+	"general": "bullhorn",
+	"club": "users",
+}
 
 export default class FeedEntity extends Component {
 	renderGrades() {
-		return this.props.entity.grades.map((grade) => {
-			return (
-				<span key={grade} className="feed-entity-grade"> {grade}</span>
-			)
-		});
+		if (this.props.entity.grades.length === 0) {
+			return null;
+		}
+		return (
+			<div className="feed-entity-grades">
+				Grades:
+				{
+					this.props.entity.grades.map((grade) => {
+						return (
+							<span key={grade} className="feed-entity-grade"> {grade}</span>
+						)
+					})
+				}
+			</div>
+		);
+	}
+
+	getIcon() {
+		return icons[this.props.entity.type];
 	}
 
 	render() {
 		return (
 			<div className="feed-entity-container">
 				<div className="feed-entity-header">
+					<FontAwesomeIcon className="feed-entity-type" size="1x" icon={this.getIcon()} />
 					<h2 className="feed-entity-title">{this.props.entity.title}</h2>
-					<div className="feed-entity-grades">
-						Grades: 
-						{
-							this.renderGrades()
-						}
-					</div>
+					{this.renderGrades()}
 				</div>
 				<div className="split"/>
 				<div className="feed-entity-body">

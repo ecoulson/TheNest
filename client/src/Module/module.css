@@ -22,6 +22,7 @@
 .module-header {
 	transition: 0.5s all ease;
 	margin-bottom: 3px solid black;
+	word-wrap: break-word;
 }
 
 .module-header {
