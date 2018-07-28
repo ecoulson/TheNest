@@ -15,6 +15,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 	req.body.approved = false;
+	console.log(req.body);
 	store("announcements", req.body);
 	return res.send({
 		success: true,

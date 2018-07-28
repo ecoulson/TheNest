@@ -26,7 +26,7 @@ export default class Feed extends Component {
 			.then(res => res.json())
 			.then((announcements) => {
 				this.setState({
-					announcements: announcements, 
+					announcements: announcements,
 					hasFetchedAnnouncements: true
 				});
 			});
@@ -40,11 +40,15 @@ export default class Feed extends Component {
 
 	filterBySearch() {
 		return this.state.announcements.filter((announcement) => {
+			let grade = this.state.filters.search.toLowerCase().replace("grade", "").trim();
+			let search = this.state.filters.search.toLowerCase();
 			let date = moment(announcement.dateCreated).format("MMMM Do, YY h:mA")
-			return announcement.title.toLowerCase().includes(this.state.filters.search) ||
-					announcement.desc.toLowerCase().includes(this.state.filters.search) ||
-					announcement.author.toLowerCase().includes(this.state.filters.search) ||
-					date.toLowerCase().includes(this.state.filters.search);
+			return announcement.title.toLowerCase().includes(search) ||
+					announcement.desc.toLowerCase().includes(search) ||
+					announcement.author.toLowerCase().includes(search) ||
+					date.toLowerCase().includes(search) ||
+					announcement.type.toLowerCase() == search ||
+					announcement.grades.includes(parseInt(grade));
 		})
 	}
 

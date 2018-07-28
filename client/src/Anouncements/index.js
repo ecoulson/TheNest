@@ -32,7 +32,7 @@ export default class Anouncements extends Component {
 	render() {
 		return (
 			<div className="announcement-container">
-				<Module title="Create Announcement" width={500} height={500}>
+				<Module title="Create Announcement" width={500} height={600}>
 					<Form getUnapproved={this.getUnapprovedAnnouncements}/>
 				</Module>
 				<Module title="To Approve" width={400} height={500}>

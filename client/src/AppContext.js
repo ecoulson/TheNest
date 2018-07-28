@@ -13,7 +13,8 @@ export class AppProvider extends Component {
 				showing: false,
 				duration: 3
 			},
-			showStatus: (status) => {}
+			showStatus: (status) => {},
+			getOption: (type) => {}
 		}
 	}
 

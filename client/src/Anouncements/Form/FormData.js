@@ -18,6 +18,9 @@ export default class FormData {
 		if (this.data.author === "") {
 			return this.getFailedValidation("Author can not be empty");
 		}
+		if (this.data.type === "") {
+			return this.getFailedValidation("Announcement must have a type");
+		}
 		return {
 			isValid: true
 		}
@@ -31,6 +34,10 @@ export default class FormData {
 	}
 
 	serialize() {
+		this.data.type = this.data.type.value;
+		this.data.grades = this.data.grades.map((grade) => {
+			return grade.value;
+		});
 		return JSON.stringify(this.data);
 	}
 }

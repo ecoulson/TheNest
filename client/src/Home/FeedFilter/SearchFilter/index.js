@@ -17,7 +17,7 @@ export default class SearchFilter extends Component {
 	}
 
 	handleSearch(e) {
-		this.props.set(e.target.value.toLowerCase());
+		this.props.set(e.target.value);
 	}
 
 	render() {

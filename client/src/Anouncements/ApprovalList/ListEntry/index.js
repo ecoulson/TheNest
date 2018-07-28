@@ -104,7 +104,6 @@ export default class ListEntry extends Component {
 
 	showDesc(e) {
 		let element = document.getElementById(`list-desc-entry-${this.state.entry.id}`);
-		console.log(e.target.className === "approve");
 		if (element !== null && e.target.className.trim() !== "approve") {
 			$(element).slideToggle();
 		} else {

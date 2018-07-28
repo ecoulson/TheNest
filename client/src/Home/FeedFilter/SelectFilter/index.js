@@ -13,7 +13,7 @@ export default class SelectFilter extends Component {
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			current: props.value
+			current: props.value,
 		});
 	}
 
