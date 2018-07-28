@@ -33,22 +33,52 @@ export default class Feed extends Component {
 	}
 
 	renderAnnouncements() {
-		return this.filterBySearch().map((announcement) => {
+		return this.filter().map((announcement) => {
 			return <FeedEntity key={announcement.id} type="announcement" entity={announcement}/>
 		});
 	}
 
+	filter() {
+		let filteredBySearch = this.filterBySearch();
+		let filteredByGrade = this.filterByGrade();
+		let filteredByType = this.filterByType();
+		return this.state.announcements.filter((announcement) => {
+			return filteredByGrade.indexOf(announcement) !== -1 &&
+					filteredBySearch.indexOf(announcement) !== -1 &&
+					filteredByType.indexOf(announcement) !== -1;
+		})
+	}
+
+	filterByGrade() {
+		if (this.state.filters.grade !== null) {
+			let grade = parseInt(this.state.filters.grade.toLowerCase().replace("grade", "").trim());
+			return this.state.announcements.filter((announcement) => {
+				return announcement.grades.includes(grade);
+			});
+		} else {
+			return this.state.announcements;
+		}
+		
+	}
+
+	filterByType() {
+		if (this.state.filters.type !== null) {
+			return this.state.announcements.filter((announcement) => {
+				return announcement.type == this.state.filters.type.toLowerCase();
+			})
+		} else {
+			return this.state.announcements;
+		}
+	}
+
 	filterBySearch() {
 		return this.state.announcements.filter((announcement) => {
-			let grade = this.state.filters.search.toLowerCase().replace("grade", "").trim();
 			let search = this.state.filters.search.toLowerCase();
 			let date = moment(announcement.dateCreated).format("MMMM Do, YY h:mA")
-			return announcement.title.toLowerCase().includes(search) ||
-					announcement.desc.toLowerCase().includes(search) ||
-					announcement.author.toLowerCase().includes(search) ||
-					date.toLowerCase().includes(search) ||
-					announcement.type.toLowerCase() == search ||
-					announcement.grades.includes(parseInt(grade));
+			return announcement.title.toLowerCase().startsWith(search) ||
+					announcement.desc.toLowerCase().startsWith(search) ||
+					announcement.author.toLowerCase().startsWith(search) ||
+					date.toLowerCase().startsWith(search)
 		})
 	}
 

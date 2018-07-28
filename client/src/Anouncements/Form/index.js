@@ -208,7 +208,7 @@ export default class Form extends Component {
 			this.setState({
 				title: "",
 				desc: "",
-				grade: [],
+				grades: [],
 				type: ""
 			});
 		});
