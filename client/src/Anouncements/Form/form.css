@@ -2,6 +2,7 @@
 	padding: 25px;
 	text-align: center;
 	display: block;
+	border-radius: none;
 }
 
 .form-title, .form-author, .form-desc {
@@ -15,20 +16,24 @@
 	font-size: 16px;
 	font-family: 'comfortaa', 'cursive';
 	transition: all 0.5s ease;
+	border-radius: none;
 }
 
 .form-title:hover, .form-author:hover, .form-desc:hover {
 	border-color: gold;
+	border-radius: none;
 }
 
 .form-title:focus, .form-author:focus, .form-desc:focus {
 	border-color: darkgreen;
+	border-radius: none;
 }
 
 .form-desc {
 	border: 3px solid black;
 	height: 125px;
 	resize: none;
+	border-radius: none;
 }
 
 .form-create {
@@ -41,6 +46,7 @@
 	font-weight: 600;
 	outline: none;
 	width: 75%;
+	border-radius: none;
 }
 
 .form-create:hover {
@@ -48,8 +54,10 @@
 	cursor: pointer;
 	background-color: darkgreen;
 	color: white;
+	border-radius: none;
 }
 
 .form-create:focus {
 	transform: scale(1.1);
+	border-radius: none;
 }

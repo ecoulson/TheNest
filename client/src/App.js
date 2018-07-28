@@ -82,7 +82,8 @@ class App extends Component {
 							mapStyles={mapStyles}
 							className="route-wrapper">
 							<Route exact path="/" component={Home}/>
-							<Route path="/anouncements" component={Anouncements}/>
+							<Route exact path="/announcements" component={Anouncements}/>
+							<Route path="/announcements/:id" component={NotFound}/>
 							<Route component={NotFound} />
 						</AnimatedSwitch>
 					</div>

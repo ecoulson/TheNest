@@ -5,11 +5,3 @@ body {
   padding: 0;
   font-family: 'Comfortaa', 'cursive';
 }
-
-input, textarea {
-	border-radius: none;
-}
-
-input:focus {
-	border-radius: none;
-}

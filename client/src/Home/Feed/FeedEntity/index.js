@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './feedentity.css';
 
@@ -45,7 +46,7 @@ export default class FeedEntity extends Component {
 
 	render() {
 		return (
-			<div className="feed-entity-container">
+			<Link to={`/announcements/${this.props.entity.id}`} className="feed-entity-container">
 				<div className="feed-entity-header">
 					<FontAwesomeIcon className="feed-entity-type" size="1x" icon={this.getIcon()} />
 					<h2 className="feed-entity-title">{this.props.entity.title}</h2>
@@ -60,7 +61,7 @@ export default class FeedEntity extends Component {
 					<span className="feed-entity-date">{moment(this.props.entity.dateCreated).format("MMMM Do, YY h:mA")}</span>
 					<span className="feed-entity-author">{this.props.entity.author}</span>
 				</div>
-			</div>
+			</Link>
 		)
 	}
 }

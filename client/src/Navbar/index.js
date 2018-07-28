@@ -45,7 +45,7 @@ export default class Navbar extends Component {
 			<div>
 				<ul className="navbar-container">
 					<Navlink icon="home" to="/" title="Dashboard"/>
-					<Navlink icon="bullhorn" to="/anouncements" title="Anouncements"/>
+					<Navlink icon="bullhorn" to="/announcements" title="Anouncements"/>
 					<Navlink icon="file-alt" to="/resources" title="Resources"/>
 				</ul>
 				{ this.state.windowWidth < 768 ? 
