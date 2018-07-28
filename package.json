@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "set PORT=3001 && node bin/www",
-	"heroku-postbuild": "cd client && npm install && npm run build"
+	"heroku-postbuild": "cd client && npm install && npm run build",
+	"postinstall": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
