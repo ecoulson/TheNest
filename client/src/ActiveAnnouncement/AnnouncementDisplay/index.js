@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 export default class AnnouncementDisplay extends Component {
 	formatGrades(grades) {
@@ -17,7 +18,7 @@ export default class AnnouncementDisplay extends Component {
 				<div className="announcement-display-split"/>
 				<div className="announcement-display-desc">{this.props.announcement.desc}</div>
 				<div className="announcement-display-split"/>
-				<span className="announcement-display-date">{this.props.announcement.dateCreated}</span>
+				<span className="announcement-display-date">{moment(this.props.announcement.dateCreated).format("MMMM Do, YY h:mmA")}</span>
 				<span className="announcement-display-author">{this.props.announcement.author}</span>
 			</div>
 		)
