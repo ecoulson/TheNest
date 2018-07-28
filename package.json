@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "PORT=3001 node server.js",
+    "start": "node server.js 3001",
 	"heroku-postbuild": "cd client && npm install && npm run build",
 	"postinstall": "cd client && npm install && npm run build"
   },
