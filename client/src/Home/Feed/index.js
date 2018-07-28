@@ -51,7 +51,7 @@ export default class Feed extends Component {
 
 	filterByGrade() {
 		if (this.state.filters.grade !== null) {
-			let grade = parseInt(this.state.filters.grade.toLowerCase().replace("grade", "").trim());
+			let grade = parseInt(this.state.filters.grade.toLowerCase().replace("grade", "").trim(), 10);
 			return this.state.announcements.filter((announcement) => {
 				return announcement.grades.includes(grade);
 			});
@@ -74,14 +74,14 @@ export default class Feed extends Component {
 	filterBySearch() {
 		return this.state.announcements.filter((announcement) => {
 			let search = this.state.filters.search.toLowerCase();
-			let grade = parseInt(search.toLowerCase().replace("grade", "").trim());
+			let grade = parseInt(search.toLowerCase().replace("grade", "").trim(), 10);
 			let date = moment(announcement.dateCreated).format("MMMM Do, YY h:mA")
 			return announcement.title.toLowerCase().startsWith(search) ||
 					announcement.desc.toLowerCase().startsWith(search) ||
 					announcement.author.toLowerCase().startsWith(search) ||
 					date.toLowerCase().startsWith(search) ||
 					announcement.grades.includes(grade) ||
-					announcement.type == search
+					announcement.type === search
 		})
 	}
 

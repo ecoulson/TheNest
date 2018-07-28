@@ -11,12 +11,19 @@ export default class Navbar extends Component {
 			windowWidth: window.innerWidth
 		}
 		this.toggleNavbar = this.toggleNavbar.bind(this);
-		window.addEventListener("resize", () => {
-			this.setState({
-				windowWidth: window.innerWidth,
-				isOpen: window.innerWidth > 768,
-			})
+		this.windowListener = this.windowListener.bind(this);
+		window.addEventListener("resize", this.windowListener)
+	}
+
+	windowListener() {
+		this.setState({
+			windowWidth: window.innerWidth,
+			isOpen: window.innerWidth > 768,
 		})
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.windowListener);
 	}
 
 	toggleNavbar() {

@@ -14,12 +14,19 @@ export default class ApprovalList extends Component {
 		}
 		this.renderUnapprovedList = this.renderUnapprovedList.bind(this);
 		this.removeEntry = this.removeEntry.bind(this);
+		this.keyListener = this.keyListener.bind(this);
 
-		window.addEventListener("keypress", (e) => {
-			if (e.key === 'z') {
-				this.undo();
-			}
-		})
+		window.addEventListener("keypress", this.keyListener)
+	}
+
+	keyListener(e) {
+		if (e.key === 'z') {
+			this.undo();
+		}
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("keypress", this.keyListener);
 	}
 
 	undo() {

@@ -35,6 +35,14 @@ export default class FeedEntity extends Component {
 		return icons[this.props.entity.type];
 	}
 
+	shorten(str) {
+		if (str.length >= 200) {
+			return str.substring(0, 200) + "...";
+		} else {
+			return str;
+		}
+	}
+
 	render() {
 		return (
 			<div className="feed-entity-container">
@@ -45,7 +53,7 @@ export default class FeedEntity extends Component {
 				</div>
 				<div className="split"/>
 				<div className="feed-entity-body">
-					<p className="feed-entity-desc">{this.props.entity.desc}</p>
+					<p className="feed-entity-desc">{this.shorten(this.props.entity.desc)}</p>
 				</div>
 				<div className="split"/>
 				<div className="feed-entity-footer">

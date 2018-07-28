@@ -9,12 +9,20 @@ export default class Module extends Component {
 			screenWidth: window.innerWidth,
 		}
 
-		window.addEventListener("resize", () => {
-			this.setState({
+		this.windowListener = this.windowListener.bind(this);
+		window.addEventListener("resize", this.windowListener)
+	}
+
+	windowListener() {
+		this.setState({
 				screenWidth: window.innerWidth,
 			});
-		})
 	}
+
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.windowListener);
+	}
+
 
 	getSize() {
 		let width = window.innerWidth;
