@@ -1,101 +1,58 @@
 var express = require('express');
+const AnnouncementLayer = require('../DataAccessLayer/AnnouncementLayer');
+const Database = require('../DataAccessLayer/Database');
+const KeyVault = require('../DataAccessLayer/KeyVault');
+
 var router = express.Router();
-let id = 0;
+let keyVault = new KeyVault();
+let database = new Database(keyVault);
+let announcementLayer = new AnnouncementLayer(database);
 
-const db = {
-	announcements: {
-	}
-}
-
-router.get('/', function(req, res, next) {
-	let results = query("announcements", { approved: true }, "dateCreated");
-	let announcements = asList(results);
+router.get('/', async function(req, res, next) {
+	await announcementLayer.ensureConnection();
+	let announcements = await announcementLayer.loadApprovedAnnouncements();
 	return res.json(announcements);
 });
 
-router.post('/', function(req, res, next) {
-	req.body.approved = false;
-	store("announcements", req.body);
+router.post('/', async function(req, res, next) {
+	await announcementLayer.ensureConnection();
+	let announcement = await announcementLayer.createAnnouncement(req.body);
 	return res.send({
-		success: true,
-		announcement: getEntry("announcements", id - 1)
+		success: announcement != null,
+		announcement: announcement
 	});
 });
 
-router.get('/approve', function(req, res, next) {
-	let results = query("announcements", { approved: false });
-	return res.json(results);
+router.get('/approve', async function(req, res, next) {
+	await announcementLayer.ensureConnection();
+	let announcements = await announcementLayer.loadUnapprovedAnnouncements();
+	return res.json(announcements);
 });
 
-router.post('/approve/', function(req, res, next) {
-	let entry = getEntry("announcements", req.body.id);
-	entry.approved = true;
-	update("announcements", entry.id, entry);
+router.post('/approve/', async function(req, res, next) {
+	await announcementLayer.ensureConnection();
+	let announcement = await announcementLayer.approveAnnouncement(req.body.id, {
+		Approved: true
+	});
 	return res.send({
 		success: true,
-		announcement: entry
+		announcement: announcement
 	})
 });
 
-router.post('/reject/', function(req, res, next) {
-	remove("announcements", req.body.id);
+router.post('/reject/', async function(req, res, next) {
+	await announcementLayer.ensureConnection();
+	let announcement = await announcementLayer.rejectAnnouncement(req.body.id);
 	return res.send({
 		success: true, 
-	})
+		announcement: announcement
+	});
 });
 
-router.get('/:id', function(req, res, next) {
-	let announcement = getEntry("announcements", req.params.id);
+router.get('/:id', async function(req, res, next) {
+	await announcementLayer.ensureConnection();
+	let announcement = await announcementLayer.getAnnouncement(req.params.id);
 	return res.json(announcement);
 });
-
-function store(table, body) {
-	body.id = id;
-	db[table][id++] = body;
-}
-
-function getEntry(table, id) {
-	return db[table][id];
-}
-
-function query(tableName, conditions, orderBy) {
-	let table = db[tableName];
-	let results = [];
-	for (let id in table) {
-		let announcement = table[id];
-		if (matchesQuery(announcement, conditions)) {
-			results.push(announcement);
-		}
-	}
-	results.sort((a, b) => {
-		return a[orderBy] < b[orderBy];
-	})
-	return results;
-}
-
-function matchesQuery(announcement, conditions) {
-	for (let key in conditions) {
-		if (announcement[key] != conditions[key]) {
-			return false;
-		}
-	}
-	return true;
-}
-
-function update(table, id, data) {
-	return db[table][id] = data;
-}
-
-function remove(table, id) {
-	delete db[table][id];
-}
-
-function asList(map) {
-	let list = [];
-	for (let key in map) {
-		list.push(map[key]);
-	}
-	return list;
-}
 
 module.exports = router;

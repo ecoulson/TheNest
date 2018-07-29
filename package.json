@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node server.js 3001",
-	"heroku-postbuild": "cd client && npm install && npm run build",
-	"postinstall": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "postinstall": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
@@ -13,6 +13,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.1.0-11",
     "@fortawesome/free-solid-svg-icons": "^5.2.0",
     "@fortawesome/react-fontawesome": "0.1.0-11",
+    "azure-keyvault": "^3.0.4",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
@@ -22,11 +23,14 @@
     "jquery": "^3.3.1",
     "moment": "^2.22.2",
     "morgan": "~1.9.0",
+    "mssql-connection-string": "^0.1.0",
+    "mysql": "github:mysqljs/mysql",
     "npm": "^6.2.0",
     "react-addons-css-transition-group": "^15.6.2",
     "react-animate-height": "^2.0.3",
     "react-router-transition": "^1.2.1",
     "react-select": "^2.0.0",
-    "react-tooltip": "^3.6.1"
+    "react-tooltip": "^3.6.1",
+    "tedious": "^2.6.3"
   }
 }

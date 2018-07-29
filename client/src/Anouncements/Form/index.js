@@ -273,6 +273,7 @@ export default class Form extends Component {
 						options={options["type"]} 
 						onChange={this.onTypeChange}
 						value={this.state.type}
+						placeholder="Type..."
 						/>
 				</div>
 				<input onClick={this.handleSubmitClick} className="form-create" type="button" value="Submit"/>

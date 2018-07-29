@@ -94,7 +94,7 @@ export default class ApprovalList extends Component {
 	addToRejectedAnnouncements(rejectedAnnouncement, oldIndex) {
 		let rejectedAnnouncements = this.state.rejectedAnnouncements;
 		let announcement = Object.assign({}, rejectedAnnouncement);
-		announcement.oldIndex = oldIndex
+		announcement.oldIndex = oldIndex;
 		rejectedAnnouncements.unshift(announcement);
 		this.setState({
 			rejectedAnnouncements: rejectedAnnouncements

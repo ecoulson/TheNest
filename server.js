@@ -17,7 +17,7 @@ if (process.argv.length >= 2) {
 	argPort = process.argv[2];
 }
 
-var port = normalizePort(process.env.PORT || '3000' || argPort);
+var port = normalizePort(process.env.PORT || argPort || '3000');
 app.set('port', port);
 
 /**

@@ -2,24 +2,41 @@ import React, { Component } from 'react';
 import moment from 'moment';
 
 export default class AnnouncementDisplay extends Component {
-	formatGrades(grades) {
-		let string = "";
-		for (let i = 0; i < grades.length; i++) {
-			string += grades[i] + ", ";
+	constructor(props) {
+		super();
+		this.state = {
+			announcement: props.announcement
 		}
-		return string.substring(0, string.length - 2);
 	}
+
+	formatGrades(grades) {
+		if (!grades) {
+			return "";
+		} else {
+			let string = "";
+			for (let i = 0; i < grades.length; i++) {
+				string += grades[i] + ", ";
+			}
+			return string.substring(0, string.length - 2);
+		}
+	}
+
+	componentWillReceiveProps(props) {
+		this.setState({
+			announcement: props.announcement
+		})
+	}	
 
 	render() {
 		return (
 			<div className="announcement-display">
-				<span className="announcement-display-grades">Grades: {this.formatGrades(this.props.announcement.grades)}</span>
-				<span className="announcement-display-type">{this.props.announcement.type}</span>
+				<span className="announcement-display-grades">Grades: {this.formatGrades(this.state.announcement.grades)}</span>
+				<span className="announcement-display-type">{this.state.announcement.type}</span>
 				<div className="announcement-display-split"/>
-				<div className="announcement-display-desc">{this.props.announcement.desc}</div>
+				<div className="announcement-display-desc">{this.state.announcement.desc}</div>
 				<div className="announcement-display-split"/>
-				<span className="announcement-display-date">{moment(this.props.announcement.dateCreated).format("MMMM Do, YY h:mmA")}</span>
-				<span className="announcement-display-author">{this.props.announcement.author}</span>
+				<span className="announcement-display-date">{moment(this.state.announcement.dateCreated).format("MMMM Do, YY h:mmA")}</span>
+				<span className="announcement-display-author">{this.state.announcement.author}</span>
 			</div>
 		)
 	}
