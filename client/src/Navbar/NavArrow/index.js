@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export default class NavArrow extends Component {
 	render() {
 		let style = {
-			left: this.props.isOpen ? "175px" : "0px"
+			left: this.props.isOpen ? "180px" : "0px"
 		}
 
 		return (

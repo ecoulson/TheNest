@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navlink from './Navlink';
 import NavArrow from './NavArrow';
+import $ from 'jquery';
 import './navbar.css';
 
 export default class Navbar extends Component {
@@ -35,9 +36,13 @@ export default class Navbar extends Component {
 	render() {
 		let elem = document.getElementsByClassName("navbar-container")[0];
 		if (elem != null) {
-			elem.style.maxWidth = this.state.isOpen ? "175px" : "0px";
+			elem.style.maxWidth = this.state.isOpen ? "180px" : "0px";
 			elem.childNodes.forEach((child) => {
-				child.style.opacity = this.state.isOpen ? 1 : 0;
+				if (!this.state.isOpen) {
+					$(child).hide();
+				} else {
+					$(child).fadeIn(500);
+				}
 			});
 		}
 

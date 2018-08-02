@@ -28,6 +28,7 @@
     "npm": "^6.2.0",
     "react-addons-css-transition-group": "^15.6.2",
     "react-animate-height": "^2.0.3",
+    "react-contextmenu": "^2.9.3",
     "react-router-transition": "^1.2.1",
     "react-select": "^2.0.0",
     "react-tooltip": "^3.6.1",

@@ -12,6 +12,7 @@ class DataAccessLayer {
 	}
 
 	async selectById(id) {
+		await this.ensureConnection();
 		let rows = await this.database.query(`SELECT * FROM ${this.table} WHERE ID=${id}`);
 		if (rows.length == 1) {
 			return this.typeFactory.convertRows(rows)[0];
@@ -21,18 +22,21 @@ class DataAccessLayer {
 	}
 
 	async selectAllEntries(filters) {
+		await this.ensureConnection();
 		let query = buildSelectAll(this.table, filters);
 		let rows = await this.database.query(query);
 		return this.typeFactory.convertRows(rows);
 	}
 
 	async selectEntriesFromOffset(offset, limit, filters) {
+		await this.ensureConnection();
 		let query = buildOffsetQuery(this.table, offset, limit, filters);
 		let rows = await this.database.query(query);
 		return this.typeFactory.convertRows(rows);
 	}
 
 	async createEntry(entry, outputEntry) {
+		await this.ensureConnection();
 		let query = buildCreateQuery(this.table, entry, outputEntry);
 		try {
 			if (!outputEntry) {
@@ -40,7 +44,7 @@ class DataAccessLayer {
 				return true;
 			} else {
 				let row = await this.database.query(query);
-				return this.typeFactory.convertRows(row);
+				return this.typeFactory.convertRows(row)[0];
 			}
 		} catch (e) {
 			return false;
@@ -48,12 +52,14 @@ class DataAccessLayer {
 	}
 
 	async updateEntry(id, updatedProperties) {
+		await this.ensureConnection();
 		let query = buildUpdateQuery(this.table, id, updatedProperties);
 		let rows = await this.database.query(query);
-		return this.typeFactory.convertRows(rows);
+		return this.typeFactory.convertRows(rows)[0];
 	}
 
 	async deleteEntry(id, outputDeletedEntry) {
+		await this.ensureConnection();
 		let query = buildDeleteQuery(this.table, id, outputDeletedEntry);
 		if (!outputDeletedEntry) {
 			await this.database.query(query);

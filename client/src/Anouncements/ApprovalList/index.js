@@ -10,10 +10,12 @@ export default class ApprovalList extends Component {
 		this.state = {
 			fetched: false,
 			unapproved: props.unapproved,
-			rejectedAnnouncements: []
+			undoActions: [],
 		}
 		this.renderUnapprovedList = this.renderUnapprovedList.bind(this);
 		this.removeEntry = this.removeEntry.bind(this);
+		this.addUndoAction = this.addUndoAction.bind(this);
+		this.undo = this.undo.bind(this);
 		this.keyListener = this.keyListener.bind(this);
 
 		window.addEventListener("keypress", this.keyListener)
@@ -29,35 +31,102 @@ export default class ApprovalList extends Component {
 		window.removeEventListener("keypress", this.keyListener);
 	}
 
-	undo() {
-		let rejectedAnnouncements = this.state.rejectedAnnouncements;
+	componentWillReceiveProps(props) {
+		this.setState({
+			unapproved: props.unapproved
+		})
+	}
+
+	removeEntry(id) {
 		let unapproved = this.state.unapproved;
-		if (rejectedAnnouncements.length > 0) {
-			let announcement = rejectedAnnouncements.shift();
-			fetch(`/api/announcements/`, {
-				method: "POST",
-				headers: {
-					'Accept': 'application/json, text/plain, */*',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(announcement)
-			}).then((res) => {
-				return res.json();
-			}).then((payload) => {
-				unapproved.splice(announcement.oldIndex, 0, payload.announcement);
-				this.setState({
-					unapproved: unapproved,
-					rejectedAnnouncements: rejectedAnnouncements
-				});
-				this.handleUndoResponse(payload)
-			})
+		let index = this.getIndex(id, unapproved);
+		unapproved.splice(index, 1);
+		this.setState({
+			unapproved: unapproved
+		});
+	}
+
+	getIndex(id, unapproved) {
+		for (let i = 0; i < unapproved.length; i++) {
+			if (unapproved[i].id === id) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	addUndoAction(action) {
+		let actions = this.state.undoActions;
+		let unapproved = this.state.unapproved;
+		action.index = this.getIndex(action.entry.id, unapproved);
+		actions.push(action);
+		this.setState({
+			undoActions: actions
+		});
+	}
+
+	undo() {
+		let undoActions = this.state.undoActions;
+		if (undoActions.length > 0) {
+			let action = undoActions.shift();
+			this.setState({
+				undoActions: undoActions
+			});
+			this.handleUndoAction(action);
 		}
 	}
+
+	handleUndoAction(action) {
+		if (action.type === "approval") {
+			this.handleApprovalUndo(action);
+		} else {
+			this.handleRejectionUndo(action);
+		}
+	}
+
+	handleApprovalUndo(action) {
+		fetch(`/api/announcements/unapprove/${action.entry.id}`, {
+			method: "PUT",
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(action.announcement)
+		}).then((res) => {
+			return res.json();
+		}).then((payload) => {
+			this.addPayloadToUI(action, payload);
+		});
+	}
+
+	addPayloadToUI(action, payload) {
+		let unapproved = this.state.unapproved;
+		unapproved.splice(action.index, 0, payload.announcement);
+		this.setState({
+			unapproved: unapproved,
+		});
+		this.handleUndoResponse(payload);
+	}
+
+	handleRejectionUndo(action) {
+		fetch(`/api/announcements/`, {
+			method: "POST",
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(action.entry)
+		}).then((res) => {
+			return res.json();
+		}).then((payload) => {
+			this.addPayloadToUI(action, payload);
+		});
+	} 
 
 	handleUndoResponse(payload) {
 		if (payload.success) {
 			this.showStatus({
-				message: "Reverted Rejection of Previous Announcement",
+				message: "Undid Previous Action!",
 				color: "gray",
 				fontColor: "black",
 				duration: 3
@@ -72,41 +141,13 @@ export default class ApprovalList extends Component {
 		}
 	}
 
-	componentWillReceiveProps(props) {
-		this.setState({
-			unapproved: props.unapproved
-		})
-	}
-
-	removeEntry(id) {
-		let unapproved = this.state.unapproved;
-		for (let i = 0; i < unapproved.length; i++) {
-			if (unapproved[i].id === id) {
-				this.addToRejectedAnnouncements(unapproved[i], i);
-				unapproved.splice(i, 1);
-			}
-		}
-		this.setState({
-			unapproved: unapproved
-		});
-	}
-
-	addToRejectedAnnouncements(rejectedAnnouncement, oldIndex) {
-		let rejectedAnnouncements = this.state.rejectedAnnouncements;
-		let announcement = Object.assign({}, rejectedAnnouncement);
-		announcement.oldIndex = oldIndex;
-		rejectedAnnouncements.unshift(announcement);
-		this.setState({
-			rejectedAnnouncements: rejectedAnnouncements
-		});
-	}
-
 	renderUnapprovedList() {
 		return this.props.unapproved.map((announcement) => {
 			return <ListEntry 
 					key={announcement.id} 
 					entry={announcement} 
 					removeEntry={this.removeEntry}
+					addUndoAction={this.addUndoAction}
 					showStatus={this.showStatus}
 					/>
 		})

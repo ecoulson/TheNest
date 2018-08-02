@@ -45,13 +45,31 @@ export default class ListEntry extends Component {
 	}
 
 	handleApproval() {
+		this.props.addUndoAction({
+			type: "approval",
+			entry: this.state.entry
+		});
 		this.props.removeEntry(this.state.entry.id);
-		this.setState({
-			style: {
-				opacity: 0,
-			},
-			showingDesc: false
-		})
+		this.hideAnnouncement();
+		this.requestApproval();
+	}
+
+	hideAnnouncement() {
+		let element = document.getElementById(`list-desc-entry-${this.state.entry.id}`);
+		if (element != null) {
+			setTimeout(() => {
+				$(element).hide();
+			}, 100);
+			this.setState({
+				style: {
+					opacity: 0,
+				},
+				showingDesc: false
+			});
+		}
+	}
+
+	requestApproval() {
 		fetch(`/api/announcements/approve/`, {
 			method: "POST",
 			headers: {
@@ -63,22 +81,25 @@ export default class ListEntry extends Component {
 			return res.json();
 		}).then(() => {
 			this.props.showStatus({
-				message: "Announcement Approved",
+				message: "Announcement Approved. Press Z to undo",
 				color: "green",
 				fontColor: "white",
 				duration: 3
 			});
-		})
+		});
 	}
 
 	handleRejection() {
-		this.props.removeEntry(this.state.entry.id);
-		this.setState({
-			style: {
-				opacity: 0,
-			},
-			showingDesc: false
+		this.props.addUndoAction({
+			type: "rejection",
+			entry: this.state.entry
 		});
+		this.props.removeEntry(this.state.entry.id);
+		this.hideAnnouncement();
+		this.requestRejection();
+	}
+
+	requestRejection() {
 		fetch(`/api/announcements/reject/`, {
 			method: "POST",
 			headers: {

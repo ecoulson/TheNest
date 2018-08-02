@@ -9,6 +9,7 @@ export default class Navlink extends Component {
 			<Link className="navlink" to={this.props.to}>
 				<FontAwesomeIcon className="navlink-icon" size="1x" icon={this.props.icon}/>
 				<span className="navlink-desc">{this.props.title}</span>
+				<br/>
 			</Link>
 		)
 	}

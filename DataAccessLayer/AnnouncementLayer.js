@@ -38,6 +38,12 @@ class AnnouncementLayer extends DataAccessLayer {
 		});
 	}
 
+	async unapproveAnnouncement(id) {
+		return await this.updateEntry(id, {
+			Approved: false
+		});
+	}
+
 	async rejectAnnouncement(id) {
 		let rows = await this.deleteEntry(id, true);
 		return rows;
