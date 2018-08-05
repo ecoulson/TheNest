@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ContextMenuTrigger } from "react-contextmenu";
 import './feedentity.css';
 
 const icons = {
@@ -15,9 +15,12 @@ const icons = {
 }
 
 export default class FeedEntity extends Component {
-	constructor() {
-		super();
-		this.handleContextMenuClick = this.handleContextMenuClick.bind(this);
+	renderPin() {
+		if (this.props.entity.pinned) {
+			return (
+				<FontAwesomeIcon className="feed-entity-pinned" size="1x" icon="thumbtack"/>
+			)
+		}
 	}
 
 	renderGrades() {
@@ -50,16 +53,13 @@ export default class FeedEntity extends Component {
 		}
 	}
 
-	handleContextMenuClick() {
-		console.log("hello");
-	}
-
 	render() {
 		return (
 			<div>
-				<ContextMenuTrigger id='feed-entity-menu'>
+				<ContextMenuTrigger collect={props => props} entity={this.props.entity} id={`contextmenu-${this.props.source ? this.props.source : "announcements"}`}>
 					<Link to={`/announcements/${this.props.entity.id}`} className="feed-entity-container">
 						<div className="feed-entity-header">
+							{this.renderPin()}
 							<FontAwesomeIcon className="feed-entity-type" size="1x" icon={this.getIcon()} />
 							<h2 className="feed-entity-title">{this.props.entity.title}</h2>
 							{this.renderGrades()}
@@ -75,18 +75,6 @@ export default class FeedEntity extends Component {
 						</div>
 					</Link>
 				</ContextMenuTrigger>
-		
-				<ContextMenu className="feed-entity-menu" id='feed-entity-menu'>
-					<MenuItem data={{action: 'pin', id: this.props.entity.id}} onClick={this.handleContextMenuClick}>
-						Pin Announcement
-					</MenuItem>
-					<MenuItem data={{action: 'unapprove', id: this.props.entity.id}} onClick={this.handleContextMenuClick}>
-						Unapprove Announcement
-					</MenuItem>
-					<MenuItem data={{action: 'delete', id: this.props.entity.id}} onClick={this.handleContextMenuClick}>
-						Delete Announcement
-					</MenuItem>
-				</ContextMenu>
 			</div>
 		)
 	}

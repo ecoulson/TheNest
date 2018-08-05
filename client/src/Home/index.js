@@ -47,7 +47,7 @@ export default class Home extends Component {
 	render() {
 		return (
 			<div className="home-container">
-				<Module width={"75%"} height={"auto"} title="Feathers">
+				<Module width={"100%"} height={"auto"} title="Announcements">
 					<div style={{width: "100%", display: "flex", flexWrap: "wrap"}}>
 						<input onClick={this.clear} className="clear" value="Clear" type="button"/>
 						<FeedFilter set={this.setGrade} value={this.state.grade} type="select" by="grade"/>

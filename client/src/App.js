@@ -29,13 +29,14 @@ import {
 	faUsers,
 	faChevronLeft,
 	faChevronRight,
+	faThumbtack,
+	faTrash,
+	faBan
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faCog);
-library.add(faHome);
-library.add(faBullhorn);
+library.add(faBullhorn, faTrash, faBan, faHome, faCog);
 library.add(faCrow, faFileAlt, faFutbol, faPaintBrush, faMusic, faUsers);
-library.add(faTheaterMasks, faChevronLeft, faChevronRight);
+library.add(faTheaterMasks, faChevronLeft, faChevronRight, faThumbtack);
 library.add(fab);
 
 

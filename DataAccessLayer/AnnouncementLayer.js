@@ -1,5 +1,6 @@
 const DataAccessLayer = require('./DataAccessLayer');
 const AnnouncementFactory = require('./AnnouncementFactory');
+const moment = require('moment');
 const LOAD_LIMIT = 20;
 
 class AnnouncementLayer extends DataAccessLayer {
@@ -13,10 +14,34 @@ class AnnouncementLayer extends DataAccessLayer {
 		return await this.selectById(id);
 	}
 
+	async loadPinnedAnnouncements() {
+		let announcements = await this.selectAllEntries([
+			{ key: "Approved", value: true, comparator: "EQ" },
+			{ key: "Pinned", value: true, comparator: "EQ" }
+		]);
+		announcements.sort((a, b) => {
+			return a.pinnedDate < b.pinnedDate
+		});
+		console.log(announcements);
+		return announcements;
+	}
+	
+	async togglePinned(id) {
+		let announcement = await this.getAnnouncement(id);
+		return await this.updateEntry(id, {
+			Pinned: !announcement.pinned,
+			PinnedDateTime: moment().utc().format("YYYYMMDD h:m:s A")
+		})
+	}
+
 	async loadApprovedAnnouncements() {
 		let announcements = await this.selectAllEntries([
 			{ key: "Approved", value: true, comparator: "EQ" },
+			{ key: "Pinned", value: false, comparator: "EQ" }
 		]);
+		announcements.sort((a, b) => {
+			return a.dateCreated < b.dateCreated
+		});
 		return announcements;
 	}
 
@@ -57,7 +82,9 @@ function announcementDataToEntry(data) {
 		AnnouncementType: data.type,
 		Grades: arrayToString(data.grades),
 		Author: data.author,
-		Approved: false
+		Approved: false,
+		Pinned: false,
+		PinnedDateTime: moment().utc().format("YYYYMMDD h:m:s A")
 	}
 }
 

@@ -18,6 +18,8 @@ class Announcement {
 		this.author = row.getProperty("Author");
 		this.dateCreated = new Date(row.getProperty("DateCreated"));
 		this.approved = row.getProperty("Approved").toLowerCase() === "true";
+		this.pinned = row.getProperty("Pinned").toLowerCase() === "true";
+		this.pinnedDate = new Date(row.getProperty("PinnedDateTime"));
 	}
 }
 

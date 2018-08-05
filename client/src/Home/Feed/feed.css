@@ -28,3 +28,28 @@
 	opacity: 0;
 	transition: 500ms;
 }
+
+.react-contextmenu {
+	border: 3px solid black;
+	background-color: rgb(234, 234, 234);
+}
+
+.react-contextmenu-item {
+	border: 3px solid transparent;
+	padding: 10px;
+}
+
+.react-contextmenu-item:hover {
+	background-color: darkgreen;
+	border: 3px solid gold;
+	color: white;
+	cursor: pointer;
+}
+
+.react-contextmenu-item:focus {
+	outline: none;
+}
+
+.entity-context-menu-icon {
+	margin-right: 5px;
+}

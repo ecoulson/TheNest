@@ -22,6 +22,11 @@
 	display: flex;
 }
 
+.feed-entity-pinned {
+	margin-right: 10px;
+	margin-top: 6px;
+}
+
 .feed-entity-type {
 	margin-right: 10px;
 	margin-top: 4px;
@@ -79,17 +84,4 @@
 	border: 3px solid black;
 	transition: all 0.5s ease;
 	margin: 3px;
-}
-
-.react-contextmenu-item {
-	display: block;
-	border: 3px solid transparent;
-	padding: 10px;
-}
-
-.react-contextmenu-item:hover {
-	background-color: darkgreen;
-	border: 3px solid gold;
-	color: white;
-	cursor: pointer;
 }

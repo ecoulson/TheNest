@@ -8,6 +8,16 @@ router.get('/', async function(req, res, next) {
 	return res.json(announcements);
 });
 
+router.get('/pinned', async function(req, res, next) {
+	let announcements = await announcementLayer.loadPinnedAnnouncements();
+	return res.json(announcements);
+});
+
+router.put('/pinned/:id', async function(req, res) {
+	let announcements = await announcementLayer.togglePinned(req.params.id);
+	return res.json(announcements);
+})
+
 router.post('/', async function(req, res, next) {
 	let announcement = await announcementLayer.createAnnouncement(req.body, true);
 	return res.send({

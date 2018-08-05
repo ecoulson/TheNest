@@ -42,17 +42,20 @@ export default class Navbar extends Component {
 					$(child).hide();
 				} else {
 					$(child).fadeIn(500);
+					$(child).css({
+						display: "flex"
+					})
 				}
 			});
 		}
 
 		return (
 			<div>
-				<ul className="navbar-container">
+				<div className="navbar-container">
 					<Navlink icon="home" to="/" title="Dashboard"/>
 					<Navlink icon="bullhorn" to="/announcements" title="Announcements"/>
 					<Navlink icon="file-alt" to="/resources" title="Resources"/>
-				</ul>
+				</div>
 				{ this.state.windowWidth < 768 ? 
 					<NavArrow toggleNavbar={this.toggleNavbar} isOpen={this.state.isOpen}/> :
 					null

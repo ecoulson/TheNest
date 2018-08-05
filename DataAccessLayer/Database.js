@@ -14,8 +14,10 @@ class Database {
 		let connectionString = await getDatabaseConnectionString(this.uri, this.keyVaultClient);
 		this.config = parseConnectionString(connectionString);
 		this.connection = new Connection(this.config);
+		addEndListener(this.connection);
 		await waitForConnection(this.connection);
 		this.connected = true;
+		console.log("connected");
 	}
 
 	async query(queryString) {
@@ -93,6 +95,12 @@ async function exectueQuery(request, connection) {
 		});
 		connection.execSql(request);
 	});
+}
+
+function addEndListener(connection) {
+	connection.on('end', () => {
+		this.connected = false;
+	})
 }
 
 class Row {
