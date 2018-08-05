@@ -37,7 +37,7 @@ export default class SelectFilter extends Component {
 				<span className="select-filter-current">
 				{
 					this.state.current === null ?
-											this.props.by :
+											this.props.placeholder :
 											this.state.current
 				}
 				</span>

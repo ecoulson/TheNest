@@ -41,11 +41,12 @@ export default class FeedFilter extends Component {
 						value={this.props.value} 
 						set={this.props.set} 
 						by={this.props.by}
+						placeholder={this.props.placeholder}
 						options={this.state.options[this.props.by]}/>
 			)
 		} else {
 			return ( 
-				<SearchFilter value={this.props.value} set={this.props.set} by={this.props.by}/>
+				<SearchFilter placeholder={this.props.placeholder} value={this.props.value} set={this.props.set} by={this.props.by}/>
 			)
 		}
 	}

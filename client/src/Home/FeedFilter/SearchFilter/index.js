@@ -22,7 +22,7 @@ export default class SearchFilter extends Component {
 
 	render() {
 		return (
-			<input 
+			<input
 				className="search-filter" 
 				onChange={this.handleSearch} 
 				value={this.state.value} 

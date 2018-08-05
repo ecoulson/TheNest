@@ -20,6 +20,7 @@ export default class Feed extends Component {
 		this.handleDeleteAnnouncement = this.handleDeleteAnnouncement.bind(this);
 		this.handleRejectedAnnouncement = this.handleRejectedAnnouncement.bind(this);
 		this.getPinAction = this.getPinAction.bind(this);
+		this.handleDeleteAnnouncement = this.handleDeleteAnnouncement.bind(this);
 	}
 
 	componentWillReceiveProps(props) {
@@ -179,11 +180,24 @@ export default class Feed extends Component {
 	}
 
 	handleRejectedAnnouncement(e, data) {
-		console.log(data.entity);
+		
 	}
 
 	handleDeleteAnnouncement(e, data) {
-		console.log(data.entity);
+		fetch(`/api/announcements/${data.entity.id}`, {
+			method: "DELETE",
+		}).then((res) => {
+			return res.json();
+		}).then((json) => {
+			if (json.success) {
+				let announcements = this.state.announcements;
+				let index = this.getAnnouncementById(data.entity.id);
+				announcements.splice(index, 1);
+				this.setState({
+					announcements: announcements
+				})
+			}
+		});
 	}
 
 	render() {

@@ -73,6 +73,11 @@ class AnnouncementLayer extends DataAccessLayer {
 		let rows = await this.deleteEntry(id, true);
 		return rows;
 	}
+
+	async deleteAnnouncement(id) {
+		let success = await this.deleteEntry(id, false);
+		return success;
+	}
 }
 
 function announcementDataToEntry(data) {

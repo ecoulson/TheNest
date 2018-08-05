@@ -10,7 +10,7 @@ export default class Home extends Component {
 			<div className="action-bar">
 				<Link className="icon-link" to="/">
 					<img alt="Owl" src={Owl} className="application-logo" size="2x" />
-					<span className="application-name">The Roost</span>
+					<span className="application-name">The Nest</span>
 				</Link>
 				<Link className="notifications" to="/notifications">
 					<FontAwesomeIcon size="2x" icon={['fab', 'earlybirds']} />

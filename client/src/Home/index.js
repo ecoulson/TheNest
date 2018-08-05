@@ -50,8 +50,8 @@ export default class Home extends Component {
 				<Module width={"100%"} height={"auto"} title="Announcements">
 					<div style={{width: "100%", display: "flex", flexWrap: "wrap"}}>
 						<input onClick={this.clear} className="clear" value="Clear" type="button"/>
-						<FeedFilter set={this.setGrade} value={this.state.grade} type="select" by="grade"/>
-						<FeedFilter set={this.setType} value={this.state.type} type="select" by="type"/>
+						<FeedFilter placeholder="All Grades" set={this.setGrade} value={this.state.grade} type="select" by="grade"/>
+						<FeedFilter placeholder="Type" set={this.setType} value={this.state.type} type="select" by="type"/>
 						<FeedFilter set={this.setSearch} value={this.state.search} type="search" by="all"/>
 					</div>
 					<Feed filters={this.state}/>

@@ -60,4 +60,11 @@ router.get('/:id', async function(req, res, next) {
 	return res.json(announcement);
 });
 
+router.delete('/:id', async function(req, res, next) {
+	let status = await announcementLayer.deleteAnnouncement(req.params.id);
+	return res.json({
+		success: status
+	})
+});
+
 module.exports = router;
