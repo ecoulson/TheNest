@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactTooltip from 'react-tooltip';
+import { AppContext } from '../../../AppContext';
 import $ from "jquery";
 import './entry.css';
 
@@ -18,6 +19,8 @@ export default class ListEntry extends Component {
 		};
 		this.handleApproval = this.handleApproval.bind(this);
 		this.handleRejection = this.handleRejection.bind(this);
+		this.requestApproval = this.requestApproval.bind(this);
+		this.requestRejection = this.requestRejection.bind(this);
 		this.showDesc = this.showDesc.bind(this);
 	}
 
@@ -80,7 +83,7 @@ export default class ListEntry extends Component {
 		}).then((res) => {
 			return res.json();
 		}).then(() => {
-			this.props.showStatus({
+			this.showStatus({
 				message: "Announcement Approved. Press Z to undo",
 				color: "green",
 				fontColor: "white",
@@ -110,7 +113,7 @@ export default class ListEntry extends Component {
 		}).then((res) => {
 			return res.json();
 		}).then(() => {
-			this.props.showStatus({
+			this.showStatus({
 				message: "Rejected Announcement. Press Z to undo",
 				color: "red",
 				fontColor: "black",
@@ -138,6 +141,11 @@ export default class ListEntry extends Component {
 	render() {
 		return (
 			<div>
+				<AppContext.Consumer>
+					{context => {
+						this.showStatus = context.showStatus;
+					}}
+				</AppContext.Consumer>
 				<div onClick={this.showDesc} data-tip="React-tooltip" className="entry">
 					<span style={this.state.style} className="entry-title">{this.state.entry.displayTitle}</span>
 					<input style={this.state.style} onClick={this.handleRejection} className="reject" type="button" value="reject"/>

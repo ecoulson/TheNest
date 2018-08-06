@@ -10,6 +10,10 @@ class AnnouncementLayer extends DataAccessLayer {
 		this.unapprovedOffset = 0;
 	}
 
+	async getAnnouncementCount() {
+		return await this.getRowCount();
+	}
+
 	async getAnnouncement(id) {
 		return await this.selectById(id);
 	}
@@ -22,7 +26,6 @@ class AnnouncementLayer extends DataAccessLayer {
 		announcements.sort((a, b) => {
 			return a.pinnedDate < b.pinnedDate
 		});
-		console.log(announcements);
 		return announcements;
 	}
 	
@@ -34,8 +37,11 @@ class AnnouncementLayer extends DataAccessLayer {
 		})
 	}
 
-	async loadApprovedAnnouncements() {
-		let announcements = await this.selectAllEntries([
+	async loadApprovedAnnouncements(offset) {
+		let announcements = await this.selectEntriesFromOffset(offset, LOAD_LIMIT, {
+			by: "DateCreated",
+			order: "DESC"
+		}, [
 			{ key: "Approved", value: true, comparator: "EQ" },
 			{ key: "Pinned", value: false, comparator: "EQ" }
 		]);

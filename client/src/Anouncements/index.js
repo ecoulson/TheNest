@@ -8,7 +8,8 @@ export default class Anouncements extends Component {
 	constructor() {
 		super();
 		this.state = {
-			unapproved: []
+			unapproved: [],
+			fetchedUnapproved: false
 		}
 		this.getUnapprovedAnnouncements = this.getUnapprovedAnnouncements.bind(this);
 	}
@@ -24,7 +25,8 @@ export default class Anouncements extends Component {
 			return res.json();
 		}).then((unapproved) => {
 			this.setState({
-				unapproved: unapproved
+				unapproved: unapproved,
+				fetchedUnapproved: true
 			})
 		})
 	}
@@ -36,7 +38,7 @@ export default class Anouncements extends Component {
 					<Form getUnapproved={this.getUnapprovedAnnouncements}/>
 				</Module>
 				<Module title="To Approve" width={"40%"} height={500}>
-					<ApprovalList unapproved={this.state.unapproved}/>
+					<ApprovalList fetched={this.state.fetchedUnapproved} unapproved={this.state.unapproved}/>
 				</Module>
 			</div>
 		);

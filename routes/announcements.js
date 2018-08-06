@@ -4,7 +4,15 @@ let Layers = require('../DataAccessLayer/Layers');
 const announcementLayer = Layers.announcementLayer;
 
 router.get('/', async function(req, res, next) {
-	let announcements = await announcementLayer.loadApprovedAnnouncements();
+	let count = await announcementLayer.getAnnouncementCount();
+	return res.json({
+		success: true,
+		count: count
+	})
+})
+
+router.get('/load/:offset', async function(req, res, next) {
+	let announcements = await announcementLayer.loadApprovedAnnouncements(req.params.offset);
 	return res.json(announcements);
 });
 
@@ -14,8 +22,11 @@ router.get('/pinned', async function(req, res, next) {
 });
 
 router.put('/pinned/:id', async function(req, res) {
-	let announcements = await announcementLayer.togglePinned(req.params.id);
-	return res.json(announcements);
+	let announcement = await announcementLayer.togglePinned(req.params.id);
+	return res.json({
+		announcement: announcement,
+		success: true
+	});
 })
 
 router.post('/', async function(req, res, next) {

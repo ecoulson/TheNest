@@ -4,7 +4,11 @@ import { ContextMenu, MenuItem } from "react-contextmenu";
 import FeedEntity from './FeedEntity';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AppContext } from '../../AppContext';
 import './feed.css';
+
+const SCROLL_UPDATE_OFFSET = 50;
+const LOAD_LIMIT = 20;
 
 export default class Feed extends Component {
 	constructor(props) {
@@ -14,6 +18,9 @@ export default class Feed extends Component {
 			filters: props.filters,
 			hasFetchedAnnouncements: false,
 			pinAction: "Pin",
+			fetchingNextAnnouncements: false,
+			offset: 0,
+			announcementCount: 0
 		};
 		this.renderAnnouncements = this.renderAnnouncements.bind(this);
 		this.handlePinnedAnnouncement = this.handlePinnedAnnouncement.bind(this);
@@ -21,6 +28,7 @@ export default class Feed extends Component {
 		this.handleRejectedAnnouncement = this.handleRejectedAnnouncement.bind(this);
 		this.getPinAction = this.getPinAction.bind(this);
 		this.handleDeleteAnnouncement = this.handleDeleteAnnouncement.bind(this);
+		this.handleFeedScroll = this.handleFeedScroll.bind(this);
 	}
 
 	componentWillReceiveProps(props) {
@@ -30,7 +38,26 @@ export default class Feed extends Component {
 	}
 	
 	componentWillMount() {
-		this.fetchPinned(this.fetchAnnouncements.bind(this));
+		this.fetchAnnouncementCount(() => {
+			this.fetchPinned(this.fetchAnnouncements.bind(this));
+		})
+	}
+
+	componentWillUnmount() {
+		let element = document.getElementsByClassName('feed-container')[0];
+		element.removeEventListener("scroll", this.handleFeedScroll);
+	}
+
+	fetchAnnouncementCount(next) {
+		fetch('/api/announcements/')
+			.then((res) => {
+				return res.json();
+			}).then((json) => {
+				this.setState({
+					announcementCount: json.count
+				});
+				next()
+			})
 	}
 
 	fetchPinned(next) {
@@ -39,14 +66,13 @@ export default class Feed extends Component {
 			.then((announcements) => {
 				this.setState({
 					announcements: announcements,
-					hasFetchedAnnouncements: true
 				});
 				next();
 			});
 	}
 
 	fetchAnnouncements() {
-		fetch('/api/announcements')
+		fetch(`/api/announcements/load/${this.state.offset}`)
 			.then(res => res.json())
 			.then((announcements) => {
 				let stateAnnouncements = this.state.announcements;
@@ -55,9 +81,27 @@ export default class Feed extends Component {
 				});
 				this.setState({
 					announcements: stateAnnouncements,
-					hasFetchedAnnouncements: true
+					hasFetchedAnnouncements: true,
+					fetchingNextAnnouncements: false,
+					offset: this.state.offset + LOAD_LIMIT
 				});
+				this.addFeedScrollListener();
 			});
+	}
+
+	addFeedScrollListener() {
+		let element = document.getElementsByClassName('feed-container')[0];
+		element.addEventListener("scroll", this.handleFeedScroll);
+	}
+
+	handleFeedScroll(e) {
+		let scrollTillBottom = e.target.scrollHeight - e.target.offsetHeight - e.target.scrollTop;
+		if (scrollTillBottom < SCROLL_UPDATE_OFFSET && !this.state.fetchingNextAnnouncements && this.state.offset < this.state.announcementCount) {
+			this.setState({
+				fetchingNextAnnouncements: true,
+			});
+			this.fetchAnnouncements();
+		}
 	}
 
 	renderAnnouncements() {
@@ -79,7 +123,7 @@ export default class Feed extends Component {
 
 	filterByGrade() {
 		if (this.state.filters && this.state.filters.grade !== null) {
-			let grade = parseInt(this.state.filters.grade.toLowerCase().replace("grade", "").trim(), 10);
+			let grade = this.state.filters.grade.toLowerCase().replace("grade", "").trim();
 			return this.state.announcements.filter((announcement) => {
 				return announcement.grades.includes(grade);
 			});
@@ -103,7 +147,7 @@ export default class Feed extends Component {
 		if (this.state.filters) {
 			return this.state.announcements.filter((announcement) => {
 				let search = this.state.filters.search.toLowerCase();
-				let grade = parseInt(search.toLowerCase().replace("grade", "").trim(), 10);
+				let grade = search.toLowerCase().replace("grade", "").trim();
 				let date = moment(announcement.dateCreated).format("MMMM Do, YY h:mA")
 				return announcement.title.toLowerCase().startsWith(search) ||
 						announcement.desc.toLowerCase().startsWith(search) ||
@@ -135,14 +179,30 @@ export default class Feed extends Component {
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
-			let announcements = this.state.announcements;
-			let index = this.getAnnouncementById(json.id);
-			let announcement = announcements[index];
-			announcement.pinned = !announcement.pinned;
-			announcements = this.handleAnnouncementReposition(announcement, index);
-			this.setState({
-				announcements: announcements
-			})
+			if (json.success) {
+				let announcements = this.state.announcements;
+				let index = this.getAnnouncementById(json.announcement.id);
+				let announcement = announcements[index];
+				announcement.pinned = !announcement.pinned;
+				announcements = this.handleAnnouncementReposition(announcement, index);
+				this.setState({
+					announcements: announcements
+				});
+				let pinAction = json.announcement.pinned ? "Pinned" : "Unpinned"
+				this.showStatus({
+					message: `${pinAction} Announcement`,
+					color: "green",
+					fontColor: "white",
+					duration: 3
+				});
+			} else {
+				this.showStatus({
+					message: `Failed To Toggle Pin Of The Announcement`,
+					color: "red",
+					fontColor: "black",
+					duration: 3
+				});
+			}
 		})
 	}
 
@@ -180,7 +240,33 @@ export default class Feed extends Component {
 	}
 
 	handleRejectedAnnouncement(e, data) {
-		
+		fetch(`/api/announcements/unapprove/${data.entity.id}`, {
+			method: "PUT"
+		}).then((res) => {
+			return res.json();
+		}).then((json) => {
+			if (json.success) {
+				let announcements = this.state.announcements;
+				let index = this.getAnnouncementById(data.entity.id);
+				announcements.splice(index, 1);
+				this.setState({
+					announcements: announcements
+				});
+				this.showStatus({
+					message: "Unapproved Announcement",
+					color: "green",
+					fontColor: "white",
+					duration: 3
+				});
+			} else {
+				this.showStatus({
+					message: "Failed to unapprove Announcement",
+					color: "red",
+					fontColor: "black",
+					duration: 3
+				});
+			}
+		})
 	}
 
 	handleDeleteAnnouncement(e, data) {
@@ -195,35 +281,63 @@ export default class Feed extends Component {
 				announcements.splice(index, 1);
 				this.setState({
 					announcements: announcements
+				});
+				this.showStatus({
+					message: "Deleted Announcement",
+					color: "green",
+					fontColor: "white",
+					duration: 3
+				})
+			} else {
+				this.showStatus({
+					message: "Failed To Delete Announcement",
+					color: "red",
+					fontColor: "black",
+					duration: 3
 				})
 			}
 		});
 	}
 
 	render() {
-		return (
-			<div className="feed-container">
-				<ReactCSSTransitionGroup
-					transitionName="feather"
-					transitionEnterTimeout={250}
-					transitionLeaveTimeout={250}>
-					{this.renderAnnouncements()}
-				</ReactCSSTransitionGroup>
-				<ContextMenu onShow={this.getPinAction} collect={props => props} id={`contextmenu-${this.props.feedSource ? this.props.feedSource : "announcements"}`}>
-					<MenuItem onClick={this.handlePinnedAnnouncement}>
-						<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="thumbtack"/>
-						{this.state.pinAction} Announcement
-					</MenuItem>
-					<MenuItem  onClick={this.handleRejectedAnnouncement}>
-						<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="ban"/>
-						Unapprove Announcement
-					</MenuItem>
-					<MenuItem  onClick={this.handleDeleteAnnouncement}>
-						<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="trash"/>
-						Delete Announcement
-					</MenuItem>
-				</ContextMenu>
-			</div>
-		)
+		if (!this.state.hasFetchedAnnouncements) {
+			return (
+				<div className="loader">Loading...</div>
+			);
+		} else {
+			return (
+				<div className="feed-container">
+					<AppContext.Consumer>
+						{context => {
+							this.showStatus = context.showStatus;
+						}}
+					</AppContext.Consumer>
+					<ReactCSSTransitionGroup
+						transitionName="feather"
+						transitionEnterTimeout={250}
+						transitionLeaveTimeout={250}>
+						{this.renderAnnouncements()}
+						{ this.state.fetchingNextAnnouncements ? 
+							<div className="loader">Loading...</div> :
+							null
+						}
+					</ReactCSSTransitionGroup>
+					<ContextMenu onShow={this.getPinAction} collect={props => props} id={`contextmenu-${this.props.feedSource ? this.props.feedSource : "announcements"}`}>
+						<MenuItem onClick={this.handlePinnedAnnouncement}>
+							<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="thumbtack"/>
+							{this.state.pinAction} Announcement
+						</MenuItem>
+						<MenuItem  onClick={this.handleRejectedAnnouncement}>
+							<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="ban"/>
+							Unapprove Announcement
+						</MenuItem>
+						<MenuItem  onClick={this.handleDeleteAnnouncement}>
+							<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="trash"/>
+							Delete Announcement
+						</MenuItem>
+					</ContextMenu>
+				</div>
+			)
+		}
 	}
 }

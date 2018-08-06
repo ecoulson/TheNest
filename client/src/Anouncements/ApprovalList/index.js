@@ -8,7 +8,7 @@ export default class ApprovalList extends Component {
 	constructor(props) {
 		super();
 		this.state = {
-			fetched: false,
+			fetched: props.fetched,
 			unapproved: props.unapproved,
 			undoActions: [],
 		}
@@ -33,7 +33,8 @@ export default class ApprovalList extends Component {
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			unapproved: props.unapproved
+			unapproved: props.unapproved,
+			fetched: props.fetched
 		})
 	}
 
@@ -148,26 +149,31 @@ export default class ApprovalList extends Component {
 					entry={announcement} 
 					removeEntry={this.removeEntry}
 					addUndoAction={this.addUndoAction}
-					showStatus={this.showStatus}
 					/>
 		})
 	}
 
 	render() {
-		return (
-			<div className="entry-list">
-				<AppContext.Consumer>
-					{context => {
-						this.showStatus = context.showStatus;
-					}}
-				</AppContext.Consumer>
-				<ReactCSSTransitionGroup 
-					transitionName="approval" 
-					transitionEnterTimeout={250}
-					transitionLeaveTimeout={250}>
-					{this.renderUnapprovedList()}
-				</ReactCSSTransitionGroup>
-			</div>
-		);
+		if (!this.state.fetched) {
+			return (
+				<div className="loader">Loading...</div>
+			);
+		} else {
+			return (
+				<div className="entry-list">
+					<AppContext.Consumer>
+						{context => {
+							this.showStatus = context.showStatus;
+						}}
+					</AppContext.Consumer>
+					<ReactCSSTransitionGroup 
+						transitionName="approval" 
+						transitionEnterTimeout={250}
+						transitionLeaveTimeout={250}>
+						{this.renderUnapprovedList()}
+					</ReactCSSTransitionGroup>
+				</div>
+			);
+		}
 	}
 }
