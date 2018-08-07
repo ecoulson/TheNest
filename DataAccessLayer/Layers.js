@@ -8,7 +8,7 @@ let announcementLayer = new AnnouncementLayer(database);
 
 module.exports = {
 	connectToDatabase: async () => {
-		await database.connect();
+		await database.prepareDatabaseForConnection()
 	},
 	announcementLayer: announcementLayer
 }

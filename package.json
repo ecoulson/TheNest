@@ -8,8 +8,8 @@
     "postinstall": "cd client && npm install && npm run build"
   },
   "engines": {
-	  "node": "8.11.1",
-	  "npm": "5.6.0"
+    "node": "8.11.1",
+    "npm": "5.6.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
@@ -36,6 +36,7 @@
     "react-router-transition": "^1.2.1",
     "react-select": "^2.0.0",
     "react-tooltip": "^3.6.1",
-    "tedious": "^2.6.3"
+    "tedious": "^2.6.3",
+    "tedious-connection-pool": "^1.0.5"
   }
 }

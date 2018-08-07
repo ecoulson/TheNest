@@ -1,33 +1,31 @@
 const ConnectionStringKey = "OverlakeASBAppDatabaseConnectionString";
 const ConnectionStringVersion = "dbbf9e20d4d24832845fcbf0bf47158d"
-let Connection = require('tedious').Connection;
-let Request = require("tedious").Request;
+const ConnectionPool = require('tedious-connection-pool');
+const ConnectionPoolConfig = require('./PoolConfig.json');
+const Connection = require('tedious').Connection;
+const Request = require("tedious").Request;
 
 class Database {
 	constructor(keyVault) {
 		this.keyVaultClient = keyVault.getClient();
 		this.uri = keyVault.getVaultUri();
-		this.connected = false;
 	}
 
-	async connect() {
+	async prepareDatabaseForConnection() {
 		let connectionString = await getDatabaseConnectionString(this.uri, this.keyVaultClient);
 		this.config = parseConnectionString(connectionString);
-		this.connection = new Connection(this.config);
-		addEndListener(this.connection);
-		await waitForConnection(this.connection);
-		this.connected = true;
-		console.log("connected");
+		this.pool = new ConnectionPool(ConnectionPoolConfig, this.config);
 	}
 
 	async query(queryString) {
 		return new Promise(async (resolve, reject) => {
+			let connection = await getConnection(this.pool);
 			let request = new Request(queryString, function(err) {
 				if (err) {
 					return reject(err);
 				}
 			});
-			let rows = await exectueQuery(request, this.connection);
+			let rows = await exectueQuery(request, connection);
 			return resolve(rows);
 		}); 
 	}
@@ -63,6 +61,17 @@ function parseConnectionString(string) {
 	}
 }
 
+async function getConnection(pool) {
+	return new Promise((resolve, reject) => {
+		pool.acquire(function(err, connection) {
+			if (err) {
+				return reject(err);
+			}
+			return resolve(connection);
+		})
+	}) 
+}
+
 function waitForConnection(connection) {
 	return new Promise((resolve, reject) => {
 		connection.on('connect', (err) => {
@@ -92,15 +101,10 @@ async function exectueQuery(request, connection) {
 
 		request.on('requestCompleted', function() {
 			resolve(rows);
+			connection.release();
 		});
 		connection.execSql(request);
 	});
-}
-
-function addEndListener(connection) {
-	connection.on('end', () => {
-		this.connected = false;
-	})
 }
 
 class Row {
