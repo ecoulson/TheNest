@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './actionbar.css';
 import Owl from '../bird.png';
 import Dropdown from './ActionBarDropdown';
@@ -9,6 +8,7 @@ export default class Home extends Component {
 	constructor() {
 		super();
 		this.state = {
+			notifications: ["Test Notification"],
 			notificationsVisible: false,
 			settingsVisible: false
 		}
@@ -19,18 +19,60 @@ export default class Home extends Component {
 		this.toggleNotifications = this.toggleNotifications.bind(this);
 		this.closeNotifications = this.closeNotifications.bind(this);
 		this.closeSettings = this.closeSettings.bind(this);
+		this.settingsItems = [
+			{
+				name: "Admin Login",
+				action: this.handleAdminLogin
+			},
+			{
+				name: "User Login",
+				action: this.handleLogin
+			},
+			{
+				name: "Logout",
+				action: this.handleLogout
+			}
+		]
 	}
 
 	handleAdminLogin() {
-		fetch('/api/')
+		fetch('/api/user/login/admin', {
+			credentials: 'same-origin'
+		}).then((res) => {
+			return res.json();
+		}).then((json) => {
+			window.location.reload();
+		})
 	}
 
 	handleLogin() {
-
+		fetch('/api/user/login/user', {
+			credentials: 'same-origin'
+		}).then((res) => {
+			return res.json();
+		}).then((json) => {
+			window.location.reload();
+		})
 	}
 
 	handleLogout() {
+		fetch('/api/user/logout', {
+			credentials: 'same-origin'
+		}).then((res) => {
+			return res.json();
+		}).then((json) => {
+			window.location.reload();
+		})
+	}
 
+	checkRole() {
+		fetch('/api/user/', {
+			credentials: 'same-origin'
+		}).then((res) => {
+			return res.json();
+		}).then((json) => {
+			console.log(json);
+		})
 	}
 
 	toggleNotifications() {
@@ -57,6 +99,14 @@ export default class Home extends Component {
 		})
 	}
 
+	renderNotifications() {
+		return this.state.notifications.map((notification, i) => {
+			return (
+				<li key={i} className="action-bar-menu-item">{notification}</li>
+			)
+		})
+	}
+
 	render() {
 		return (
 			<div className="action-bar">
@@ -68,22 +118,31 @@ export default class Home extends Component {
 					visible={this.state.notificationsVisible}
 					name="notifications" 
 					icon={['fab', 'earlybirds']} 
-					items={['Your Announcement Was Approved!']}
+					items={this.notifications}
 					closeOther={this.closeSettings}
 					toggle={this.toggleNotifications}
 					menuWidth={300}
 					badge={true}
 					badgeCount={1}
-					/>
+					>
+					{this.renderNotifications()}
+				</Dropdown>
 				<Dropdown 
 					visible={this.state.settingsVisible}
 					name="settings" 
 					icon="cog" 
-					items={['Admin Login', 'User Login', 'Logout']}
+					items={this.settingsItems}
 					closeOther={this.closeNotifications}
 					toggle={this.toggleSettings}
 					menuWidth={150}
-					/>
+					>
+					<li onClick={this.handleAdminLogin} key={"admin"} className="action-bar-menu-item">Admin Login</li>
+					<li onClick={this.handleLogin} key={"user"} className="action-bar-menu-item">User Login</li>
+					<hr className="action-bar-menu-item divider"/>
+					<li onClick={this.checkRole} key={"check"} className="action-bar-menu-item">Check Role</li>
+					<hr className="action-bar-menu-item divider"/>
+					<li onClick={this.handleLogout} key={"logout"} className="action-bar-menu-item">Logout</li>
+				</Dropdown>
 			</div>
 		)
 	}

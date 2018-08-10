@@ -41,6 +41,7 @@
 
 .action-bar-button:hover {
 	background-color: rgb(183, 169, 36);
+	cursor: pointer;
 }
 
 .action-bar-button > svg {
@@ -144,6 +145,13 @@
 .icon-link:hover > .application-logo {
 	-webkit-animation: animation 1000ms linear both;
 	animation: animation 1000ms linear both;
+}
+
+.divider {
+	height: 0;
+	padding: 0;
+	margin: 0 5px;
+	border: 1px solid black;
 }
  
 @-webkit-keyframes animation { 

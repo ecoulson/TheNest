@@ -3,18 +3,36 @@ var router = express.Router();
 
 router.get('/login/:role', function (req, res, next) {
     req.session.login(req.params.role).then(() => {
-		res.json({}).status(200);;
+		res.json({
+			role: req.params.role,
+			succes: true
+		}).status(200);;
 	})
 });
 
+router.get('/can/:action', function(req, res, next) {
+	req.session.can(req.params.action).then((hasAccess) => {
+		return res.json({
+			succes: true,
+			can: hasAccess
+		}).status(200);
+	})
+})
+
 router.get('/logout', function (req, res, next) {
     req.session.logout().then(() => {
-		res.json({});
+		res.json({
+			role: "guest",
+			succes: true
+		});
 	});
 });
 
 router.get('/', function (req, res, next){
-    res.send('Current role is ' + req.session.getRole()).status(200);
+    res.send({
+		role: req.session.getRole(),
+		succes: true
+	}).status(200);
 });
 
 module.exports = router;

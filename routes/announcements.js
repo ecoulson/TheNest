@@ -58,23 +58,41 @@ router.get('/pinned', async function(req, res, next) {
 });
 
 router.put('/pinned/:id', async function(req, res) {
-	let announcement = await announcementLayer.togglePinned(req.params.id);
-	return res.json({
-		announcement: announcement,
-		success: true
-	}).status(200);
+	req.session.can('Announcement:Admin').then(async (hasAccess) => {
+		if (hasAccess) {
+			let announcement = await announcementLayer.togglePinned(req.params.id);
+			return res.json({
+				announcement: announcement,
+				success: true
+			}).status(200);
+		} else {
+			return res.json({
+				announcement: null,
+				success: false
+			}).status(403);
+		}
+	});
 })
 
 router.post('/', async function(req, res, next) {
-	let announcement = await announcementLayer.createAnnouncement(req.body, true);
-	return res.send({
-		success: announcement != null,
-		announcement: announcement
-	}).status(200);
+	req.session.can('Announcement:Create').then(async (hasAccess) => {
+		if (hasAccess) {
+			let announcement = await announcementLayer.createAnnouncement(req.body, true);
+			return res.send({
+				success: announcement != null,
+				announcement: announcement
+			}).status(200);
+		} else {
+			return res.json({
+				success:false,
+				announcement: null
+			}).status(403);
+		}
+	})
 });
 
 router.get('/approve', async function(req, res, next) {
-	req.session.can('Announcement:Read').then(async (hasAccess) => {
+	req.session.can('Announcement:Admin').then(async (hasAccess) => {
 		if (hasAccess) {
 			let announcements = await announcementLayer.loadUnapprovedAnnouncements();
 			return res.json({
@@ -91,39 +109,87 @@ router.get('/approve', async function(req, res, next) {
 });
 
 router.post('/approve/', async function(req, res, next) {
-	let announcement = await announcementLayer.approveAnnouncement(req.body.id);
-	return res.send({
-		success: true,
-		announcement: announcement
-	}).status(200);
+	req.session.can('Announcement:Admin').then(async (hasAccess) => {
+		if (hasAccess) {
+			let announcement = await announcementLayer.approveAnnouncement(req.body.id);
+			return res.json({
+				success: true,
+				announcement: announcement
+			}).status(200);
+		} else {
+			return res.json({
+				success: false,
+				announcement: null
+			}).status(403);
+		}
+	});
 });
 
 router.put('/unapprove/:id', async function(req, res, next) {
-	let announcement = await announcementLayer.unapproveAnnouncement(req.params.id);
-	return res.send({
-		success: true,
-		announcement: announcement
-	}).status(200);
+	req.session.can('Announcement:Admin').then(async (hasAccess) => {
+		if (hasAccess) {
+			let announcement = await announcementLayer.unapproveAnnouncement(req.params.id);
+			return res.json({
+				success: true,
+				announcement: announcement
+			}).status(200);
+		} else {
+			return res.json({
+				success: false,
+				announcement: null
+			}).status(403);
+		}
+	})
 }) 
 
 router.post('/reject/', async function(req, res, next) {
-	let announcement = await announcementLayer.rejectAnnouncement(req.body.id);
-	return res.send({
-		success: true, 
-		announcement: announcement
-	}).status(200);
+	req.session.can('Announcement:Admin').then(async (hasAccess) => {
+		if (hasAccess) {
+			let announcement = await announcementLayer.rejectAnnouncement(req.body.id);
+			return res.send({
+				success: true, 
+				announcement: announcement
+			}).status(200);
+		} else {
+			return res.json({
+				success: false,
+				announcement: null
+			}).status(403);
+		}
+	});
 });
 
 router.get('/:id', async function(req, res, next) {
-	let announcement = await announcementLayer.getAnnouncement(req.params.id);
-	return res.json(announcement).status(200);
+	req.session.can('Announcement:Read').then(async (hasAccess) => {
+		if (hasAccess) {
+			let announcement = await announcementLayer.getAnnouncement(req.params.id);
+			return res.json({
+				success: true,
+				announcement: announcement
+			}).status(200);
+		} else {
+			return res.json({
+				success: false,
+				announcement: null
+			}).status(403);
+		}
+	});
 });
 
 router.delete('/:id', async function(req, res, next) {
-	let status = await announcementLayer.deleteAnnouncement(req.params.id);
-	return res.json({
-		success: status
-	}).status(200);
+	req.session.can('Announcement:Admin').then(async (hasAccess) => {
+		if (hasAccess) {
+			let status = await announcementLayer.deleteAnnouncement(req.params.id);
+			return res.json({
+				success: status
+			}).status(200);
+		} else {
+			return res.json({
+				success: false,
+				announcement: null
+			}).status(403);
+		}
+	});
 });
 
 module.exports = router;

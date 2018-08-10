@@ -16,14 +16,27 @@ export default class ActiveAnnouncement extends Component {
 	}
 
 	componentWillMount() {
-		fetch(`/api/announcements/${this.state.id}`)
+		fetch(`/api/announcements/${this.state.id}`, {
+			credentials: 'same-origin'
+		})
 			.then(res => res.json())
-			.then((announcement) => {
-				this.setState({
-					announcement: announcement,
-					title: announcement.title,
-					hasLoaded: true
-				});
+			.then((json) => {
+				if (json.success) {
+					this.setState({
+						announcement: json.announcement,
+						title: json.announcement.title,
+						hasLoaded: true
+					});
+				} else {
+					this.setState({
+						status: {
+							message: "Error Loading Announcement Announcement",
+							color: "red",
+							fontColor: "black",
+							duration: 3
+						}
+					})
+				}
 			}).catch((e) => {
 				this.setState({
 					status: {

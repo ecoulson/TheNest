@@ -88,6 +88,7 @@ export default class ApprovalList extends Component {
 	handleApprovalUndo(action) {
 		fetch(`/api/announcements/unapprove/${action.entry.id}`, {
 			method: "PUT",
+			credentials: 'same-origin',
 			headers: {
 				'Accept': 'application/json, text/plain, */*',
 				'Content-Type': 'application/json'
@@ -112,6 +113,7 @@ export default class ApprovalList extends Component {
 	handleRejectionUndo(action) {
 		fetch(`/api/announcements/`, {
 			method: "POST",
+			credentials: 'same-origin',
 			headers: {
 				'Accept': 'application/json, text/plain, */*',
 				'Content-Type': 'application/json'

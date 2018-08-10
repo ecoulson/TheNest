@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { ContextMenu, MenuItem } from "react-contextmenu";
 import FeedEntity from './FeedEntity';
-import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AppContext } from '../../AppContext';
 import $ from 'jquery';
@@ -63,7 +62,9 @@ export default class Feed extends Component {
 
 	fetchAnnouncementCount(next) {
 		let query = this.getFilterQuery();
-		fetch(`/api/announcements${query}`)
+		fetch(`/api/announcements${query}`, {
+			credentials: 'same-origin'
+		})
 			.then((res) => {
 				return res.json();
 			}).then((json) => {
@@ -75,7 +76,9 @@ export default class Feed extends Component {
 	}
 
 	fetchPinned() {
-		fetch('/api/announcements/pinned')
+		fetch('/api/announcements/pinned', {
+			credentials: 'same-origin'
+		})
 			.then(res => res.json())
 			.then((announcements) => {
 				this.setState({
@@ -86,7 +89,9 @@ export default class Feed extends Component {
 
 	fetchAnnouncements() {
 		let query = this.getFilterQuery();
-		fetch(`/api/announcements/load/${this.state.offset}${query}`)
+		fetch(`/api/announcements/load/${this.state.offset}${query}`, {
+			credentials: 'same-origin'
+		})
 			.then(res => res.json())
 			.then((announcements) => {
 				let stateAnnouncements = this.state.announcements;
@@ -202,7 +207,8 @@ export default class Feed extends Component {
 
 	handlePinnedAnnouncement(e, data) {
 		fetch(`/api/announcements/pinned/${data.entity.id}`, {
-			method: "PUT"
+			method: "PUT",
+			credentials: 'same-origin'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
@@ -253,7 +259,7 @@ export default class Feed extends Component {
 			repositionIndex = 0;
 		}
 		announcements.splice(repositionIndex, 0, announcement);
-		if (!announcement.pinned && repositionIndex + 1 == announcements.length) {
+		if (!announcement.pinned && repositionIndex + 1 === announcements.length) {
 			announcements.pop();
 		}
 		return announcements;
@@ -271,7 +277,8 @@ export default class Feed extends Component {
 
 	handleRejectedAnnouncement(e, data) {
 		fetch(`/api/announcements/unapprove/${data.entity.id}`, {
-			method: "PUT"
+			method: "PUT",
+			credentials: 'same-origin'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
@@ -302,6 +309,7 @@ export default class Feed extends Component {
 	handleDeleteAnnouncement(e, data) {
 		fetch(`/api/announcements/${data.entity.id}`, {
 			method: "DELETE",
+			credentials: 'same-origin'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {

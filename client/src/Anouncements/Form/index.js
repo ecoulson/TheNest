@@ -27,31 +27,60 @@ const options = {
 };
 
 const multiStyle = {
-	container: () => ({
-		width: "40%",
-		margin: "15px 5%",
-		borderRadius: "none",
-		border: "none",
-		"&:focus": {
-			border: "none",
-			outline: "none",
-		},
-		boxShadow: "none",
-	}),
-	control: (base) => {
-		return {
-			...base,
-			border: "3px solid black",
-			backgroundColor: "rgb(234, 234, 234)",
-			borderRadius: "none",
-			"&:hover": {
-				border: "3px solid gold",
-				backgroundColor: "darkgreen",
-				color: "white"
-			},
-			overflow: "hidden",
-			height: "50px",
-			boxShadow: "none"
+	container: (base, props) => {
+		if (props.selectProps.disabled) {
+			return {
+				...base,
+				width: "40%",
+				margin: "15px 5%",
+				borderRadius: "none",
+				border: "1px solid black",
+				backgroundColor: "gray",
+				boxShadow: "none",
+			};
+		} else {
+			return {
+				...base,
+				width: "40%",
+				margin: "15px 5%",
+				borderRadius: "none",
+				border: "none",
+				"&:focus": {
+					border: "none",
+					outline: "none",
+				},
+				boxShadow: "none",
+				cursor: "not-allowed"
+			};
+		}
+	},
+	control: (base,props) => {
+		if (props.selectProps.disabled) {
+			return {
+				...base,
+				border: "3px solid black",
+				backgroundColor: "gray",
+				borderRadius: "none",
+				overflow: "hidden",
+				height: "50px",
+				boxShadow: "none",
+				cursor: "not-allowed"
+			};
+		} else {
+			return {
+				...base,
+				border: "3px solid black",
+				backgroundColor: "rgb(234, 234, 234)",
+				borderRadius: "none",
+				"&:hover": {
+					border: "3px solid gold",
+					backgroundColor: "darkgreen",
+					color: "white"
+				},
+				overflow: "hidden",
+				height: "50px",
+				boxShadow: "none"
+			}
 		}
 	},
 	valueContainer: (base) => {
@@ -196,6 +225,7 @@ export default class Form extends Component {
 	handleSubmittedForm(formData) {
 		fetch(`/api/announcements`, {
 			method: "POST",
+			credentials: 'same-origin',
 			body: formData.serialize(),
 			headers: {
 				'Accept': 'application/json, text/plain, */*',
@@ -253,13 +283,14 @@ export default class Form extends Component {
 						this.showStatus = context.showStatus
 					}}
 				</AppContext.Consumer>
-				<input value={this.state.title} onChange={this.handleTitleInput} placeholder="Title..." className="form-title"/>
+				<input disabled={this.props.disabled} value={this.state.title} onChange={this.handleTitleInput} placeholder="Title..." className="form-title"/>
 				<br/>
-				<textarea value={this.state.desc} onChange={this.handleAnnouncmentInput} placeholder="Announcement..." className="form-desc">
+				<textarea disabled={this.props.disabled} value={this.state.desc} onChange={this.handleAnnouncmentInput} placeholder="Announcement..." className="form-desc">
 				</textarea>
 				<br/>
 				<div style={{display: "flex"}}>
 					<Select
+						disabled={this.props.disabled}
 						styles={multiStyle}
 						options={options["grades"]} 
 						isMulti={true} 
@@ -269,6 +300,7 @@ export default class Form extends Component {
 						value={this.state.grades}
 						/>
 					<Select 
+						disabled={this.props.disabled}
 						styles={multiStyle} 
 						options={options["type"]} 
 						onChange={this.onTypeChange}
@@ -276,7 +308,7 @@ export default class Form extends Component {
 						placeholder="Type..."
 						/>
 				</div>
-				<input onClick={this.handleSubmitClick} className="form-create" type="button" value="Submit"/>
+				<input disabled={this.props.disabled} onClick={this.handleSubmitClick} className="form-create" type="button" value="Submit"/>
 			</div>
 		)
 	}

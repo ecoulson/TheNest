@@ -24,6 +24,13 @@
 	border-radius: none;
 }
 
+
+.form-title:disabled, .form-desc:disabled {
+	border: 3px solid black;
+	background-color: gray;
+	cursor: not-allowed;
+}
+
 .form-title:focus, .form-author:focus, .form-desc:focus {
 	border-color: darkgreen;
 	border-radius: none;
@@ -55,6 +62,13 @@
 	background-color: darkgreen;
 	color: white;
 	border-radius: none;
+}
+
+.form-create:disabled {
+	border: 3px solid black;
+	cursor: not-allowed;
+	background-color: gray;
+	color: black
 }
 
 .form-create:focus {

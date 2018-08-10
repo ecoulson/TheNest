@@ -3,17 +3,60 @@ import Navlink from './Navlink';
 import NavArrow from './NavArrow';
 import $ from 'jquery';
 import './navbar.css';
+import { resolve } from 'url';
+
+const NavbarLayout = [
+	{
+		icon: "home",
+		link: "/",
+		title: "Dashboard"
+	},
+	{
+		icon: "bullhorn",
+		link: "/announcements",
+		title: "Announcements",
+		access: "Announcement:Create"
+	},
+	{
+		icon: "calendar",
+		link: "/calendar",
+		title: "Calendar"
+	}
+]
 
 export default class Navbar extends Component {
 	constructor() {
 		super();
 		this.state = {
 			isOpen: window.innerWidth > 768,
+			hasFetchedAccess: false,
 			windowWidth: window.innerWidth
 		}
 		this.toggleNavbar = this.toggleNavbar.bind(this);
 		this.windowListener = this.windowListener.bind(this);
 		window.addEventListener("resize", this.windowListener)
+	}
+
+	componentWillMount() {
+		let awaiting = [];
+		for (let i = 0; i < NavbarLayout.length; i++) {
+			let item = NavbarLayout[i];
+			if (item.access) {
+				awaiting.push(i);
+				let index = awaiting.length - 1;
+				this.checkUserActions(item.access).then((hasAccess) => {
+					item.hasAccess = hasAccess;
+					awaiting.splice(index, 1);
+					if (awaiting.length === 0) {
+						this.setState({
+							hasFetchedAccess: true
+						})
+					}
+				});
+			} else {
+				item.hasAccess = true;
+			}
+		}
 	}
 
 	windowListener() {
@@ -31,6 +74,32 @@ export default class Navbar extends Component {
 		this.setState({
 			isOpen: !this.state.isOpen,
 		})
+	}
+
+	renderNavbarLayout() {
+		if (this.state.hasFetchedAccess) {
+			return NavbarLayout.map((item, i) => {
+				if (item.hasAccess) {
+					return <Navlink key={i} icon={item.icon} to={item.link} title={item.title}/>;
+				} else {
+					return null;
+				}
+			});
+		} else {
+			return null;
+		}
+	}
+
+	checkUserActions(action) {
+		return new Promise(async (resolve, reject) => {
+			fetch(`/api/user/can/${action}`, {
+				credentials: 'same-origin'
+			}).then((res) => {
+				return res.json();
+			}).then((json) => {
+				resolve(json.can);
+			})
+		});
 	}
 
 	render() {
@@ -52,9 +121,7 @@ export default class Navbar extends Component {
 		return (
 			<div>
 				<div className="navbar-container">
-					<Navlink icon="home" to="/" title="Dashboard"/>
-					<Navlink icon="bullhorn" to="/announcements" title="Announcements"/>
-					<Navlink icon="calendar" to="/calendar" title="Calendar"/>
+					{this.renderNavbarLayout()}
 				</div>
 				{ this.state.windowWidth < 768 ? 
 					<NavArrow toggleNavbar={this.toggleNavbar} isOpen={this.state.isOpen}/> :

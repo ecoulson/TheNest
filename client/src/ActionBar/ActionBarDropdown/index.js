@@ -61,16 +61,9 @@ export default class ActionBarDropdown extends Component {
 		}
 	}
 
-	renderItems() {
-		return this.props.items.map((item, i) => {
-			return <li key={i} className="action-bar-menu-item">{item}</li>
-		})
-	}
-
 	render() {
 		let badgeClass = !this.props.badge ? "" : "action-bar-badge";
 		let badgeCount = !this.props.badgeCount ? 0 : this.props.badgeCount;
-		console.log(badgeClass, badgeCount);
 		return (
 			<div className="action-bar-dropdown">
 				<div onClick={this.toggle} data-badge-count={badgeCount} className={`action-bar-button ${badgeClass}`}>
@@ -81,7 +74,7 @@ export default class ActionBarDropdown extends Component {
 						icon={this.props.icon} />
 				</div>
 				<ul style={{width: this.props.menuWidth}} id={this.props.name} className="action-bar-menu">
-					{this.renderItems()}
+					{this.props.children}
 				</ul>
 			</div>
 		)
