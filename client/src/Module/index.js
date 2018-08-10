@@ -7,16 +7,35 @@ export default class Module extends Component {
 		this.state = {
 			...props,
 			screenWidth: window.innerWidth,
+			hasAccess: false
 		}
 
 		this.windowListener = this.windowListener.bind(this);
 		window.addEventListener("resize", this.windowListener)
 	}
 
+	componentWillMount() {
+		if (this.props.access) {
+			fetch(`/api/user/can/${this.props.access}`, {
+				credentials: 'same-origin'
+			}).then((res) => {
+				return res.json();
+			}).then((json) => {
+				this.setState({
+					hasAccess: json.can
+				})
+			})
+		} else {
+			this.setState({
+				hasAccess: true
+			})
+		}
+	}
+
 	windowListener() {
 		this.setState({
-				screenWidth: window.innerWidth,
-			});
+			screenWidth: window.innerWidth,
+		});
 	}
 
 	componentWillUnmount() {
@@ -45,15 +64,23 @@ export default class Module extends Component {
 	}
 
 	render() {
-		return (
-			<div id={this.getID()} style={this.getSize()} className="module-container">
-				<div className="module-header">
-					<h1 className="module-title">{this.props.title}</h1>
+		if (!this.state.hasAccess) {
+			return null;
+		}
+
+		if (this.state.hasAccess) {
+			return (
+				<div id={this.getID()} style={this.getSize()} className="module-container">
+					<div className="module-header">
+						<h1 className="module-title">{this.props.title}</h1>
+					</div>
+					<div className="module-body">
+						{this.props.children}
+					</div>
 				</div>
-				<div className="module-body">
-					{this.props.children}
-				</div>
-			</div>
-		)
+			)
+		} else {
+			return null;
+		}
 	}
 }

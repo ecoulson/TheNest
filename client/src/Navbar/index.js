@@ -3,7 +3,6 @@ import Navlink from './Navlink';
 import NavArrow from './NavArrow';
 import $ from 'jquery';
 import './navbar.css';
-import { resolve } from 'url';
 
 const NavbarLayout = [
 	{

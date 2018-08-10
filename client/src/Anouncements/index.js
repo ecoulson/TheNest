@@ -3,6 +3,7 @@ import Module from '../Module';
 import Form from './Form';
 import ApprovalList from './ApprovalList';
 import { Redirect } from 'react-router';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './announcements.css';
 
 export default class Anouncements extends Component {
@@ -55,17 +56,21 @@ export default class Anouncements extends Component {
 
 		if (this.state.fetchedAccess && this.state.canAccesPage) {
 			return (
-				<div className="announcement-container">
-					<Module title="Create Announcement" width={"40%"} height={"auto"}>
+				<ReactCSSTransitionGroup 
+					className="announcement-container"
+					transitionName="announcement-modules" 
+					transitionEnterTimeout={250}
+					transitionLeaveTimeout={250}>
+					<Module access="Announcement:Create" title="Create Announcement" width={"40%"} height={"auto"}>
 						<Form disabled={this.state.formDisabled} getUnapproved={this.getUnapprovedAnnouncements}/>
 					</Module>
-					<Module title="To Approve" width={"40%"} height={500}>
+					<Module access="Announcement:Admin" title="To Approve" width={"40%"} height={500}>
 						<ApprovalList fetched={this.state.fetchedUnapproved} unapproved={this.state.unapproved}/>
 					</Module>
-				</div>
+				</ReactCSSTransitionGroup>
 			);
 		}
 
-		return <div className="loader">Loading...</div>
+		return <div className="loader white-loader">Loading...</div>
 	}
 }

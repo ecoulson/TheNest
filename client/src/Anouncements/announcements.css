@@ -18,3 +18,22 @@
 		width:         calc(100vw - 200px);
 	}
 }
+
+
+.announcement-modules-enter {
+	opacity: 0;
+}
+
+.announcement-modules-enter.announcement-modules-enter-active {
+	opacity: 1;
+	transition: 250ms;
+}
+
+.announcement-modules-leave {
+	opacity: 1;
+}
+
+.announcement-modules-leave.announcement-modules-leave-active {
+	opacity: 0;
+	transition: 250ms;
+}

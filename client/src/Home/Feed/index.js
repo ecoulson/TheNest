@@ -64,15 +64,14 @@ export default class Feed extends Component {
 		let query = this.getFilterQuery();
 		fetch(`/api/announcements${query}`, {
 			credentials: 'same-origin'
-		})
-			.then((res) => {
-				return res.json();
-			}).then((json) => {
-				this.setState({
-					announcementCount: json.count
-				});
-				next()
-			})
+		}).then((res) => {
+			return res.json();
+		}).then((json) => {
+			this.setState({
+				announcementCount: json.count
+			});
+			next()
+		});
 	}
 
 	fetchPinned() {
@@ -361,7 +360,7 @@ export default class Feed extends Component {
 	render() {
 		if (!this.state.hasFetchedAnnouncements) {
 			return (
-				<div className="loader">Loading...</div>
+				<div data-bgcolor="white" className="loader">Loading...</div>
 			);
 		} else {
 			return (

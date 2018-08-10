@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../AppContext';
 import './actionbar.css';
 import Owl from '../bird.png';
 import Dropdown from './ActionBarDropdown';
@@ -12,6 +13,7 @@ export default class Home extends Component {
 			notificationsVisible: false,
 			settingsVisible: false
 		}
+		this.checkRole = this.checkRole.bind(this);
 		this.handleAdminLogin = this.handleAdminLogin.bind(this);
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
@@ -71,7 +73,12 @@ export default class Home extends Component {
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
-			console.log(json);
+			this.showStatus({
+				message: `Current Role: ${json.role}`,
+				color: "gray",
+				fontColor: "black",
+				duration: 3
+			})
 		})
 	}
 
@@ -110,6 +117,11 @@ export default class Home extends Component {
 	render() {
 		return (
 			<div className="action-bar">
+				<AppContext.Consumer>
+					{context => {
+						this.showStatus = context.showStatus;
+					}}
+				</AppContext.Consumer>
 				<Link className="icon-link" to="/">
 					<img alt="Owl" src={Owl} className="application-logo" size="2x" />
 					<span className="application-name">The Nest</span>

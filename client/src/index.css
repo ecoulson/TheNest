@@ -59,6 +59,12 @@ input {
   -webkit-animation: load2 2s infinite ease;
   animation: load2 2s infinite ease;
 }
+.white-loader:before {
+	background: white;
+}
+.white-loader:after {
+	background: white;
+}
 @-webkit-keyframes load2 {
   0% {
     -webkit-transform: rotate(0deg);
