@@ -11,7 +11,7 @@ class AnnouncementFactory {
 class Announcement {
 	constructor(row) {
 		this.title = row.getProperty("Title");
-		this.id = row.getProperty("ID");
+		this.id = row.getProperty("Id");
 		this.type = row.getProperty("AnnouncementType");
 		this.grades = row.getProperty("Grades").split(",");
 		this.desc = row.getProperty("Announcement");
@@ -19,7 +19,7 @@ class Announcement {
 		this.dateCreated = new Date(row.getProperty("DateCreated"));
 		this.approved = row.getProperty("Approved").toLowerCase() === "true";
 		this.pinned = row.getProperty("Pinned").toLowerCase() === "true";
-		this.pinnedDate = new Date(row.getProperty("PinnedDateTime"));
+		this.pinnedDate = new Date(row.getProperty("PinnedDate"));
 	}
 }
 

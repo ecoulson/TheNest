@@ -32,9 +32,21 @@ export default class Module extends Component {
 		}
 	}
 
+	getID() {
+		let title = this.props.title;
+		title = title.toLowerCase();
+		let parts = title.split(' ');
+		let id = "";
+		for (let i in parts) {
+			id += parts[i] + "-";
+		}
+		id = id.substring(0, id.length - 1);
+		return id;
+	}
+
 	render() {
 		return (
-			<div style={this.getSize()} className="module-container">
+			<div id={this.getID()} style={this.getSize()} className="module-container">
 				<div className="module-header">
 					<h1 className="module-title">{this.props.title}</h1>
 				</div>

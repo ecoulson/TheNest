@@ -10,22 +10,24 @@ class AnnouncementLayer extends DataAccessLayer {
 		this.unapprovedOffset = 0;
 	}
 
-	async getAnnouncementCount() {
-		return await this.getRowCount();
+	async getAnnouncementCount(filters) {
+		return await this.getRowCount([
+			...filters,
+			{ key: "Approved", value: true, comparator: "EQ" },
+			{ key: "Pinned", value: false, comparator: "EQ" }
+		]);
 	}
 
 	async getAnnouncement(id) {
 		return await this.selectById(id);
 	}
 
-	async loadPinnedAnnouncements() {
+	async loadPinnedAnnouncements(filters) {
 		let announcements = await this.selectAllEntries([
+			...filters,
 			{ key: "Approved", value: true, comparator: "EQ" },
 			{ key: "Pinned", value: true, comparator: "EQ" }
 		]);
-		announcements.sort((a, b) => {
-			return a.pinnedDate < b.pinnedDate
-		});
 		return announcements;
 	}
 	
@@ -33,21 +35,19 @@ class AnnouncementLayer extends DataAccessLayer {
 		let announcement = await this.getAnnouncement(id);
 		return await this.updateEntry(id, {
 			Pinned: !announcement.pinned,
-			PinnedDateTime: moment().utc().format("YYYYMMDD h:m:s A")
+			PinnedDate: moment().utc().format("YYYYMMDD h:m:s A")
 		})
 	}
 
-	async loadApprovedAnnouncements(offset) {
+	async loadApprovedAnnouncements(offset, filters) {
 		let announcements = await this.selectEntriesFromOffset(offset, LOAD_LIMIT, {
 			by: "DateCreated",
 			order: "DESC"
 		}, [
+			...filters,
 			{ key: "Approved", value: true, comparator: "EQ" },
 			{ key: "Pinned", value: false, comparator: "EQ" }
 		]);
-		announcements.sort((a, b) => {
-			return a.dateCreated < b.dateCreated
-		});
 		return announcements;
 	}
 
@@ -91,11 +91,11 @@ function announcementDataToEntry(data) {
 		Title: data.title,
 		Announcement: data.desc,
 		AnnouncementType: data.type,
-		Grades: arrayToString(data.grades),
+		Grades: arrayToString(data.grades.sort()),
 		Author: data.author,
 		Approved: false,
 		Pinned: false,
-		PinnedDateTime: moment().utc().format("YYYYMMDD h:m:s A")
+		PinnedDate: moment().utc().format("YYYYMMDD h:m:s A")
 	}
 }
 

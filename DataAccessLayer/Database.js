@@ -9,15 +9,20 @@ class Database {
 	constructor(keyVault) {
 		this.keyVaultClient = keyVault.getClient();
 		this.uri = keyVault.getVaultUri();
+		this.databasePrepared = false;
 	}
 
-	async prepareDatabaseForConnection() {
-		let connectionString = await getDatabaseConnectionString(this.uri, this.keyVaultClient);
-		this.config = parseConnectionString(connectionString);
-		this.pool = new ConnectionPool(ConnectionPoolConfig, this.config);
+	async ensureConnectionPoolCreated() {
+		if (!this.databasePrepared) {
+			let connectionString = await getDatabaseConnectionString(this.uri, this.keyVaultClient);
+			this.config = parseConnectionString(connectionString);
+			this.pool = new ConnectionPool(ConnectionPoolConfig, this.config);
+			this.databasePrepared = true;
+		}
 	}
 
 	async query(queryString) {
+		await this.ensureConnectionPoolCreated();
 		return new Promise(async (resolve, reject) => {
 			let connection = await getConnection(this.pool);
 			let request = new Request(queryString, function(err) {

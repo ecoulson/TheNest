@@ -150,9 +150,11 @@ export default class ListEntry extends Component {
 					<span style={this.state.style} className="entry-title">{this.state.entry.displayTitle}</span>
 					<input style={this.state.style} onClick={this.handleRejection} className="reject" type="button" value="reject"/>
 					<input style={this.state.style} onClick={this.handleApproval} className="approve" type="button" value="approve"/>
-					<p id={`list-desc-entry-${this.state.entry.id}`}>
-						{this.state.entry.desc}
-					</p>
+					<div id={`list-desc-entry-${this.state.entry.id}`}>
+						<p>{this.state.entry.desc}</p>
+						<span>By: {this.state.entry.author}</span>
+						<span style={{float:"right"}}>Grades: {this.state.entry.grades}</span>
+					</div>
 				</div>
 				{ this.state.showingDesc ? 
 					null :

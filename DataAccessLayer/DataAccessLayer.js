@@ -5,8 +5,12 @@ class DataAccessLayer {
 		this.typeFactory = typeFactory;
 	}
 
-	async getRowCount() {
+	async getRowCount(filters) {
 		let query = `SELECT COUNT(*) FROM ${this.table}`;
+		if (filters.length > 0) {
+			let filterQuery = filtersToSql(filters);
+			query = `SELECT COUNT(*) FROM ${this.table} WHERE ${filterQuery}`;		
+		}
 		let rows = await this.database.query(query);
 		return rows[0].data[''];
 	}
@@ -77,7 +81,19 @@ function buildSelectAll(table, filters) {
 function filtersToSql(filters) {
 	let querySubstring = "";
 	for (let i = 0; i < filters.length; i++) {
-		querySubstring += `${filters[i].key} ${comparatorToString(filters[i].comparator)} '${filters[i].value}'`;
+		if (Array.isArray(filters[i])) {
+			querySubstring += "( ";
+			for (let j = 0; j < filters[i].length; j++) {
+				querySubstring += filterToQuery(filters[i][j]);
+				if (j < filters[i].length - 1) {
+					querySubstring += " OR ";
+				} else {
+					querySubstring += " )";
+				}
+			}
+		} else {
+			querySubstring += filterToQuery(filters[i]);
+		}
 		if (i < filters.length - 1) {
 			querySubstring += " AND ";
 		}
@@ -85,10 +101,14 @@ function filtersToSql(filters) {
 	return querySubstring
 }
 
-function comparatorToString(comparator) {
-	switch(comparator) {
+function filterToQuery(filter) {
+	switch(filter.comparator) {
 		case "EQ":
-			return "=";
+			return `${filter.key} = '${filter.value}'`;
+		case "CONTAINS":
+			return `CONTAINS(${filter.key}, '"${filter.value}"')`;
+		case "LIKE":
+			return `${filter.key} LIKE '%${filter.value}%'`;
 		default:
 			return "";
 	}

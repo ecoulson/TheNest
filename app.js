@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var layers = require('./DataAccessLayer/Layers');
+const RBAC = require('easy-rbac');
+const Roles = require('./AcessControl/');
+let session = require('express-session');
+let eSession = require('easy-session');
 
 layers.connectToDatabase();
 var indexRouter = require('./routes/index');
@@ -14,6 +18,12 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+    secret: '`QBM_7h8vzGvC@Q',
+    resave: false,
+    saveUninitialized: true
+}));
+app.use(eSession.main(session, Roles));
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use('/api', indexRouter);

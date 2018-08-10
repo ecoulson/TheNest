@@ -1,5 +1,5 @@
 {
     "min": 2,
     "max": 4,
-    "log": true
+    "log": false
 }

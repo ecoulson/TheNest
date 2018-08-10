@@ -28,7 +28,9 @@
 	transition: all 0.5s ease;
 }
 
-.settings {
+.action-bar-button {
+	position: relative;
+	display: block;
 	float: right;
 	width: 50px;
 	height: 50px;
@@ -37,18 +39,65 @@
 	transition: all 0.25s ease;
 }
 
-.settings:hover {
+.action-bar-button:hover {
 	background-color: rgb(183, 169, 36);
 }
 
-.settings > svg {
+.action-bar-button > svg {
 	padding-top: 8px;
 	color: black;
 	transition: all 0.25s ease;
 }
 
-.settings:hover > svg {
+.action-bar-button:hover > svg {
 	color: darkgreen;
+}
+
+.action-bar-menu {
+	position: absolute;
+	top: 50px;
+	right: 0px;
+	float: right;
+	background-color: gold;
+	margin: 0px;
+	z-index: 10;
+	list-style: none;
+	color:black;
+	padding: 0px;
+	max-height: 0;
+	border: none;
+	transition: 0.25s max-height ease;
+}
+
+
+.action-bar-menu-item {
+	display: none;
+	opacity: 1;
+	padding: 10px;
+	text-align: center;
+	transition: 0.25s all ease;
+}
+
+.action-bar-menu-item:hover {
+	cursor: pointer;
+	color: darkgreen;
+	transform: scale(1.01);
+	background-color: rgb(183, 169, 36);
+}
+
+.action-bar-badge:after{
+    content:attr(data-badge-count);
+    position: absolute;
+    background: darkgreen;
+    height:1rem;
+    top:0rem;
+    right:0.8rem;
+    width:1rem;
+    text-align: center;
+    line-height: 1rem;;
+    font-size: 0.5rem;
+    border-radius: 50%;
+    color:white;
 }
 
 .notifications {

@@ -1,0 +1,4 @@
+{
+	"appService.defaultWebAppToDeploy": "/subscriptions/499e47f8-20ca-4930-bf78-75822b90eb29/resourceGroups/OverlakeASBApp/providers/Microsoft.Web/sites/OverlakeASBWebApp",
+	"appService.deploySubpath": ""
+}

@@ -20,12 +20,13 @@ export default class Anouncements extends Component {
 
 	getUnapprovedAnnouncements() {
 		fetch(`/api/announcements/approve`, {
+			credentials: 'include',
 			method: "GET",
 		}).then((res) => {
 			return res.json();
-		}).then((unapproved) => {
+		}).then((res) => {
 			this.setState({
-				unapproved: unapproved,
+				unapproved: res.announcements,
 				fetchedUnapproved: true
 			})
 		})

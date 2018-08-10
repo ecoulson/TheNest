@@ -5,6 +5,7 @@ import FeedEntity from './FeedEntity';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AppContext } from '../../AppContext';
+import $ from 'jquery';
 import './feed.css';
 
 const SCROLL_UPDATE_OFFSET = 50;
@@ -29,27 +30,40 @@ export default class Feed extends Component {
 		this.getPinAction = this.getPinAction.bind(this);
 		this.handleDeleteAnnouncement = this.handleDeleteAnnouncement.bind(this);
 		this.handleFeedScroll = this.handleFeedScroll.bind(this);
+		this.resizeFeed = this.resizeFeed.bind(this);
 	}
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			filters: props.filters
+			offset: 0,
+			filters: props.filters,
+			announcements: [],
+			fetchingNextAnnouncements: true,
+		}, () => {
+			this.fetchAnnouncementCount(() => {
+				this.fetchAnnouncements();
+			});
 		});
+		
 	}
 	
 	componentWillMount() {
 		this.fetchAnnouncementCount(() => {
-			this.fetchPinned(this.fetchAnnouncements.bind(this));
-		})
+			this.fetchAnnouncements();
+		});
+		this.fetchPinned();
+		window.addEventListener("resize", this.resizeFeed);
 	}
 
 	componentWillUnmount() {
 		let element = document.getElementsByClassName('feed-container')[0];
 		element.removeEventListener("scroll", this.handleFeedScroll);
+		window.removeEventListener("resize", this.resizeFeed);
 	}
 
 	fetchAnnouncementCount(next) {
-		fetch('/api/announcements/')
+		let query = this.getFilterQuery();
+		fetch(`/api/announcements${query}`)
 			.then((res) => {
 				return res.json();
 			}).then((json) => {
@@ -60,19 +74,19 @@ export default class Feed extends Component {
 			})
 	}
 
-	fetchPinned(next) {
+	fetchPinned() {
 		fetch('/api/announcements/pinned')
 			.then(res => res.json())
 			.then((announcements) => {
 				this.setState({
 					announcements: announcements,
 				});
-				next();
 			});
 	}
 
 	fetchAnnouncements() {
-		fetch(`/api/announcements/load/${this.state.offset}`)
+		let query = this.getFilterQuery();
+		fetch(`/api/announcements/load/${this.state.offset}${query}`)
 			.then(res => res.json())
 			.then((announcements) => {
 				let stateAnnouncements = this.state.announcements;
@@ -83,7 +97,7 @@ export default class Feed extends Component {
 					announcements: stateAnnouncements,
 					hasFetchedAnnouncements: true,
 					fetchingNextAnnouncements: false,
-					offset: this.state.offset + LOAD_LIMIT
+					offset: this.state.offset + LOAD_LIMIT,
 				});
 				this.addFeedScrollListener();
 			});
@@ -91,6 +105,7 @@ export default class Feed extends Component {
 
 	addFeedScrollListener() {
 		let element = document.getElementsByClassName('feed-container')[0];
+		element.removeEventListener("scroll", this.handleFeedScroll);
 		element.addEventListener("scroll", this.handleFeedScroll);
 	}
 
@@ -105,59 +120,71 @@ export default class Feed extends Component {
 	}
 
 	renderAnnouncements() {
-		return this.filter().map((announcement) => {
+		return this.state.announcements.map((announcement) => {
 			return <FeedEntity source={this.props.feedSource} key={announcement.id} type="announcement" entity={announcement}/>
 		});
 	}
 
-	filter() {
-		let filteredBySearch = this.filterBySearch();
-		let filteredByGrade = this.filterByGrade();
-		let filteredByType = this.filterByType();
-		return this.state.announcements.filter((announcement) => {
-			return filteredByGrade.indexOf(announcement) !== -1 &&
-					filteredBySearch.indexOf(announcement) !== -1 &&
-					filteredByType.indexOf(announcement) !== -1;
-		})
-	}
-
-	filterByGrade() {
-		if (this.state.filters && this.state.filters.grade !== null) {
-			let grade = this.state.filters.grade.toLowerCase().replace("grade", "").trim();
-			return this.state.announcements.filter((announcement) => {
-				return announcement.grades.includes(grade);
-			});
-		} else {
-			return this.state.announcements;
-		}
-		
-	}
-
-	filterByType() {
-		if (this.state.filters && this.state.filters.type !== null) {
-			return this.state.announcements.filter((announcement) => {
-				return announcement.type === this.state.filters.type.toLowerCase();
-			})
-		} else {
-			return this.state.announcements;
-		}
-	}
-
-	filterBySearch() {
+	getFilterQuery() {
 		if (this.state.filters) {
-			return this.state.announcements.filter((announcement) => {
-				let search = this.state.filters.search.toLowerCase();
-				let grade = search.toLowerCase().replace("grade", "").trim();
-				let date = moment(announcement.dateCreated).format("MMMM Do, YY h:mA")
-				return announcement.title.toLowerCase().startsWith(search) ||
-						announcement.desc.toLowerCase().startsWith(search) ||
-						announcement.author.toLowerCase().startsWith(search) ||
-						date.toLowerCase().startsWith(search) ||
-						announcement.grades.includes(grade) ||
-						announcement.type === search
-			});
+			let search = this.getSearchFilter();
+			let grade = this.getGradeFilter();
+			let type = this.getTypeFilter();
+			let filters = [ search, grade, type ];
+			filters = filters.filter(filter => filter != null);
+			let filterString = JSON.stringify(filters);
+			let escapedString = encodeURIComponent(filterString);
+			return `?filters=${escapedString}`;
 		} else {
-			return this.state.announcements;
+			return '';
+		}
+	}
+
+	getSearchFilter() {
+		let search = this.state.filters.search;
+		if (search === null || search === "") {
+			return null;
+		}
+		return [
+			{
+				key: "Announcement",
+				value: search,
+				comparator: "LIKE",
+			},
+			{
+				key: "Title",
+				value: search,
+				comparator: "LIKE",
+			},
+			{
+				key: "Author",
+				value: search,
+				comparator: "LIKE"
+			}
+		]
+	}
+
+	getGradeFilter() {
+		let grade = this.state.filters.grade;
+		if (grade === null || grade === "") {
+			return null;
+		}
+		return {
+			key: "Grades",
+			value: grade.replace("Grade ", ""),
+			comparator: "LIKE"
+		}
+	}
+
+	getTypeFilter() {
+		let type = this.state.filters.type;
+		if (type === null || type === "") {
+			return null;
+		}
+		return {
+			key: "AnnouncementType",
+			value: type == null ? "" : type,
+			comparator: "EQ"
 		}
 	}
 
@@ -226,6 +253,9 @@ export default class Feed extends Component {
 			repositionIndex = 0;
 		}
 		announcements.splice(repositionIndex, 0, announcement);
+		if (!announcement.pinned && repositionIndex + 1 == announcements.length) {
+			announcements.pop();
+		}
 		return announcements;
 	}
 
@@ -254,8 +284,8 @@ export default class Feed extends Component {
 				});
 				this.showStatus({
 					message: "Unapproved Announcement",
-					color: "green",
-					fontColor: "white",
+					color: "gray",
+					fontColor: "black",
 					duration: 3
 				});
 			} else {
@@ -284,19 +314,40 @@ export default class Feed extends Component {
 				});
 				this.showStatus({
 					message: "Deleted Announcement",
-					color: "green",
-					fontColor: "white",
+					color: "red",
+					fontColor: "black",
 					duration: 3
 				})
 			} else {
 				this.showStatus({
 					message: "Failed To Delete Announcement",
-					color: "red",
+					color: "gray",
 					fontColor: "black",
 					duration: 3
 				})
 			}
 		});
+	}
+
+
+	componentDidUpdate() {
+		this.resizeFeed();
+	}
+
+	resizeFeed() {
+		if (this.state.hasFetchedAnnouncements) {
+			let body = $("#announcements");
+			let filterContainer = $(".filter-container");
+			let feedContainer = $(".feed-container");
+			let title = $(".module-title");
+			let height = body.height() - 
+							filterContainer.height() - 
+							feedContainer.css("margin-top").replace("px", "") * 2 -
+							feedContainer.css("padding-top").replace("px", "") * 2 -
+							title.css("margin-top").replace("px", "") * 2 -
+							title.height();
+			feedContainer.height(height);
+		}
 	}
 
 	render() {

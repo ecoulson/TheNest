@@ -4,21 +4,57 @@ let Layers = require('../DataAccessLayer/Layers');
 const announcementLayer = Layers.announcementLayer;
 
 router.get('/', async function(req, res, next) {
-	let count = await announcementLayer.getAnnouncementCount();
-	return res.json({
-		success: true,
-		count: count
+	req.session.can('Announcement:Read').then(async (hasAccess) => {
+		if (hasAccess) {
+			let filters = [];
+			if (req.query.filters) {
+				filters = JSON.parse(req.query.filters);
+			}
+			let count = await announcementLayer.getAnnouncementCount(filters);
+			return res.json({
+				success: true,
+				count: count
+			}).status(200)
+		} else {
+			return res.json({
+				success:false,
+			}).status(403);
+		}
 	})
 })
 
 router.get('/load/:offset', async function(req, res, next) {
-	let announcements = await announcementLayer.loadApprovedAnnouncements(req.params.offset);
-	return res.json(announcements);
+	req.session.can('Announcement:Read').then(async (hasAccess) => {
+		if (hasAccess) {
+			let filters = [];
+			if (req.query.filters) {
+				filters = JSON.parse(req.query.filters);
+			}
+			let announcements = await announcementLayer.loadApprovedAnnouncements(req.params.offset, filters);
+			return res.json(announcements).status(200);
+		} else {
+			return res.json({
+				success:false,
+			}).status(403);
+		}
+	});
 });
 
 router.get('/pinned', async function(req, res, next) {
-	let announcements = await announcementLayer.loadPinnedAnnouncements();
-	return res.json(announcements);
+	req.session.can('Announcement:Read').then(async (hasAccess) => {
+		if (hasAccess) {
+			let filters = [];
+			if (req.query.filters) {
+				filters = JSON.parse(req.query.filters);
+			}
+			let announcements = await announcementLayer.loadPinnedAnnouncements(filters);
+			return res.json(announcements).status(200);
+		} else {
+			return res.json({
+				success:false,
+			}).status(403);
+		}
+	});
 });
 
 router.put('/pinned/:id', async function(req, res) {
@@ -26,7 +62,7 @@ router.put('/pinned/:id', async function(req, res) {
 	return res.json({
 		announcement: announcement,
 		success: true
-	});
+	}).status(200);
 })
 
 router.post('/', async function(req, res, next) {
@@ -34,12 +70,24 @@ router.post('/', async function(req, res, next) {
 	return res.send({
 		success: announcement != null,
 		announcement: announcement
-	});
+	}).status(200);
 });
 
 router.get('/approve', async function(req, res, next) {
-	let announcements = await announcementLayer.loadUnapprovedAnnouncements();
-	return res.json(announcements);
+	req.session.can('Announcement:Read').then(async (hasAccess) => {
+		if (hasAccess) {
+			let announcements = await announcementLayer.loadUnapprovedAnnouncements();
+			return res.json({
+				announcements: announcements,
+				success: true,
+			}).status(200);
+		} else {
+			return res.json({
+				success:false,
+				announcements: []
+			}).status(403);
+		}
+	});
 });
 
 router.post('/approve/', async function(req, res, next) {
@@ -47,7 +95,7 @@ router.post('/approve/', async function(req, res, next) {
 	return res.send({
 		success: true,
 		announcement: announcement
-	})
+	}).status(200);
 });
 
 router.put('/unapprove/:id', async function(req, res, next) {
@@ -55,7 +103,7 @@ router.put('/unapprove/:id', async function(req, res, next) {
 	return res.send({
 		success: true,
 		announcement: announcement
-	})
+	}).status(200);
 }) 
 
 router.post('/reject/', async function(req, res, next) {
@@ -63,19 +111,19 @@ router.post('/reject/', async function(req, res, next) {
 	return res.send({
 		success: true, 
 		announcement: announcement
-	});
+	}).status(200);
 });
 
 router.get('/:id', async function(req, res, next) {
 	let announcement = await announcementLayer.getAnnouncement(req.params.id);
-	return res.json(announcement);
+	return res.json(announcement).status(200);
 });
 
 router.delete('/:id', async function(req, res, next) {
 	let status = await announcementLayer.deleteAnnouncement(req.params.id);
 	return res.json({
 		success: status
-	})
+	}).status(200);
 });
 
 module.exports = router;

@@ -31,10 +31,11 @@ import {
 	faChevronRight,
 	faThumbtack,
 	faTrash,
-	faBan
+	faBan,
+	faCalendar
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faBullhorn, faTrash, faBan, faHome, faCog);
+library.add(faBullhorn, faTrash, faBan, faHome, faCog, faCalendar);
 library.add(faCrow, faFileAlt, faFutbol, faPaintBrush, faMusic, faUsers);
 library.add(faTheaterMasks, faChevronLeft, faChevronRight, faThumbtack);
 library.add(fab);

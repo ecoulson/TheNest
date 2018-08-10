@@ -1,6 +1,5 @@
 .module-container {
 	border: 3px solid black;
-	border-radius: 10px;
 	margin: 25px;
 	transition: 0.5s all ease;
 	background-color: rgb(234, 234, 234);

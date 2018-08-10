@@ -58,7 +58,7 @@ const multiStyle = {
 		return {
 			...base,
 			display: "flex",
-			overflow: "scroll",
+			overflowY: "scroll",
 			height: "inherit",
 			backgroundColor: "transparent",
 			border: "none",
