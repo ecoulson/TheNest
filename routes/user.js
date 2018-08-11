@@ -13,7 +13,7 @@ router.get('/login/:role', function (req, res, next) {
 router.get('/can/:action', function(req, res, next) {
 	req.session.can(req.params.action).then((hasAccess) => {
 		return res.json({
-			succes: true,
+			success: true,
 			can: hasAccess
 		}).status(200);
 	})

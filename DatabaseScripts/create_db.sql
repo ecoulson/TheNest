@@ -5,10 +5,10 @@ CREATE TABLE "Announcements" (
 	[Grades] VARCHAR(MAX) NOT NULL,
 	[Announcement] VARCHAR(MAX) NOT NULL,
 	[Author] NVARCHAR(MAX) NOT NULL,
-	[DateCreated] DATETIME2 NULL,
+	[DateCreated] DATETIME DEFAULT CURRENT_TIMESTAMP NULL,
 	[Approved] VARCHAR(5) NULL,
 	[Pinned] VARCHAR(5) NULL,
-	[PinnedDate] DATETIME2 NULL
+	[PinnedDate] DATETIME NULL
 )
 
 CREATE TABLE "Roles" (
