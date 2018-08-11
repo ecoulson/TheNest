@@ -32,12 +32,15 @@ import {
 	faThumbtack,
 	faTrash,
 	faBan,
+	faThumbsUp,
+	faThumbsDown,
 	faCalendar
 } from '@fortawesome/free-solid-svg-icons'
+import FeedbackBar from './FeedbackBar';
 
 library.add(faBullhorn, faTrash, faBan, faHome, faCog, faCalendar);
 library.add(faCrow, faFileAlt, faFutbol, faPaintBrush, faMusic, faUsers);
-library.add(faTheaterMasks, faChevronLeft, faChevronRight, faThumbtack);
+library.add(faTheaterMasks, faChevronLeft, faChevronRight, faThumbtack, faThumbsUp, faThumbsDown);
 library.add(fab);
 
 
@@ -91,6 +94,7 @@ class App extends Component {
 						</AnimatedSwitch>
 					</div>
 					<StatusBar/>
+					<FeedbackBar/>
 				</AppProvider>
 			</Router>
 		);

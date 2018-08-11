@@ -5,6 +5,11 @@ class DataAccessLayer {
 		this.typeFactory = typeFactory;
 	}
 
+	async runQuery(query) {
+		await this.database.query(query);
+		return true;
+	}
+
 	async getRowCount(filters) {
 		let query = `SELECT COUNT(*) FROM ${this.table}`;
 		if (filters.length > 0) {

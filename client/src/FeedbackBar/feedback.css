@@ -1,0 +1,34 @@
+.feedback-bar {
+	position: fixed;
+	bottom: -3px;
+	left: 50%;
+	right: 50%;
+	margin-right: 105px;
+	height: 30px;
+	z-index: 2;
+	width: 210px;
+	color: white;
+	display: flex;
+	border: 3px solid rgb(29, 66, 18);
+	background-color: darkgreen;
+}
+
+.feedback-desc {
+	margin-left: 5px;
+	margin-right: 5px;
+	padding-top:6px;
+}
+
+.feedback-icon {
+	padding-top:6px;
+	width: 50%;
+	text-align: center;
+	transition: 0.5s transform ease;
+	background-color: darkgreen;
+}
+
+.feedback-icon:hover {
+	color: gold;
+	cursor: pointer;
+	background-color: green;
+}
