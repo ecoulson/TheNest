@@ -1,7 +1,7 @@
 .entry {
-	background-color: darkgreen;
+	background-color: #37784f;
 	padding: 15px 5px; 
-	border: 3px solid gold;
+	border: 3px solid #efdd8d;
 	margin: 5px;
 	transition: all 0.5s ease-in-out;
 	color: white;
@@ -38,7 +38,7 @@
 
 .approve:hover {
 	transform: scale(1.1);
-	color: #eebc17;
+	color: #efdd8d;
 	text-decoration: underline;
 }
 

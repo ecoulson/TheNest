@@ -20,8 +20,8 @@ export default class FeedbackBar extends Component {
 			console.log(this.showStatus);
 			this.showStatus({
 				message: "Thank You For Your Feedback!",
-				color: "gold",
-				fontColor: "darkgreen",
+				color: "#efdd8d",
+				fontColor: "#37784f",
 				duration: 3
 			})
 		})
@@ -37,8 +37,8 @@ export default class FeedbackBar extends Component {
 			console.log(this.showStatus);
 			this.showStatus({
 				message: "Thank You For Your Feedback!",
-				color: "gold",
-				fontColor: "darkgreen",
+				color: "#efdd8d",
+				fontColor: "#37784f",
 				duration: 3
 			})
 		})

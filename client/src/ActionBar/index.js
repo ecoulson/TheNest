@@ -4,6 +4,7 @@ import { AppContext } from '../AppContext';
 import './actionbar.css';
 import Owl from '../bird.png';
 import Dropdown from './ActionBarDropdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class Home extends Component {
 	constructor() {
@@ -155,6 +156,9 @@ export default class Home extends Component {
 					<hr className="action-bar-menu-item divider"/>
 					<li onClick={this.handleLogout} key={"logout"} className="action-bar-menu-item">Logout</li>
 				</Dropdown>
+				<div className="action-bar-button">
+					<FontAwesomeIcon className="menu" size="2x" icon="bars" />
+				</div>
 			</div>
 		)
 	}

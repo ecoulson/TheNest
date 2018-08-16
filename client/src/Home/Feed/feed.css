@@ -39,8 +39,8 @@
 }
 
 .react-contextmenu-item:hover {
-	background-color: darkgreen;
-	border: 3px solid gold;
+	background-color: #37784f;
+	border: 3px solid #efdd8d;
 	color: white;
 	cursor: pointer;
 }

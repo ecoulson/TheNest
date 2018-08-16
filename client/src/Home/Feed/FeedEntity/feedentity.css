@@ -17,7 +17,7 @@ TODO:
 
 .feed-entity-container:hover {
 	cursor: pointer;
-	border-left: 7px solid gold;
+	border-left: 7px solid #efdd8d;
 }
 
 .feed-entity-header {

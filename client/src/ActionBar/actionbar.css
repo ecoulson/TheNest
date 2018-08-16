@@ -1,7 +1,7 @@
 .action-bar {
 	width: 100%;
 	height: 50px;
-	background-color: darkgreen;
+	background-color: #37784f;
 	position: fixed;
 	z-index: 2;
 	display: flex;
@@ -42,7 +42,7 @@
 
 .action-bar-button:hover {
 	cursor: pointer;
-	border-bottom: 3px solid #eebc17;
+	border-bottom: 3px solid #efdd8d;
 }
 
 .action-bar-button > svg {
@@ -60,7 +60,7 @@
 	top: 50px;
 	right: 0px;
 	float: right;
-	background-color: darkgreen;
+	background-color: #37784f;
 	margin: 0px;
 	z-index: 10;
 	list-style: none;
@@ -82,14 +82,14 @@
 
 .action-bar-menu-item:hover {
 	cursor: pointer;
-	color: #eebc17;
+	color: #efdd8d;
 	transform: scale(1.01);
 }
 
 .action-bar-badge:after{
     content:attr(data-badge-count);
     position: absolute;
-    background: #eebc17;
+    background: #efdd8d;
     height:1rem;
     top:0.4rem;
     right:0.8rem;
@@ -118,8 +118,9 @@
 }
 
 .notifications:hover > svg {
-	color: darkgreen;
+	color: #37784f;
 }
+
 
 
 .application-logo {

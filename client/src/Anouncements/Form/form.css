@@ -20,7 +20,7 @@
 }
 
 .form-title:hover, .form-author:hover, .form-desc:hover {
-	border-color: #eebc17;
+	border-color: #efdd8d;
 	border-radius: none;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .form-title:focus, .form-author:focus, .form-desc:focus {
-	border-color: darkgreen;
+	border-color: #37784f;
 	border-radius: none;
 }
 
@@ -61,9 +61,9 @@
 }
 
 .form-create:hover {
-	border: 3px solid gold;
+	border: 3px solid #efdd8d;
 	cursor: pointer;
-	background-color: darkgreen;
+	background-color: #37784f;
 	color: white;
 	border-radius: none;
 }

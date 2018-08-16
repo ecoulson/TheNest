@@ -5,7 +5,8 @@
 
 .select-filter:hover .select-filter-current {
 	border-bottom: none;
-	background-color: #8ea604;
+	background-color: #efdd8d;
+	color: block;
 	cursor: pointer;
 }
 
@@ -19,6 +20,7 @@
 	text-align: center;
 	width: 115px;
 	margin: 3px;
+	margin-top:10px;
 	display: none;
 	z-index: 5;
 	position: relative;
@@ -62,6 +64,7 @@
 }
 
 .select-filter-option:hover {
-	color: white;
-	background-color: #eebc17;
+	color: rgb(250,250,250);
+	background-color: #37784f;
+	opacity: 0.8;
 }

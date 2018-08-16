@@ -88,7 +88,7 @@ export default class Home extends Component {
 		return (
 			<div>
 				<div className="home-container">
-					<Module width={"70%"} height={"90.25%"} title="Announcements">
+					<Module width={"97.5%"} height={"auto"} title="Announcements">
 						<div className="filter-container">
 							{this.renderCreateButton()}
 							<FeedFilter default="All Grades" set={this.setGrade} value={this.state.grade} type="select" by="grade"/>
@@ -97,17 +97,6 @@ export default class Home extends Component {
 						</div>
 						<Feed filters={this.state}/>
 					</Module>
-					<div className="nav-column">
-						<Module width={"95%"} height={"100px"} title="Navbar">
-							This is nav boi
-						</Module>
-						<Module width={"95%"} height={"400px"} title="Navbar2">
-							This is nav boi part 2
-						</Module>
-					</div>
-				</div>
-				<div className="calendar-container">
-					<img className="foobar" src="https://zapier.cachefly.net/storage/photos/a8219d503d5eb8f6d499f853178258f6.png"/>
 				</div>
 			</div>
 		)

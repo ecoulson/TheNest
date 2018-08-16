@@ -37,7 +37,8 @@ import {
 	faCalendar,
 	faBell,
 	faChevronDown,
-	faPlusSquare
+	faPlusSquare,
+	faBars
 } from '@fortawesome/free-solid-svg-icons'
 import FeedbackBar from './FeedbackBar';
 import AdminBar from './AdminBar';
@@ -45,7 +46,7 @@ import AdminBar from './AdminBar';
 library.add(faBullhorn, faTrash, faBan, faHome, faCog, faCalendar);
 library.add(faCrow, faFileAlt, faFutbol, faPaintBrush, faMusic, faUsers);
 library.add(faTheaterMasks, faChevronLeft, faChevronRight, faThumbtack, faThumbsUp, faThumbsDown);
-library.add(fab, faBell,faChevronDown, faPlusSquare);
+library.add(fab, faBell,faChevronDown, faPlusSquare, faBars);
 
 
 function mapStyles(styles) {

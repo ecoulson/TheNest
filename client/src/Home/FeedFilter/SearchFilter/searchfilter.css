@@ -32,9 +32,9 @@
 }
 
 .search-filter:hover {
-	border-bottom: 3px solid gold;
+	border-bottom: 3px solid #efdd8d;
 }
 
 .search-filter:focus {
-	border-bottom: 3px solid darkgreen;
+	border-bottom: 3px solid #37784f;
 }

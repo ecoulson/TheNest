@@ -10,7 +10,7 @@
 	color: white;
 	display: flex;
 	border: 3px solid rgb(29, 66, 18);
-	background-color: darkgreen;
+	background-color: #37784f;
 }
 
 .feedback-desc {
@@ -24,11 +24,11 @@
 	width: 50%;
 	text-align: center;
 	transition: 0.5s transform ease;
-	background-color: darkgreen;
+	background-color: #37784f;
 }
 
 .feedback-icon:hover {
-	color: #eebc17;
+	color: #efdd8d;
 	cursor: pointer;
 	background-color: green;
 }

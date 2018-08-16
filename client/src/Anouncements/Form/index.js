@@ -75,8 +75,8 @@ const multiStyle = {
 				backgroundColor: "rgb(234, 234, 234)",
 				borderRadius: "none",
 				"&:hover": {
-					border: "3px solid gold",
-					backgroundColor: "darkgreen",
+					border: "3px solid #efdd8d",
+					backgroundColor: "#37784f",
 					color: "white"
 				},
 				overflow: "hidden",
@@ -106,7 +106,7 @@ const multiStyle = {
 	},
 	multiValue: (base) => ({
 		...base,
-		backgroundColor: "darkgreen",
+		backgroundColor: "#37784f",
 		borderRadius: "none",
 	}),
 	singleValue: (base) => ({
@@ -147,7 +147,7 @@ const multiStyle = {
 	option: (base, state) => ({
 		...base,
 		color: state.isFocused ? "white" : "black",
-		backgroundColor: state.isFocused ? "darkgreen" : "rgb(234, 234, 234)",
+		backgroundColor: state.isFocused ? "#37784f" : "rgb(234, 234, 234)",
 		cursor: state.isFocused ? "pointer" : "default"
 	}),
 	indicatorsContainer: (base) => ({

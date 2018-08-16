@@ -1,7 +1,7 @@
 .navbar-container {
 	max-width: 0;
 	width: 180px;
-	background-color: darkgreen;
+	background-color: #37784f;
 	height: 100vh;
 	margin: 0px;
 	padding: 0px;
@@ -17,7 +17,7 @@
 	position: fixed;
 	top: 50%;
 	height: 35px;
-	background-color: darkgreen;
+	background-color: #37784f;
 	color: white;
 	transition: 0.25s ease color;
 	width: 30px;
@@ -28,7 +28,7 @@
 }
 
 .navbar-arrow:hover {
-	color: #eebc17;
+	color: #efdd8d;
 	cursor: pointer;
 }
 
