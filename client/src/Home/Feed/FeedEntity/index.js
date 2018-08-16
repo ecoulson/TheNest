@@ -32,6 +32,10 @@ export default class FeedEntity extends Component {
 				Grades:
 				{
 					this.props.entity.grades.map((grade) => {
+						return parseInt(grade, 10);
+					}).sort((a,b) => {
+						return a < b;
+					}).map((grade) => {
 						return (
 							<span key={grade} className="feed-entity-grade"> {grade}</span>
 						)

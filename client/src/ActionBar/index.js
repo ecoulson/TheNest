@@ -129,7 +129,7 @@ export default class Home extends Component {
 				<Dropdown 
 					visible={this.state.notificationsVisible}
 					name="notifications" 
-					icon={['fab', 'earlybirds']} 
+					icon="bell"
 					items={this.notifications}
 					closeOther={this.closeSettings}
 					toggle={this.toggleNotifications}

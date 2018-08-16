@@ -49,7 +49,7 @@ export default class Feed extends Component {
 	}
 
 	fetchAdmin() {
-		fetch(`/api/user/can/Announcement:Admin`, {
+		fetch(`/api/user/can/Admin`, {
 			credentials: 'same-origin'
 		}).then((res) => {
 			return res.json();
@@ -369,10 +369,7 @@ export default class Feed extends Component {
 			let feedContainer = $(".feed-container");
 			let title = $(".module-title");
 			let height = body.height() - 
-							filterContainer.height() - 
-							feedContainer.css("margin-top").replace("px", "") * 2 -
-							feedContainer.css("padding-top").replace("px", "") * 2 -
-							title.css("margin-top").replace("px", "") * 2 -
+							filterContainer.height() -
 							title.height();
 			feedContainer.height(height);
 		}
@@ -381,7 +378,7 @@ export default class Feed extends Component {
 	render() {
 		if (!this.state.hasFetchedAnnouncements) {
 			return (
-				<div data-bgcolor="white" className="loader">Loading...</div>
+				<div className="white-loader">Loading...</div>
 			);
 		} else {
 			return (
@@ -397,7 +394,7 @@ export default class Feed extends Component {
 						transitionLeaveTimeout={250}>
 						{this.renderAnnouncements()}
 						{ this.state.fetchingNextAnnouncements ? 
-							<div className="loader">Loading...</div> :
+							<div className="white-loader">Loading...</div> :
 							null
 						}
 					</ReactCSSTransitionGroup>

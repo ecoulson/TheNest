@@ -46,7 +46,8 @@ export default class Module extends Component {
 	getSize() {
 		let width = window.innerWidth;
 		return {
-			width: width > 1224 ? this.props.width : "100%",
+			width: width > 1224 ? this.props.width : window.innerWidth - 50,
+			marginRight: width > 1224 ? 0: "25px",
 			height: this.props.height,
 		}
 	}
@@ -63,6 +64,13 @@ export default class Module extends Component {
 		return id;
 	}
 
+	getBodyWidth() {
+		let width = window.innerWidth;
+		return {
+			width: width > 1224 ? "calc(100% - 25px)" : "100%"
+		}
+	}
+
 	render() {
 		if (!this.state.hasAccess) {
 			return null;
@@ -71,10 +79,7 @@ export default class Module extends Component {
 		if (this.state.hasAccess) {
 			return (
 				<div id={this.getID()} style={this.getSize()} className="module-container">
-					<div className="module-header">
-						<h1 className="module-title">{this.props.title}</h1>
-					</div>
-					<div className="module-body">
+					<div style={this.getBodyWidth()} className="module-body">
 						{this.props.children}
 					</div>
 				</div>

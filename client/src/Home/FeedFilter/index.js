@@ -8,6 +8,7 @@ export default class FeedFilter extends Component {
 		this.state = {
 			options: {
 				grade: [
+					"All Grades",
 					"Grade 12",
 					"Grade 11",
 					"Grade 10",
@@ -18,6 +19,7 @@ export default class FeedFilter extends Component {
 					"Grade 5",
 				],
 				type: [
+					"All Types",
 					"Sports",
 					"Art",
 					"Theatre",
@@ -41,12 +43,16 @@ export default class FeedFilter extends Component {
 						value={this.props.value} 
 						set={this.props.set} 
 						by={this.props.by}
-						placeholder={this.props.placeholder}
+						default={this.props.default}
 						options={this.state.options[this.props.by]}/>
 			)
 		} else {
 			return ( 
-				<SearchFilter placeholder={this.props.placeholder} value={this.props.value} set={this.props.set} by={this.props.by}/>
+				<SearchFilter 
+					placeholder={this.props.placeholder} 
+					value={this.props.value} 
+					set={this.props.set} 
+					by={this.props.by}/>
 			)
 		}
 	}

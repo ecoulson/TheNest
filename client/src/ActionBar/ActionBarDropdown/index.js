@@ -40,16 +40,12 @@ export default class ActionBarDropdown extends Component {
 			}
 			elem.style.maxHeight = 0;
 			setTimeout(() => {
-				elem.style.border = "none";
-				elem.style.borderTop = "none";
 				for (let i = 0; i < children.length; i++) {
 					children[i].style.display = "none";
 				}
 			}, timeout);
 		} else {
 			elem.style.maxHeight = "200px";
-			elem.style.border = "5px solid rgb(183, 169, 36)";
-			elem.style.borderTop = "5px solid gold";
 			for (let i = 0; i < children.length; i++) {
 				children[i].style.display = "block";
 			}

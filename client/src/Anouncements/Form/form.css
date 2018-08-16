@@ -20,10 +20,13 @@
 }
 
 .form-title:hover, .form-author:hover, .form-desc:hover {
-	border-color: gold;
+	border-color: #eebc17;
 	border-radius: none;
 }
 
+.form-title {
+	max-width: 500px;
+}
 
 .form-title:disabled, .form-desc:disabled {
 	border: 3px solid black;
@@ -38,7 +41,8 @@
 
 .form-desc {
 	border: 3px solid black;
-	height: 125px;
+	height: 30vh;
+	min-height: 200px;
 	resize: none;
 	border-radius: none;
 }
@@ -52,7 +56,7 @@
 	font-family: 'comfortaa', 'cursive';
 	font-weight: 600;
 	outline: none;
-	width: 75%;
+	width: 300px;
 	border-radius: none;
 }
 

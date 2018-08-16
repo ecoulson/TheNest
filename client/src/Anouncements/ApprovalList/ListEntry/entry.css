@@ -38,7 +38,7 @@
 
 .approve:hover {
 	transform: scale(1.1);
-	color: gold;
+	color: #eebc17;
 	text-decoration: underline;
 }
 

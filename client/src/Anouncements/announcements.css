@@ -1,24 +1,21 @@
 .announcement-container {
+	background-color: rgb(220, 220, 220);
+	/* https://www.google.com/search?q=forest+background+drawing&rlz=1C5CHFA_enUS691US691&tbm=isch&source=lnt&tbs=isz:lt,islt:4mp&sa=X&ved=0ahUKEwiNjY2dgefcAhWVIDQIHc42Bk0QpwUIIA&biw=1280&bih=703&dpr=2#imgrc=Y1zSaJZPmC2-VM: */
 	display: flex;
-	width: 100vw;
-	height: 100vh;
+	height: -webkit-calc(100% - 60px);
+	height:    -moz-calc(100% - 60px);
+	height:         calc(100% - 60px);
+	min-height: calc(100vh - 60px);
 	padding-top: 60px;
+	width:100vw;
 	flex-wrap: wrap;
-	height: -webkit-calc(100vh - 60px);
-	height:    -moz-calc(100vh - 60px);
-	height:         calc(100vh - 60px);
 }
 
 @media screen and (min-width: 768px) {
 	.announcement-container {
-		padding-left: 200px;
-		padding-top: 50px;
-		width: -webkit-calc(100vw - 200px);
-		width:    -moz-calc(100vw - 200px);
-		width:         calc(100vw - 200px);
+		flex-wrap: nowrap;
 	}
 }
-
 
 .announcement-modules-enter {
 	opacity: 0;

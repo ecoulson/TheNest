@@ -37,6 +37,7 @@ const multiStyle = {
 				border: "1px solid black",
 				backgroundColor: "gray",
 				boxShadow: "none",
+				maxWidth: "250px"
 			};
 		} else {
 			return {
@@ -50,7 +51,8 @@ const multiStyle = {
 					outline: "none",
 				},
 				boxShadow: "none",
-				cursor: "not-allowed"
+				cursor: "not-allowed",
+				maxWidth: "250px"
 			};
 		}
 	},
@@ -278,6 +280,7 @@ export default class Form extends Component {
 	render() {
 		return (
 			<div className="form">
+				<h1>Create Announcement</h1>
 				<AppContext.Consumer>
 					{context => {
 						this.showStatus = context.showStatus
@@ -288,7 +291,7 @@ export default class Form extends Component {
 				<textarea disabled={this.props.disabled} value={this.state.desc} onChange={this.handleAnnouncmentInput} placeholder="Announcement..." className="form-desc">
 				</textarea>
 				<br/>
-				<div style={{display: "flex"}}>
+				<div style={{display: "flex", justifyContent: "center"}}>
 					<Select
 						disabled={this.props.disabled}
 						styles={multiStyle}

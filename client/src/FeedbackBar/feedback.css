@@ -28,7 +28,7 @@
 }
 
 .feedback-icon:hover {
-	color: gold;
+	color: #eebc17;
 	cursor: pointer;
 	background-color: green;
 }

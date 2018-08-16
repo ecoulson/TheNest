@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
 import './selectfilter.css';
+import { FontAwesomeIcon } from '../../../../node_modules/@fortawesome/react-fontawesome';
 
 export default class SelectFilter extends Component {
 	constructor(props) {
 		super();
 		this.state = {
 			options: props.options,
-			current: props.value
+			current: props.default
 		}
 		this.handleCurrent = this.handleCurrent.bind(this);
 	}
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			current: props.value,
+			current: props.value
 		});
 	}
 
 	handleCurrent(e) {
-		this.props.set(e.target.textContent);
+		if (e.target.textContent === this.props.default) {
+			this.props.set(null);
+		} else {
+			this.props.set(e.target.textContent);
+		}
 	}
 
 	renderOptions() {
@@ -37,8 +42,13 @@ export default class SelectFilter extends Component {
 				<span className="select-filter-current">
 				{
 					this.state.current === null ?
-											this.props.placeholder :
-											this.state.current
+						(
+							<span>
+								{ this.props.default }
+								<FontAwesomeIcon className="select-dropdown-arrow" icon="chevron-down"/>
+							</span>
+						):
+						this.state.current
 				}
 				</span>
 				<div className="select-filter-options">

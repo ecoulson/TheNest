@@ -119,13 +119,13 @@ export default class Navbar extends Component {
 
 		return (
 			<div>
-				<div className="navbar-container">
+				{/* <div className="navbar-container">
 					{this.renderNavbarLayout()}
 				</div>
 				{ this.state.windowWidth < 768 ? 
 					<NavArrow toggleNavbar={this.toggleNavbar} isOpen={this.state.isOpen}/> :
 					null
-				}
+				} */}
 			</div>
 		)
 	}

@@ -34,14 +34,18 @@ import {
 	faBan,
 	faThumbsUp,
 	faThumbsDown,
-	faCalendar
+	faCalendar,
+	faBell,
+	faChevronDown,
+	faPlusSquare
 } from '@fortawesome/free-solid-svg-icons'
 import FeedbackBar from './FeedbackBar';
+import AdminBar from './AdminBar';
 
 library.add(faBullhorn, faTrash, faBan, faHome, faCog, faCalendar);
 library.add(faCrow, faFileAlt, faFutbol, faPaintBrush, faMusic, faUsers);
 library.add(faTheaterMasks, faChevronLeft, faChevronRight, faThumbtack, faThumbsUp, faThumbsDown);
-library.add(fab);
+library.add(fab, faBell,faChevronDown, faPlusSquare);
 
 
 function mapStyles(styles) {
@@ -94,7 +98,8 @@ class App extends Component {
 						</AnimatedSwitch>
 					</div>
 					<StatusBar/>
-					<FeedbackBar/>
+					<AdminBar/>
+					{/* <FeedbackBar/> */}
 				</AppProvider>
 			</Router>
 		);

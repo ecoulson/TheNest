@@ -1,12 +1,12 @@
 .action-bar {
 	width: 100%;
 	height: 50px;
-	background-color: gold;
-	border-bottom: 5px solid rgb(183, 169, 36);
+	background-color: darkgreen;
 	position: fixed;
 	z-index: 2;
 	display: flex;
 	top: 0;
+	box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.9);
 }
 
 .icon-link {
@@ -24,7 +24,7 @@
 	font-size: 28px;
 	height: 40px;
 	padding-top: 5px;
-	color: black;
+	color: white;
 	transition: all 0.5s ease;
 }
 
@@ -37,21 +37,22 @@
 	padding: 0px 7px;
 	text-align: center;
 	transition: all 0.25s ease;
+	margin-top: -3px;
 }
 
 .action-bar-button:hover {
-	background-color: rgb(183, 169, 36);
 	cursor: pointer;
+	border-bottom: 3px solid #eebc17;
 }
 
 .action-bar-button > svg {
 	padding-top: 8px;
-	color: black;
+	color: white;
 	transition: all 0.25s ease;
 }
 
 .action-bar-button:hover > svg {
-	color: darkgreen;
+	color: white;
 }
 
 .action-bar-menu {
@@ -59,11 +60,11 @@
 	top: 50px;
 	right: 0px;
 	float: right;
-	background-color: gold;
+	background-color: darkgreen;
 	margin: 0px;
 	z-index: 10;
 	list-style: none;
-	color:black;
+	color:white;
 	padding: 0px;
 	max-height: 0;
 	border: none;
@@ -81,17 +82,16 @@
 
 .action-bar-menu-item:hover {
 	cursor: pointer;
-	color: darkgreen;
+	color: #eebc17;
 	transform: scale(1.01);
-	background-color: rgb(183, 169, 36);
 }
 
 .action-bar-badge:after{
     content:attr(data-badge-count);
     position: absolute;
-    background: darkgreen;
+    background: #eebc17;
     height:1rem;
-    top:0rem;
+    top:0.4rem;
     right:0.8rem;
     width:1rem;
     text-align: center;
@@ -110,9 +110,6 @@
 	transition: all 0.25s ease;
 }
 
-.notifications:hover {
-	background-color: rgb(183, 169, 36);
-}
 
 .notifications > svg {
 	color: black;
@@ -135,7 +132,7 @@
 }
 
 .action-bar:hover .application-logo {
-	color: darkgreen;
+	color: white;
 } 
 
 .action-bar:hover .application-name {

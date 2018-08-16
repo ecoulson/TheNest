@@ -163,6 +163,7 @@ export default class ApprovalList extends Component {
 		} else {
 			return (
 				<div className="entry-list">
+					<h1 className="entry-list-title">Approve Announcements</h1>
 					<AppContext.Consumer>
 						{context => {
 							this.showStatus = context.showStatus;

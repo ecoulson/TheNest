@@ -2,7 +2,7 @@ const roles = {
 	"rbac": {
 		"admin": {
 			"can": [
-				"Announcement:Admin",
+				"Admin",
 				"Announcement:Delete",
 				"Announcement:Update"
 			],

@@ -61,10 +61,10 @@ export default class Anouncements extends Component {
 					transitionName="announcement-modules" 
 					transitionEnterTimeout={250}
 					transitionLeaveTimeout={250}>
-					<Module access="Announcement:Create" title="Create Announcement" width={"40%"} height={"auto"}>
+					<Module access="Announcement:Create" title="Create Announcement" width={"100%"} height={"auto"}>
 						<Form disabled={this.state.formDisabled} getUnapproved={this.getUnapprovedAnnouncements}/>
 					</Module>
-					<Module access="Announcement:Admin" title="To Approve" width={"40%"} height={500}>
+					<Module access="Admin" title="To Approve" width={"100%"} height={"auto"}>
 						<ApprovalList fetched={this.state.fetchedUnapproved} unapproved={this.state.unapproved}/>
 					</Module>
 				</ReactCSSTransitionGroup>

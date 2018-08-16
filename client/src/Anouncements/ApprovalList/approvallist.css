@@ -5,6 +5,10 @@
 	max-height: 415px;
 }
 
+.entry-list-title {
+	text-align: center;
+}
+
 .approval-enter {
 	width: 0px;
 }

@@ -15,7 +15,7 @@ CREATE TABLE "Roles" (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Role] VARCHAR(100) NOT NULL,
 	[Inherits] VARCHAR(100) NULL,
-	[Announcement:Admin] BIT NOT NULL,
+	[Admin] BIT NOT NULL,
 	[Announcement:View] BIT NOT NULL,
 	[Announcement:Create] BIT NOT NULL,
 	[Announcement:Update] BIT NOT NULL,
