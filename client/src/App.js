@@ -6,7 +6,6 @@ import {
 import Home from './Home';
 import Anouncements from './Anouncements';
 import ActiveAnnouncement from './ActiveAnnouncement';
-import Navbar from './Navbar';
 import ActionBar from './ActionBar';
 import StatusBar from './StatusBar';
 import NotFound from './NotFound';
@@ -85,7 +84,6 @@ class App extends Component {
 		return (
 			<Router>
 				<AppProvider>
-					<Navbar></Navbar>
 					<ActionBar/>
 					<div className="app-container">
 						<AnimatedSwitch
@@ -103,7 +101,7 @@ class App extends Component {
 					</div>
 					<StatusBar/>
 					<AdminBar/>
-					{/* <FeedbackBar/> */}
+					{process.env.NODE_ENV == "production" ? <FeedbackBar/> : <FeedbackBar/>}
 				</AppProvider>
 			</Router>
 		);

@@ -48,10 +48,6 @@ export default class ListEntry extends Component {
 	}
 
 	handleApproval() {
-		this.props.addUndoAction({
-			type: "approval",
-			entry: this.state.entry
-		});
 		this.props.removeEntry(this.state.entry.id);
 		this.hideAnnouncement();
 		this.requestApproval();
@@ -85,8 +81,8 @@ export default class ListEntry extends Component {
 			return res.json();
 		}).then(() => {
 			this.showStatus({
-				message: "Announcement Approved. Press Z to undo",
-				color: "green",
+				message: "Announcement Approved",
+				color: "#37784f",
 				fontColor: "white",
 				duration: 3
 			});
@@ -94,10 +90,6 @@ export default class ListEntry extends Component {
 	}
 
 	handleRejection() {
-		this.props.addUndoAction({
-			type: "rejection",
-			entry: this.state.entry
-		});
 		this.props.removeEntry(this.state.entry.id);
 		this.hideAnnouncement();
 		this.requestRejection();
@@ -116,7 +108,7 @@ export default class ListEntry extends Component {
 			return res.json();
 		}).then(() => {
 			this.showStatus({
-				message: "Rejected Announcement. Press Z to undo",
+				message: "Rejected Announcement",
 				color: "red",
 				fontColor: "black",
 				duration: 3

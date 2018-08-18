@@ -23,6 +23,7 @@ const options = {
 		{value: "band", label: "Band"},
 		{value: "general", label: "General"},
 		{value: "club", label: "Club"},
+		{value: "asb", label:"ASB"}
 	]
 };
 
@@ -250,7 +251,7 @@ export default class Form extends Component {
 		if (success) {
 			this.showStatus({
 				message: "Successfully Submitted Announcement For Approval",
-				color: "green",
+				color: "#37784f",
 				fontColor: "white",
 				duration: 3
 			});
