@@ -52,15 +52,19 @@ export default class Home extends Component {
 	}
 
 	setGrade(grade) {
-		this.setState({
-			grade: grade
-		});
+		if (this.state.grade !== grade) {
+			this.setState({
+				grade: grade
+			});
+		}
 	}
 
 	setType(type) {
-		this.setState({
-			type: type
-		});
+		if (this.state.type !== type) {
+			this.setState({
+				type: type
+			});
+		}
 	}
 
 	clear() {
@@ -75,7 +79,6 @@ export default class Home extends Component {
 		if (!this.state.canCreate) {
 			return null;
 		}
-		console.log("here");
 		return (
 			<Link className="create-announcement" to="/announcements">
 				Create 
@@ -88,7 +91,7 @@ export default class Home extends Component {
 		return (
 			<div>
 				<div className="home-container">
-					<Module width={"97.5%"} height={"auto"} title="Announcements">
+					<Module background="transparent" width={"97.5%"} height={"auto"} title="Announcements">
 						<div className="filter-container">
 							{this.renderCreateButton()}
 							<FeedFilter default="All Grades" set={this.setGrade} value={this.state.grade} type="select" by="grade"/>

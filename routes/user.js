@@ -1,14 +1,82 @@
 var express = require('express');
 var router = express.Router();
+var fetch = require('node-fetch');
+var Layers = require('../DataAccessLayer/Layers');
+var userLayer = Layers.userLayer;
+var keyVault = Layers.keyVault;
 
-router.get('/login/:role', function (req, res, next) {
-    req.session.login(req.params.role).then(() => {
-		res.json({
-			role: req.params.role,
-			succes: true
-		}).status(200);;
-	})
+const tokenUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+
+router.get('/login/', async function(req, res, next) {
+	let loginUrl = await userLayer.getLoginUrl(keyVault);
+	return res.json({
+		location: loginUrl
+	}).status(302);
 });
+
+router.get('/login/callback/:code', async function(req, res, next) {
+	let token = await getAccessToken(req);
+	let user = await getUserData(res, token);
+	if (!user.userPrincipalName.endsWith("@overlake.org")) {
+		return res.send({
+			succes: false,
+		}).status(302);
+	}
+	user = await userLayer.getOrCreateUser(user);
+	await loginRole(req, user);
+	res.send({
+		success: true,
+	}).status(302);
+});
+
+async function loginRole(req, user) {
+	return new Promise((resolve) => {
+		req.session.login(user.role.toLowerCase()).then(() => {
+			return resolve();
+		})
+	})
+}
+
+async function getAccessToken(req) {
+	return new Promise(async (resolve) => {
+		fetch(tokenUrl, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			body: await getToken(req.params.code)
+		}).then((res) => {
+			return res.json()
+		}).then((json) => {
+			return resolve(json.access_token);
+		});
+	})
+}
+
+async function getToken(code) {
+	let tokenBody = await userLayer.getTokenBody(code, keyVault);
+	let string = [];
+	for (let key in tokenBody) {
+		string.push(`${encodeURIComponent(key)}=${encodeURIComponent(tokenBody[key])}`);
+	}
+	return string.join("&");
+}
+
+async function getUserData(originalRes, access_token) {
+	return new Promise((resolve) => {
+		originalRes.cookie('userToken', access_token, { maxAge: 900000, httpOnly: true });
+		fetch(`https://graph.microsoft.com/v1.0/me`, {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${access_token}`
+			}
+		}).then((res) => {
+			return res.json();
+		}).then((json) => {
+			return resolve(json);
+		});
+	})
+}
 
 router.get('/can/:action', function(req, res, next) {
 	req.session.can(req.params.action).then((hasAccess) => {

@@ -4,7 +4,6 @@ import { ContextMenu, MenuItem } from "react-contextmenu";
 import FeedEntity from './FeedEntity';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AppContext } from '../../AppContext';
-import $ from 'jquery';
 import './feed.css';
 
 const SCROLL_UPDATE_OFFSET = 50;
@@ -30,7 +29,6 @@ export default class Feed extends Component {
 		this.getPinAction = this.getPinAction.bind(this);
 		this.handleDeleteAnnouncement = this.handleDeleteAnnouncement.bind(this);
 		this.handleFeedScroll = this.handleFeedScroll.bind(this);
-		this.resizeFeed = this.resizeFeed.bind(this);
 		this.fetchAdmin = this.fetchAdmin.bind(this);
 	}
 
@@ -72,13 +70,11 @@ export default class Feed extends Component {
 			this.fetchAnnouncements();
 		});
 		this.fetchPinned();
-		window.addEventListener("resize", this.resizeFeed);
 	}
 
 	componentWillUnmount() {
 		let element = document.getElementsByClassName('feed-container')[0];
 		element.removeEventListener("scroll", this.handleFeedScroll);
-		window.removeEventListener("resize", this.resizeFeed);
 	}
 
 	fetchAnnouncementCount(next) {
@@ -357,24 +353,6 @@ export default class Feed extends Component {
 		});
 	}
 
-
-	componentDidUpdate() {
-		this.resizeFeed();
-	}
-
-	resizeFeed() {
-		if (this.state.hasFetchedAnnouncements) {
-			let body = $("#announcements");
-			let filterContainer = $(".filter-container");
-			let feedContainer = $(".feed-container");
-			let title = $(".module-title");
-			let height = body.height() - 
-							filterContainer.height() -
-							title.height();
-			feedContainer.height(height);
-		}
-	}
-
 	render() {
 		if (!this.state.hasFetchedAnnouncements) {
 			return (
@@ -382,38 +360,40 @@ export default class Feed extends Component {
 			);
 		} else {
 			return (
-				<div className="feed-container">
-					<AppContext.Consumer>
-						{context => {
-							this.showStatus = context.showStatus;
-						}}
-					</AppContext.Consumer>
-					<ReactCSSTransitionGroup
-						transitionName="feather"
-						transitionEnterTimeout={250}
-						transitionLeaveTimeout={250}>
-						{this.renderAnnouncements()}
-						{ this.state.fetchingNextAnnouncements ? 
-							<div className="white-loader">Loading...</div> :
-							null
+				<div className="feed-scroll-container">
+					<div className="feed-container">
+						<AppContext.Consumer>
+							{context => {
+								this.showStatus = context.showStatus;
+							}}
+						</AppContext.Consumer>
+						<ReactCSSTransitionGroup
+							transitionName="feather"
+							transitionEnterTimeout={250}
+							transitionLeaveTimeout={250}>
+							{this.renderAnnouncements()}
+							{ this.state.fetchingNextAnnouncements ? 
+								<div className="white-loader">Loading...</div> :
+								null
+							}
+						</ReactCSSTransitionGroup>
+						{!this.state.isAdmin ? null : 
+							<ContextMenu onShow={this.getPinAction} collect={props => props} id={`contextmenu-${this.props.feedSource ? this.props.feedSource : "announcements"}`}>
+								<MenuItem onClick={this.handlePinnedAnnouncement}>
+									<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="thumbtack"/>
+									{this.state.pinAction} Announcement
+								</MenuItem>
+								<MenuItem  onClick={this.handleRejectedAnnouncement}>
+									<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="ban"/>
+									Unapprove Announcement
+								</MenuItem>
+								<MenuItem  onClick={this.handleDeleteAnnouncement}>
+									<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="trash"/>
+									Delete Announcement
+								</MenuItem>
+							</ContextMenu>
 						}
-					</ReactCSSTransitionGroup>
-					{!this.state.isAdmin ? null : 
-						<ContextMenu onShow={this.getPinAction} collect={props => props} id={`contextmenu-${this.props.feedSource ? this.props.feedSource : "announcements"}`}>
-							<MenuItem onClick={this.handlePinnedAnnouncement}>
-								<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="thumbtack"/>
-								{this.state.pinAction} Announcement
-							</MenuItem>
-							<MenuItem  onClick={this.handleRejectedAnnouncement}>
-								<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="ban"/>
-								Unapprove Announcement
-							</MenuItem>
-							<MenuItem  onClick={this.handleDeleteAnnouncement}>
-								<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="trash"/>
-								Delete Announcement
-							</MenuItem>
-						</ContextMenu>
-					}
+					</div>
 				</div>
 			)
 		}

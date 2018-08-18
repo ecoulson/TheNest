@@ -38,15 +38,17 @@ import {
 	faBell,
 	faChevronDown,
 	faPlusSquare,
-	faBars
+	faBars,
+	faMonument
 } from '@fortawesome/free-solid-svg-icons'
 import FeedbackBar from './FeedbackBar';
 import AdminBar from './AdminBar';
+import Login from './Login';
 
 library.add(faBullhorn, faTrash, faBan, faHome, faCog, faCalendar);
 library.add(faCrow, faFileAlt, faFutbol, faPaintBrush, faMusic, faUsers);
 library.add(faTheaterMasks, faChevronLeft, faChevronRight, faThumbtack, faThumbsUp, faThumbsDown);
-library.add(fab, faBell,faChevronDown, faPlusSquare, faBars);
+library.add(fab, faBell,faChevronDown, faPlusSquare, faBars, faMonument);
 
 
 function mapStyles(styles) {
@@ -95,6 +97,7 @@ class App extends Component {
 							<Route exact path="/" component={Home}/>
 							<Route exact path="/announcements" component={Anouncements}/>
 							<Route path="/announcements/:id" component={ActiveAnnouncement}/>
+							<Route path="/login" component={Login}/>
 							<Route component={NotFound} />
 						</AnimatedSwitch>
 					</div>

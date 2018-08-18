@@ -71,6 +71,19 @@ export default class Module extends Component {
 		}
 	}
 
+	getBackground() {
+		return {
+			backgroundColor: this.props.background ? this.props.background : "rgb(250,250,250)"
+		};
+	}
+
+	getStyle() {
+		return {
+			...this.getSize(),
+			...this.getBackground(),
+		}
+	}
+
 	render() {
 		if (!this.state.hasAccess) {
 			return null;
@@ -78,7 +91,7 @@ export default class Module extends Component {
 
 		if (this.state.hasAccess) {
 			return (
-				<div id={this.getID()} style={this.getSize()} className="module-container">
+				<div id={this.getID()} style={this.getStyle()} className="module-container">
 					<div style={this.getBodyWidth()} className="module-body">
 						{this.props.children}
 					</div>

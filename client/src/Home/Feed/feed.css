@@ -1,8 +1,12 @@
+.feed-scroll-container {
+	height: 87%;
+	overflow-y: scroll;
+	background-color: rgb(220, 220, 220);
+}
+
 .feed-container {
 	width: auto;
-	overflow-y: scroll;
-	height: 75vh;
-	background-color: rgb(220, 220, 220);
+	height: auto;
 }
 
 .feather-info {

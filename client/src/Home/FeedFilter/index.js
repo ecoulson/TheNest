@@ -20,12 +20,13 @@ export default class FeedFilter extends Component {
 				],
 				type: [
 					"All Types",
-					"Sports",
 					"Art",
-					"Theatre",
+					"ASB",
 					"Band",
+					"Clubs",
 					"General",
-					"Clubs"
+					"Sports",
+					"Theatre",
 				]
 			},
 		}

@@ -15,7 +15,6 @@ export default class Home extends Component {
 			settingsVisible: false
 		}
 		this.checkRole = this.checkRole.bind(this);
-		this.handleAdminLogin = this.handleAdminLogin.bind(this);
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
 		this.toggleSettings = this.toggleSettings.bind(this);
@@ -23,10 +22,6 @@ export default class Home extends Component {
 		this.closeNotifications = this.closeNotifications.bind(this);
 		this.closeSettings = this.closeSettings.bind(this);
 		this.settingsItems = [
-			{
-				name: "Admin Login",
-				action: this.handleAdminLogin
-			},
 			{
 				name: "User Login",
 				action: this.handleLogin
@@ -38,23 +33,13 @@ export default class Home extends Component {
 		]
 	}
 
-	handleAdminLogin() {
-		fetch('/api/user/login/admin', {
-			credentials: 'same-origin'
-		}).then((res) => {
-			return res.json();
-		}).then((json) => {
-			window.location.reload();
-		})
-	}
-
 	handleLogin() {
-		fetch('/api/user/login/user', {
+		fetch('/api/user/login/', {
 			credentials: 'same-origin'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
-			window.location.reload();
+			window.location = json.location;
 		})
 	}
 
@@ -149,8 +134,7 @@ export default class Home extends Component {
 					toggle={this.toggleSettings}
 					menuWidth={150}
 					>
-					<li onClick={this.handleAdminLogin} key={"admin"} className="action-bar-menu-item">Admin Login</li>
-					<li onClick={this.handleLogin} key={"user"} className="action-bar-menu-item">User Login</li>
+					<li onClick={this.handleLogin} key={"user"} className="action-bar-menu-item">Login</li>
 					<hr className="action-bar-menu-item divider"/>
 					<li onClick={this.checkRole} key={"check"} className="action-bar-menu-item">Check Role</li>
 					<hr className="action-bar-menu-item divider"/>

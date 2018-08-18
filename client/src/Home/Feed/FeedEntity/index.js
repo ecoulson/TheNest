@@ -12,6 +12,7 @@ const icons = {
 	"band": "music",
 	"general": "bullhorn",
 	"club": "users",
+	"asb": "monument"
 }
 
 export default class FeedEntity extends Component {
