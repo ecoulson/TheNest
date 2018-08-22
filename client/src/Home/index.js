@@ -30,7 +30,6 @@ export default class Home extends Component {
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
-			console.log(json);
 			if (json.success) {
 				this.setState({
 					canCreate: json.can,

@@ -29,7 +29,9 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/api', indexRouter);
 
 app.use(function(req, res, next) {
-  next(createError(404));
+  console.log(`Not Found @${req.url}\n${createError(404)}`);
+  res.status(404);
+  res.send(`Not Found @${req.url}\n${createError(404)}`);
 });
 
 app.use(function(err, req, res, next) {

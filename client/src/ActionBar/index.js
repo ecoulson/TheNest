@@ -5,6 +5,7 @@ import './actionbar.css';
 import Owl from '../bird.png';
 import Dropdown from './ActionBarDropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Navigation from './Navigation';
 
 export default class Home extends Component {
 	constructor() {
@@ -12,25 +13,17 @@ export default class Home extends Component {
 		this.state = {
 			notifications: ["Test Notification"],
 			notificationsVisible: false,
-			settingsVisible: false
+			settingsVisible: false,
+			menuVisible: false,
 		}
-		this.checkRole = this.checkRole.bind(this);
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
 		this.toggleSettings = this.toggleSettings.bind(this);
 		this.toggleNotifications = this.toggleNotifications.bind(this);
 		this.closeNotifications = this.closeNotifications.bind(this);
 		this.closeSettings = this.closeSettings.bind(this);
-		this.settingsItems = [
-			{
-				name: "User Login",
-				action: this.handleLogin
-			},
-			{
-				name: "Logout",
-				action: this.handleLogout
-			}
-		]
+		this.closeMenu = this.closeMenu.bind(this);
+		this.toggleMenu = this.toggleMenu.bind(this);
 	}
 
 	handleLogin() {
@@ -50,21 +43,6 @@ export default class Home extends Component {
 			return res.json();
 		}).then((json) => {
 			window.location.reload();
-		})
-	}
-
-	checkRole() {
-		fetch('/api/user/', {
-			credentials: 'same-origin'
-		}).then((res) => {
-			return res.json();
-		}).then((json) => {
-			this.showStatus({
-				message: `Current Role: ${json.role}`,
-				color: "gray",
-				fontColor: "black",
-				duration: 3
-			})
 		})
 	}
 
@@ -89,6 +67,18 @@ export default class Home extends Component {
 	closeSettings() {
 		this.setState({
 			settingsVisible: false
+		})
+	}
+
+	toggleMenu() {
+		this.setState({
+			menuVisible: !this.state.menuVisible
+		});
+	}
+
+	closeMenu() {
+		this.setState({
+			menuVisible: false,
 		})
 	}
 
@@ -117,7 +107,7 @@ export default class Home extends Component {
 					name="notifications" 
 					icon="bell"
 					items={this.notifications}
-					closeOther={this.closeSettings}
+					closeOther={[this.closeSettings, this.closeMenu]}
 					toggle={this.toggleNotifications}
 					menuWidth={300}
 					badge={true}
@@ -129,20 +119,26 @@ export default class Home extends Component {
 					visible={this.state.settingsVisible}
 					name="settings" 
 					icon="cog" 
-					items={this.settingsItems}
-					closeOther={this.closeNotifications}
+					closeOther={[this.closeNotifications, this.closeMenu]}
 					toggle={this.toggleSettings}
 					menuWidth={150}
 					>
 					<li onClick={this.handleLogin} key={"user"} className="action-bar-menu-item">Login</li>
 					<hr className="action-bar-menu-item divider"/>
-					<li onClick={this.checkRole} key={"check"} className="action-bar-menu-item">Check Role</li>
-					<hr className="action-bar-menu-item divider"/>
 					<li onClick={this.handleLogout} key={"logout"} className="action-bar-menu-item">Logout</li>
 				</Dropdown>
-				<div className="action-bar-button">
-					<FontAwesomeIcon className="menu" size="2x" icon="bars" />
-				</div>
+				<Dropdown
+					visible={this.state.menuVisible}
+					name="menu" 
+					icon="bars" 
+					closeOther={[this.closeNotifications, this.closeSettings]}
+					toggle={this.toggleMenu}
+					menuWidth={300}
+					>
+					<h3 className="action-bar-header action-bar-menu-item">Navigation</h3>
+					<Navigation></Navigation>
+					<h3 className=" action-bar-header action-bar-menu-item">Feed</h3>
+				</Dropdown>
 			</div>
 		)
 	}

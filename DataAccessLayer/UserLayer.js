@@ -44,7 +44,6 @@ class UserLayer extends DataAccessLayer {
 			let uri = keyVault.getVaultUri();
 			let clientId = await client.getSecret(uri, AppClientIdKey, AppClientIdVersion);
 			let clientSecret = await client.getSecret(uri, AppClientSecretKey, AppClientSecretVersion);
-			console.log(clientSecret.value);
 			return resolve({
 				client_id: clientId.value,
 				client_secret: clientSecret.value,

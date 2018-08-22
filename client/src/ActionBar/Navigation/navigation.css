@@ -1,0 +1,17 @@
+.action-bar-navigation:hover {
+	transform: none;
+}
+
+.action-bar-navlink {
+	display: block;
+	text-align: left;
+	margin-left: 10px;
+	padding: 3px;
+	color:white;
+	text-decoration: none;
+	transition: 0.15s ease;
+}
+
+.action-bar-navlink:hover {
+	color: #efdd8d;
+}

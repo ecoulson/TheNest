@@ -17,7 +17,6 @@ export default class FeedbackBar extends Component {
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
-			console.log(this.showStatus);
 			this.showStatus({
 				message: "Thank You For Your Feedback!",
 				color: "#efdd8d",
@@ -34,7 +33,6 @@ export default class FeedbackBar extends Component {
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
-			console.log(this.showStatus);
 			this.showStatus({
 				message: "Thank You For Your Feedback!",
 				color: "#efdd8d",

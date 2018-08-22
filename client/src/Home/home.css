@@ -86,10 +86,11 @@
 	margin-right: auto;
 	margin-left: 25px;
 	transition: all 0.25s ease;
+	border: 3px solid transparent;
 }
 
 .create-announcement:hover {
-	
+	border: 3px solid black;	
 }
 
 .create-announcement svg {

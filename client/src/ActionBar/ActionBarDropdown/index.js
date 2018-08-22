@@ -26,7 +26,9 @@ export default class ActionBarDropdown extends Component {
 	}
 
 	toggle() {
-		this.closeOther();
+		this.closeOther.forEach((close) => {
+			close();
+		});
 		this.handleAnimation(this.state.visible, 250);
 		this.parentToggle();
 	}
@@ -65,7 +67,6 @@ export default class ActionBarDropdown extends Component {
 				<div onClick={this.toggle} data-badge-count={badgeCount} className={`action-bar-button ${badgeClass}`}>
 					<FontAwesomeIcon 
 						data-badge-count={badgeCount}
-						
 						size="2x" 
 						icon={this.props.icon} />
 				</div>
