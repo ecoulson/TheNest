@@ -28,6 +28,10 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use('/api', indexRouter);
 
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+})
+
 app.use(function(req, res, next) {
   console.log(`Not Found @${req.url}\n${createError(404)}`);
   res.status(404);
