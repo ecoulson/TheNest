@@ -29,14 +29,6 @@ router.get('/login/callback/:code', async function(req, res, next) {
 	}).status(302);
 });
 
-async function loginRole(req, user) {
-	return new Promise((resolve) => {
-		req.session.login(user.role.toLowerCase()).then(() => {
-			return resolve();
-		})
-	})
-}
-
 async function getAccessToken(req) {
 	return new Promise(async (resolve) => {
 		fetch(tokenUrl, {
@@ -59,7 +51,6 @@ async function getToken(code) {
 	for (let key in tokenBody) {
 		string.push(`${encodeURIComponent(key)}=${encodeURIComponent(tokenBody[key])}`);
 	}
-	console.log(string.join("&"));
 	return string.join("&");
 }
 
@@ -76,6 +67,14 @@ async function getUserData(originalRes, access_token) {
 		}).then((json) => {
 			return resolve(json);
 		});
+	})
+}
+
+async function loginRole(req, user) {
+	return new Promise((resolve) => {
+		req.session.login(user.role.toLowerCase()).then(() => {
+			return resolve();
+		})
 	})
 }
 
