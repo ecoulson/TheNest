@@ -11,6 +11,7 @@
     "node": "8.11.1",
     "npm": "5.6.0"
   },
+  "homepage": "https://overlakeasbwebapp.azurewebsites.net",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
     "@fortawesome/free-brands-svg-icons": "^5.1.0-11",
