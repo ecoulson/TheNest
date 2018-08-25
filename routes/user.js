@@ -59,6 +59,7 @@ async function getToken(code) {
 	for (let key in tokenBody) {
 		string.push(`${encodeURIComponent(key)}=${encodeURIComponent(tokenBody[key])}`);
 	}
+	console.log(string.join("&"));
 	return string.join("&");
 }
 

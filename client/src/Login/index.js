@@ -10,7 +10,7 @@ export default class Login extends Component {
 		}).then((res) => {
 			return res.json();
 		}).then(() => {
-			document.location.href="/";
+			document.location.ur
 		});
 	}
 
