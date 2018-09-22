@@ -4,14 +4,12 @@ var fetch = require('node-fetch');
 var Layers = require('../DataAccessLayer/Layers');
 var userLayer = Layers.userLayer;
 var keyVault = Layers.keyVault;
-const User = require('../models/user');
 
 const tokenUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
 
-router.get('/login/', async function(req, res, next) {
-	let loginUrl = await userLayer.getLoginUrl(keyVault);
+router.get('/login/', function(req, res, next) {
 	return res.json({
-		location: loginUrl
+		location: userLayer.getLoginUrl()
 	}).status(302);
 });
 
@@ -23,13 +21,6 @@ router.get('/login/callback/:code', async function(req, res, next) {
 			succes: false,
 		}).status(302);
 	}
-	User.create({
-		firstName: "test",
-		lastName: "test",
-		displayName: "test",
-		email: "test@test.com",
-		role: "user"
-	})
 	user = await userLayer.getOrCreateUser(user);
 	await loginRole(req, user);
 	res.send({
@@ -55,7 +46,6 @@ async function getAccessToken(req) {
 
 async function getToken(code) {
 	let tokenBody = await userLayer.getTokenBody(code, keyVault);
-	console.log(tokenBody);
 	let string = [];
 	for (let key in tokenBody) {
 		string.push(`${encodeURIComponent(key)}=${encodeURIComponent(tokenBody[key])}`);
@@ -80,15 +70,10 @@ async function getUserData(originalRes, access_token) {
 }
 
 async function loginRole(req, user) {
-	return new Promise((resolve) => {
-		req.session.login(user.role.toLowerCase()).then(() => {
-			return resolve();
-		})
-	})
+	await req.session.login(user.role.toLowerCase());
 }
 
 router.get('/can/:action', function(req, res, next) {
-	console.log("here");
 	req.session.can(req.params.action).then((hasAccess) => {
 		return res.json({
 			success: true,

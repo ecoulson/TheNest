@@ -4,7 +4,8 @@ const UserSchema = new mongoose.Schema({
 	lastName: String,
 	displayName: String,
 	email: String,
-	role: String
+	role: String,
+	microsoftID: String
 });
 
 module.exports = mongoose.model('User', UserSchema);

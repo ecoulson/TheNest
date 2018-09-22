@@ -11,9 +11,7 @@ var indexRouter = require('./routes/index');
 require('dotenv').config();
 
 var app = express();
-app.use(async() => {
-	await initialiazeDatabase();
-});
+initialiazeDatabase();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -1,57 +1,47 @@
-const AppClientIdKey = "AppClientId";
-const AppClientIdVersion = "ba35c40241a9494e918e638f8d5ff3f8";
+const User = require('../models/user');
 
-const AppClientSecretKey = "AppClientSecret";
-const AppClientSecretVersion = "62f3e8ddd24c4af0a97e562d5bf137f4";
-
-const DataAccessLayer = require('./DataAccessLayer');
-const UserFactory = require('./UserFactory');
-
-class UserLayer extends DataAccessLayer {
-	constructor(database) {
-		super("Users", database, new UserFactory());
-	}
-
-	async getOrCreateUser(user) {
-		let users = await this.selectAllEntries([
-			{ key: "id", value: user.id, comparator: "EQ" }
-		]);
-		if (users.length == 0) {
-			return this.createEntry(userToEntry(user), true);
-		} else {
-			return users[0];
-		}
-	}
-
-	async getLoginUrl(keyVault) {
-		return new Promise(async (resolve) => {
-			let client = keyVault.getClient();
-			let uri = keyVault.getVaultUri();
-			let clientId = await client.getSecret(uri, AppClientIdKey, AppClientIdVersion);
-			let loginUrl = `
-			https://login.microsoftonline.com/common/oauth2/v2.0/authorize
-			?client_id=${clientId.value}
-			&redirect_uri=${encodeURI(getRedirectUrl())}
-			&response_type=code
-			&scope=User.ReadBasic.All`;
-			return resolve(loginUrl);
-		})
-	}
-
-	async getTokenBody(code, keyVault) {
-		return new Promise(async (resolve) => {
-			let client = keyVault.getClient();
-			let uri = keyVault.getVaultUri();
-			let clientId = await client.getSecret(uri, AppClientIdKey, AppClientIdVersion);
-			let clientSecret = await client.getSecret(uri, AppClientSecretKey, AppClientSecretVersion);
-			return resolve({
-				client_id: clientId.value,
-				client_secret: clientSecret.value,
-				code: code,
-				redirect_uri: getRedirectUrl(),
-				grant_type: "authorization_code"
+class UserLayer {
+	async getOrCreateUser(userData) {
+		return new Promise((resolve, reject) => {
+			User.findOne({ microsoftID: userData.id }, async (error, user) => {
+				if (error)
+					return reject(error);
+				if (!user) {
+					let newUser = this.createUser(userData);
+					await newUser.save(function (err) {
+						if (err)
+							return reject(error);
+					});
+					return resolve(this.createUser(userData));
+				}
+				return resolve(user);
 			});
 		})
+	}
+
+	createUser(userData) {
+		return new User({
+			displayName: userData.displayName,
+			firstName: userData.givenName,
+			lastName: userData.surname,
+			role: "user",
+			email: userData.mail,
+			microsoftID: userData.id
+		})
+	}
+
+	getLoginUrl() {
+		return process.env.MICROSOFT_LOGIN_URL;
+	}
+
+	getTokenBody(code) {
+		return {
+			client_id: process.env.MICROSOFT_CLIENT_ID,
+			client_secret: process.env.MICROSOFT_SECRET,
+			code: code,
+			redirect_uri: getRedirectUrl(),
+			grant_type: "authorization_code"
+		}
 	}
 }
 
@@ -60,17 +50,6 @@ function getRedirectUrl() {
 		return process.env.REDIRECT_URL;
 	} else {
 		return "http://localhost:3000/login"
-	}
-}
-
-function userToEntry(data) {
-	return {
-		DisplayName: data.displayName,
-		Id: data.id,
-		FirstName: data.givenName,
-		LastName: data.surname,
-		Email: data.mail,
-		UserRole: "user"
 	}
 }
 

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-module.exports = async function initializeDatabase() {
+async function initializeDatabase() {
 	return new Promise((resolve, reject) => {
 		mongoose.connect(process.env.MONGO_CONNECTION_STRING, { useNewUrlParser: true });
 		const database = mongoose.connection;
@@ -10,4 +10,8 @@ module.exports = async function initializeDatabase() {
 			return resolve();
 		});
 	})
+}
+
+module.exports = async function() {
+	await initializeDatabase();
 }

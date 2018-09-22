@@ -9,8 +9,9 @@ export default class Login extends Component {
 			method:"GET"
 		}).then((res) => {
 			return res.json();
-		}).then(() => {
-			document.location.ur
+		}).then(() => {			
+			window.location.href = "/";
+			console.log(window.location);
 		});
 	}
 
