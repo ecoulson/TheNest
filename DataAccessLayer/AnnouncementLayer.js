@@ -1,5 +1,6 @@
 const DataAccessLayer = require('./DataAccessLayer');
 const AnnouncementFactory = require('./AnnouncementFactory');
+const Announcement = require('../models/announcement');
 const moment = require('moment');
 const LOAD_LIMIT = 20;
 
@@ -11,6 +12,11 @@ class AnnouncementLayer extends DataAccessLayer {
 	}
 
 	async getAnnouncementCount(filters) {
+		console.log(filters);
+		// return await Announcement.count({
+		// 	approved: true,
+		// 	pinned: false
+		// })
 		return await this.getRowCount([
 			...filters,
 			{ key: "Approved", value: true, comparator: "EQ" },
