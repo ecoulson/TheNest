@@ -24,6 +24,7 @@ export default class Home extends Component {
 	}
 
 	componentWillMount() {
+		console.log('here');
 		fetch(`/api/user/can/Announcement:Create`, {
 			credentials: "same-origin",
 			method: "GET",
