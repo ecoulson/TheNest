@@ -8,12 +8,12 @@ const session = require('express-session');
 const eSession = require('easy-session');
 const initialiazeDatabase = require('./DataAccessLayer/MongoDatabase');
 var indexRouter = require('./routes/index');
-
+require('dotenv').config();
 
 var app = express();
 app.use(async() => {
-	initialiazeDatabase();
-})
+	await initialiazeDatabase();
+});
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

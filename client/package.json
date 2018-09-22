@@ -1,7 +1,6 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "react-scripts": "1.1.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
@@ -48,5 +47,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": {
+    "/api/*": {
+      "target": "http://localhost:3001"
+    }
+  }
 }
