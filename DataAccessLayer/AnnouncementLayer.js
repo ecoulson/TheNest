@@ -1,14 +1,91 @@
 const DataAccessLayer = require('./DataAccessLayer');
 const AnnouncementFactory = require('./AnnouncementFactory');
 const Announcement = require('../models/announcement');
+const Counter = require('../models/counter');
 const moment = require('moment');
 const LOAD_LIMIT = 20;
 
-// [ [ { key: 'Announcement', value: 'c', comparator: '$regex' },
-// { key: 'Title', value: 'c', comparator: '$regex' },
-// { key: 'Author', value: 'c', comparator: '$regex' } ],
-// { key: 'Grades', value: '11', comparator: '$in' },
-// { key: 'AnnouncementType', value: 'Sports', comparator: '$eq' } ]
+class AnnouncementLayer extends DataAccessLayer {
+	constructor(database, mongoDatabase) {
+		super("announcements", database, new AnnouncementFactory());
+		this.mongoDatabase = mongoDatabase;
+		this.approvedOffset = 0;
+		this.unapprovedOffset = 0;
+	}
+
+	async getAnnouncementCount(filters) {
+		return await Announcement.count(convertFiltersToMongoQuery(filters, true, false));
+	}
+
+	async getAnnouncement(id) {
+		return Announcement.findById(id);
+	}
+
+	async loadPinnedAnnouncements(filters) {
+		return await Announcement.find(convertFiltersToMongoQuery(filters, true, true));
+	}
+	
+	async togglePinned(id) {
+		let announcement = await Announcement.findOne({ id: id });
+		announcement.pinned = !announcement.pinned;
+		announcement.pinnedDate = moment().utc().format("YYYYMMDD h:m:s A");
+		return await Announcement.findByIdAndUpdate(id, announcement)
+	}
+
+	async loadApprovedAnnouncements(offset, filters) {
+		let query = convertFiltersToMongoQuery(filters, true, false);
+		return await Announcement.find(query).sort({dateCreated: -1}).limit(20);
+	}
+
+	async loadUnapprovedAnnouncements() {
+		return await Announcement.find({
+			approved: false
+		});
+	}
+
+	async createAnnouncement(announcementData, outputEntry) {
+		let announcementIDCounter = await Counter.findByIdAndUpdate("announcementID", {$inc: {value: 1}});
+		let type = announcementData.type.substring(0,1).toUpperCase() + 
+					announcementData.type.substring(1, announcementData.type.length);
+		return await Announcement.create({
+			_id: announcementIDCounter.value + 1,
+			title: announcementData.title,
+			desc: announcementData.desc,
+			author: announcementData.author,
+			grades: announcementData.grades,
+			type: type,
+			dateCreated: new Date(),
+			approved: false,
+			pinned: false,
+			pinnedDate: new Date(),
+		});
+	}
+
+	async approveAnnouncement(id) {
+		console.log(id);
+		return await Announcement.findByIdAndUpdate(id, {
+			approved: true
+		});
+	}
+
+	async unapproveAnnouncement(id) {
+		return await Announcement.updateOne({
+			_id: id
+		}, {
+			approved: false
+		});
+	}
+
+	async rejectAnnouncement(id) {
+		return await Announcement.deleteOne({
+			_id: id
+		});
+	}
+
+	async deleteAnnouncement(id) {
+		this.rejectAnnouncement(id);
+	}
+}
 
 function convertFiltersToMongoQuery(filters, approved, pinned) {
 	let andQuery = { "$and": [] };
@@ -47,105 +124,6 @@ function convertFiltersToMongoQuery(filters, approved, pinned) {
 			pinned: pinned,
 		}
 	}
-}
-
-
-class AnnouncementLayer extends DataAccessLayer {
-	constructor(database) {
-		super("announcements", database, new AnnouncementFactory());
-		this.approvedOffset = 0;
-		this.unapprovedOffset = 0;
-	}
-
-	async getAnnouncementCount(filters) {
-		return await Announcement.count(convertFiltersToMongoQuery(filters, true, false));
-	}
-
-	async getAnnouncement(id) {
-		return await this.selectById(id);
-	}
-
-	async loadPinnedAnnouncements(filters) {
-		return await Announcement.find(convertFiltersToMongoQuery(filters, true, true));
-	}
-	
-	async togglePinned(id) {
-		let announcement = await this.getAnnouncement(id);
-		return await this.updateEntry(id, {
-			Pinned: !announcement.pinned,
-			PinnedDate: moment().utc().format("YYYYMMDD h:m:s A")
-		})
-	}
-
-	async loadApprovedAnnouncements(offset, filters) {
-		let announcements = await this.selectEntriesFromOffset(offset, LOAD_LIMIT, {
-			by: "DateCreated",
-			order: "DESC"
-		}, [
-			// ...filters,
-			{ key: "Approved", value: true, comparator: "EQ" },
-			{ key: "Pinned", value: false, comparator: "EQ" }
-		]);
-		return announcements;
-	}
-
-	async loadUnapprovedAnnouncements() {
-		let announcements = await this.selectAllEntries([
-			{ key: "Approved", value: false, comparator: "EQ" },
-		]);
-		return announcements;
-	}
-
-	async createAnnouncement(announcementData, outputEntry) {
-		let announcementEntry = announcementDataToEntry(announcementData);
-		return await this.createEntry(announcementEntry, outputEntry);
-	}
-
-	async approveAnnouncement(id) {
-		return await this.updateEntry(id, {
-			Approved: true
-		});
-	}
-
-	async unapproveAnnouncement(id) {
-		return await this.updateEntry(id, {
-			Approved: false
-		});
-	}
-
-	async rejectAnnouncement(id) {
-		let rows = await this.deleteEntry(id, true);
-		return rows;
-	}
-
-	async deleteAnnouncement(id) {
-		let success = await this.deleteEntry(id, false);
-		return success;
-	}
-}
-
-function announcementDataToEntry(data) {
-	return {
-		Title: data.title,
-		Announcement: data.desc,
-		AnnouncementType: data.type,
-		Grades: arrayToString(data.grades.sort()),
-		Author: data.author,
-		Approved: false,
-		Pinned: false,
-		PinnedDate: moment().utc().format("YYYYMMDD h:m:s A")
-	}
-}
-
-function arrayToString(a) {
-	let string = "";
-	for (let i = 0; i < a.length; i++) {
-		string += a[i];
-		if (i < a.length - 1) {
-			string += ",";
-		}
-	}
-	return string;
 }
 
 module.exports = AnnouncementLayer;

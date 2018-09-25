@@ -43,7 +43,7 @@ export default class ApprovalList extends Component {
 	renderUnapprovedList() {
 		return this.props.unapproved.map((announcement) => {
 			return <ListEntry 
-					key={announcement.id} 
+					key={announcement._id} 
 					entry={announcement} 
 					removeEntry={this.removeEntry}
 					/>

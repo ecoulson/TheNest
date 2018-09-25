@@ -62,7 +62,7 @@ export default class FeedEntity extends Component {
 		return (
 			<div>
 				<ContextMenuTrigger collect={props => props} entity={this.props.entity} id={`contextmenu-${this.props.source ? this.props.source : "announcements"}`}>
-					<Link to={`/announcements/${this.props.entity.id}`} className="feed-entity-container">
+					<Link to={`/announcements/${this.props.entity._id}`} className="feed-entity-container">
 						<div className="feed-entity-header">
 							{this.renderPin()}
 							<FontAwesomeIcon className="feed-entity-type" size="1x" icon={this.getIcon()} />

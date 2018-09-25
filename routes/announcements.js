@@ -111,7 +111,7 @@ router.get('/approve', async function(req, res, next) {
 router.post('/approve/', async function(req, res, next) {
 	req.session.can('Admin').then(async (hasAccess) => {
 		if (hasAccess) {
-			let announcement = await announcementLayer.approveAnnouncement(req.body.id);
+			let announcement = await announcementLayer.approveAnnouncement(req.body._id);
 			return res.json({
 				success: true,
 				announcement: announcement
@@ -145,7 +145,7 @@ router.put('/unapprove/:id', async function(req, res, next) {
 router.post('/reject/', async function(req, res, next) {
 	req.session.can('Admin').then(async (hasAccess) => {
 		if (hasAccess) {
-			let announcement = await announcementLayer.rejectAnnouncement(req.body.id);
+			let announcement = await announcementLayer.rejectAnnouncement(req.body._id);
 			return res.send({
 				success: true, 
 				announcement: announcement

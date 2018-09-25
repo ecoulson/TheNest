@@ -126,8 +126,10 @@ export default class Feed extends Component {
 
 	addFeedScrollListener() {
 		let element = document.getElementsByClassName('feed-container')[0];
-		element.removeEventListener("scroll", this.handleFeedScroll);
-		element.addEventListener("scroll", this.handleFeedScroll);
+		if (element) {
+			element.removeEventListener("scroll", this.handleFeedScroll);
+			element.addEventListener("scroll", this.handleFeedScroll);
+		}
 	}
 
 	handleFeedScroll(e) {
@@ -142,7 +144,7 @@ export default class Feed extends Component {
 
 	renderAnnouncements() {
 		return this.state.announcements.map((announcement) => {
-			return <FeedEntity source={this.props.feedSource} key={announcement.id} type="announcement" entity={announcement}/>
+			return <FeedEntity source={this.props.feedSource} key={announcement._id} type="announcement" entity={announcement}/>
 		});
 	}
 
@@ -230,7 +232,7 @@ export default class Feed extends Component {
 		}).then((json) => {
 			if (json.success) {
 				let announcements = this.state.announcements;
-				let index = this.getAnnouncementById(json.announcement.id);
+				let index = this.getAnnouncementById(json.announcement._id);
 				let announcement = announcements[index];
 				announcement.pinned = !announcement.pinned;
 				announcements = this.handleAnnouncementReposition(announcement, index);
