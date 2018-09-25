@@ -40,7 +40,6 @@ import {
 	faBars,
 	faMonument
 } from '@fortawesome/free-solid-svg-icons'
-import FeedbackBar from './FeedbackBar';
 import AdminBar from './AdminBar';
 import Login from './Login';
 

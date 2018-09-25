@@ -1,16 +1,11 @@
-const DataAccessLayer = require('./DataAccessLayer');
-const AnnouncementFactory = require('./AnnouncementFactory');
 const Announcement = require('../models/announcement');
 const Counter = require('../models/counter');
 const moment = require('moment');
 const LOAD_LIMIT = 20;
 
-class AnnouncementLayer extends DataAccessLayer {
-	constructor(database, mongoDatabase) {
-		super("announcements", database, new AnnouncementFactory());
+class AnnouncementLayer {
+	constructor(mongoDatabase) {
 		this.mongoDatabase = mongoDatabase;
-		this.approvedOffset = 0;
-		this.unapprovedOffset = 0;
 	}
 
 	async getAnnouncementCount(filters) {
