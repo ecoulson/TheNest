@@ -46,6 +46,7 @@ class UserLayer {
 }
 
 function getRedirectUrl() {
+	console.log(process.env.NODE_ENV, process.env.REDIRECT_URL);
 	if (process.env.NODE_ENV == 'production') {
 		return process.env.REDIRECT_URL;
 	} else {

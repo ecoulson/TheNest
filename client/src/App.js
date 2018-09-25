@@ -102,7 +102,6 @@ class App extends Component {
 					</div>
 					<StatusBar/>
 					<AdminBar/>
-					{process.env.NODE_ENV == "production" ? <FeedbackBar/> : null}
 				</AppProvider>
 			</Router>
 		);
