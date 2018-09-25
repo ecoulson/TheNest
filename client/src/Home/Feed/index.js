@@ -170,17 +170,17 @@ export default class Feed extends Component {
 			{
 				key: "Announcement",
 				value: search,
-				comparator: "LIKE",
+				comparator: "$regex",
 			},
 			{
 				key: "Title",
 				value: search,
-				comparator: "LIKE",
+				comparator: "$regex",
 			},
 			{
 				key: "Author",
 				value: search,
-				comparator: "LIKE"
+				comparator: "$regex"
 			}
 		]
 	}
@@ -193,7 +193,7 @@ export default class Feed extends Component {
 		return {
 			key: "Grades",
 			value: grade.replace("Grade ", ""),
-			comparator: "LIKE"
+			comparator: "$in"
 		}
 	}
 
@@ -203,9 +203,9 @@ export default class Feed extends Component {
 			return null;
 		}
 		return {
-			key: "AnnouncementType",
+			key: "Type",
 			value: type == null ? "" : type,
-			comparator: "EQ"
+			comparator: "$eq"
 		}
 	}
 

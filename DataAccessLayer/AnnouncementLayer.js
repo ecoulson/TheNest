@@ -4,6 +4,52 @@ const Announcement = require('../models/announcement');
 const moment = require('moment');
 const LOAD_LIMIT = 20;
 
+// [ [ { key: 'Announcement', value: 'c', comparator: '$regex' },
+// { key: 'Title', value: 'c', comparator: '$regex' },
+// { key: 'Author', value: 'c', comparator: '$regex' } ],
+// { key: 'Grades', value: '11', comparator: '$in' },
+// { key: 'AnnouncementType', value: 'Sports', comparator: '$eq' } ]
+
+function convertFiltersToMongoQuery(filters, approved, pinned) {
+	let andQuery = { "$and": [] };
+	let orQuery = { "$or": [] };
+	filters.forEach((filter) => {
+		if (!Array.isArray(filter)) {
+			let andComponent = {};
+			let andComparator = {};
+			if (filter.key.toLowerCase() == "grades") {
+				andComparator[filter.comparator] = [ parseInt(filter.value) ];
+			} else {
+				andComparator[filter.comparator] = filter.value;	
+			}
+			andComponent[filter.key.toLowerCase()] = andComparator;
+			andQuery["$and"].push(andComponent);
+		} else {
+			filter.forEach((filter) => {
+				let orComponent = {};
+				let orComparator = {};
+				orComparator[filter.comparator] = filter.value;
+				orComponent[filter.key.toLowerCase()] = orComparator;
+				orQuery["$or"].push(orComponent);
+			});
+			andQuery["$and"].push(orQuery);
+		}
+	});
+	if (andQuery.length == 0) {
+		return {
+			...andQuery,
+			approved: approved,
+			pinned: pinned,
+		};
+	} else {
+		return {
+			approved: approved,
+			pinned: pinned,
+		}
+	}
+}
+
+
 class AnnouncementLayer extends DataAccessLayer {
 	constructor(database) {
 		super("announcements", database, new AnnouncementFactory());
@@ -12,16 +58,7 @@ class AnnouncementLayer extends DataAccessLayer {
 	}
 
 	async getAnnouncementCount(filters) {
-		console.log(filters);
-		// return await Announcement.count({
-		// 	approved: true,
-		// 	pinned: false
-		// })
-		return await this.getRowCount([
-			...filters,
-			{ key: "Approved", value: true, comparator: "EQ" },
-			{ key: "Pinned", value: false, comparator: "EQ" }
-		]);
+		return await Announcement.count(convertFiltersToMongoQuery(filters, true, false));
 	}
 
 	async getAnnouncement(id) {
@@ -29,12 +66,7 @@ class AnnouncementLayer extends DataAccessLayer {
 	}
 
 	async loadPinnedAnnouncements(filters) {
-		let announcements = await this.selectAllEntries([
-			...filters,
-			{ key: "Approved", value: true, comparator: "EQ" },
-			{ key: "Pinned", value: true, comparator: "EQ" }
-		]);
-		return announcements;
+		return await Announcement.find(convertFiltersToMongoQuery(filters, true, true));
 	}
 	
 	async togglePinned(id) {
@@ -50,7 +82,7 @@ class AnnouncementLayer extends DataAccessLayer {
 			by: "DateCreated",
 			order: "DESC"
 		}, [
-			...filters,
+			// ...filters,
 			{ key: "Approved", value: true, comparator: "EQ" },
 			{ key: "Pinned", value: false, comparator: "EQ" }
 		]);
