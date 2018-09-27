@@ -17,7 +17,7 @@ export default class ActiveAnnouncement extends Component {
 
 	componentWillMount() {
 		fetch(`/api/announcements/${this.state.id}`, {
-			credentials: 'same-origin'
+			credentials: 'include'
 		})
 			.then(res => res.json())
 			.then((json) => {

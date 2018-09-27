@@ -48,7 +48,7 @@ export default class Feed extends Component {
 
 	fetchAdmin() {
 		fetch(`/api/user/can/Admin`, {
-			credentials: 'same-origin'
+			credentials: 'include'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
@@ -80,7 +80,7 @@ export default class Feed extends Component {
 	fetchAnnouncementCount(next) {
 		let query = this.getFilterQuery();
 		fetch(`/api/announcements${query}`, {
-			credentials: 'same-origin'
+			credentials: 'include'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
@@ -93,7 +93,7 @@ export default class Feed extends Component {
 
 	fetchPinned() {
 		fetch('/api/announcements/pinned', {
-			credentials: 'same-origin'
+			credentials: 'include'
 		})
 			.then(res => res.json())
 			.then((announcements) => {
@@ -106,7 +106,7 @@ export default class Feed extends Component {
 	fetchAnnouncements() {
 		let query = this.getFilterQuery();
 		fetch(`/api/announcements/load/${this.state.offset}${query}`, {
-			credentials: 'same-origin'
+			credentials: 'include'
 		})
 			.then(res => res.json())
 			.then((announcements) => {
@@ -226,7 +226,7 @@ export default class Feed extends Component {
 	handlePinnedAnnouncement(e, data) {
 		fetch(`/api/announcements/pinned/${data.entity.id}`, {
 			method: "PUT",
-			credentials: 'same-origin'
+			credentials: 'include'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
@@ -296,7 +296,7 @@ export default class Feed extends Component {
 	handleRejectedAnnouncement(e, data) {
 		fetch(`/api/announcements/unapprove/${data.entity.id}`, {
 			method: "PUT",
-			credentials: 'same-origin'
+			credentials: 'include'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
@@ -327,7 +327,7 @@ export default class Feed extends Component {
 	handleDeleteAnnouncement(e, data) {
 		fetch(`/api/announcements/${data.entity.id}`, {
 			method: "DELETE",
-			credentials: 'same-origin'
+			credentials: 'include'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {

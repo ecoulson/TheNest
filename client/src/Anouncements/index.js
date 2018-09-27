@@ -21,7 +21,7 @@ export default class Anouncements extends Component {
 
 	componentWillMount() {
 		fetch(`/api/user/can/Announcement:Create`, {
-			credentials: 'same-origin'
+			credentials: 'include'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
@@ -37,7 +37,7 @@ export default class Anouncements extends Component {
 
 	getUnapprovedAnnouncements() {
 		fetch(`/api/announcements/approve`, {
-			credentials: 'same-origin',
+			credentials: 'include',
 			method: "GET",
 		}).then((res) => {
 			return res.json();

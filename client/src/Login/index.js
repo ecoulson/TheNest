@@ -1,17 +1,26 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 
 export default class Login extends Component {
+	constructor() {
+		super();
+		this.state = {
+			shouldRedirect: false
+		}
+	}
+
 	componentWillMount() {
 		let code = getParameterByName("code");
 		fetch(`/api/user/login/callback/${code}`, {
-			credentials: "same-origin",
+			credentials: "include",
 			method:"GET"
 		}).then((res) => {
 			return res.json();
 		}).then(() => {			
-			window.location.href = "/";
-			console.log(window.location);
+			this.setState({
+				shouldRedirect: true
+			});
 		});
 	}
 
@@ -25,6 +34,7 @@ export default class Login extends Component {
 		}
 		return (
 			<div style={style}>
+				{this.renderRedirect()}
 				<AppContext.Consumer>
 					{context => {
 						this.showStatus = context.showStatus;
@@ -34,6 +44,12 @@ export default class Login extends Component {
 				<h1>Logging In...</h1>
 			</div>
 		)
+	}
+
+	renderRedirect() {
+		if (this.state.shouldRedirect) {
+			return <Redirect to='/'></Redirect>
+		}
 	}
 }
 

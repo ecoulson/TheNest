@@ -12,7 +12,7 @@ export default class AdminBar extends Component {
 	componentWillMount() {
 		fetch(`/api/user/can/Admin`, {
 			method: "GET",
-			credentials: "same-origin"
+			credentials: "include"
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {

@@ -71,7 +71,7 @@ export default class ListEntry extends Component {
 	requestApproval() {
 		fetch(`/api/announcements/approve/`, {
 			method: "POST",
-			credentials: 'same-origin',
+			credentials: 'include',
 			headers: {
 				'Accept': 'application/json, text/plain, */*',
 				'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ export default class ListEntry extends Component {
 	requestRejection() {
 		fetch(`/api/announcements/reject/`, {
 			method: "POST",
-			credentials: 'same-origin',
+			credentials: 'include',
 			headers: {
 				'Accept': 'application/json, text/plain, */*',
 				'Content-Type': 'application/json'

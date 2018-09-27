@@ -28,7 +28,7 @@ export default class Home extends Component {
 
 	handleLogin() {
 		fetch('/api/user/login/', {
-			credentials: 'same-origin'
+			credentials: 'include'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {
@@ -38,7 +38,7 @@ export default class Home extends Component {
 
 	handleLogout() {
 		fetch('/api/user/logout', {
-			credentials: 'same-origin'
+			credentials: 'include'
 		}).then((res) => {
 			return res.json();
 		}).then((json) => {

@@ -17,7 +17,7 @@ export default class Module extends Component {
 	componentWillMount() {
 		if (this.props.access) {
 			fetch(`/api/user/can/${this.props.access}`, {
-				credentials: 'same-origin'
+				credentials: 'include'
 			}).then((res) => {
 				return res.json();
 			}).then((json) => {

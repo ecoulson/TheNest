@@ -228,7 +228,7 @@ export default class Form extends Component {
 	handleSubmittedForm(formData) {
 		fetch(`/api/announcements`, {
 			method: "POST",
-			credentials: 'same-origin',
+			credentials: 'include',
 			body: formData.serialize(),
 			headers: {
 				'Accept': 'application/json, text/plain, */*',
