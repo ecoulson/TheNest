@@ -25,7 +25,8 @@ const roles = {
 				"Announcement:Read"
 			]
 		}
-	}
+	},
+	"ipCheck": false
 }
 
 module.exports = roles;
