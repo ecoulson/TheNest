@@ -7,11 +7,27 @@ const logger = require('morgan');
 const Roles = require('./AcessControl/');
 const session = require('express-session');
 const eSession = require('easy-session');
-const MemcachedStore = require('connect-memjs')(session);
 const Layers = require('./DataAccessLayer/Layers');
+const MongoDBStore = require('connect-mongodb-session')(session);
 Layers.connectToDatabase();
 
 var indexRouter = require('./routes/index');
+
+let store = new MongoDBStore({
+	uri: process.env.MONGO_CONNECTION_STRING,
+	collection: 'sessions'
+});
+
+store.on('connected', function() {
+	console.log('connected to session storage');
+});
+
+store.on('error', function(e) {
+	if (err) {
+		console.log(error);
+		throw err;
+	}
+});
 
 var app = express();
 app.use(logger('dev'));
@@ -19,23 +35,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(session({
-		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false,
-		store: new MemcachedStore({
-			servers: [process.env.MEMCACHIER_SERVERS],
-			prefix: '_session_'
-		})
-	}));
-} else {
-	app.use(session({
-		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false
-	}));
-}
+app.use(session({
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false,
+	store: store,
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24 * 7
+	}
+}));
 
 app.use(eSession.main(session, Roles));
 app.use(express.static(path.join(__dirname, 'client/build')));
