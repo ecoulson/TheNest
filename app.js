@@ -7,6 +7,7 @@ const logger = require('morgan');
 const Roles = require('./AcessControl/');
 const session = require('express-session');
 const eSession = require('easy-session');
+const MemcachedStore = require('connect-memjs')(session);
 const Layers = require('./DataAccessLayer/Layers');
 Layers.connectToDatabase();
 
@@ -17,11 +18,25 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
-	secret: process.env.SESSION_SECRET,
-	resave: false,
-	saveUninitialized: true
-}));
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(session({
+		secret: process.env.SESSION_SECRET,
+		resave: false,
+		saveUninitialized: true,
+		store: new MemcachedStore({
+			servers: [process.env.MEMCACHIER_SERVERS],
+			prefix: '_session_'
+		})
+	}));
+} else {
+	app.use(session({
+		secret: process.env.SESSION_SECRET,
+		resave: false,
+		saveUninitialized: true
+	}));
+}
+
 app.use(eSession.main(session, Roles));
 app.use(express.static(path.join(__dirname, 'client/build')));
 
