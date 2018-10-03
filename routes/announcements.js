@@ -4,6 +4,7 @@ let Layers = require('../DataAccessLayer/Layers');
 const announcementLayer = Layers.announcementLayer;
 
 router.get('/', async function(req, res, next) {
+	console.log(req.session.getRole());
 	req.session.can('Announcement:Read').then(async (hasAccess) => {
 		if (hasAccess) {
 			let filters = [];
