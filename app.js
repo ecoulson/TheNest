@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'production') {
 	app.use(session({
 		secret: process.env.SESSION_SECRET,
 		resave: false,
-		saveUninitialized: true,
+		saveUninitialized: false,
 		store: new MemcachedStore({
 			servers: [process.env.MEMCACHIER_SERVERS],
 			prefix: '_session_'
@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
 	app.use(session({
 		secret: process.env.SESSION_SECRET,
 		resave: false,
-		saveUninitialized: true
+		saveUninitialized: false
 	}));
 }
 
