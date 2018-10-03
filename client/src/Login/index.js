@@ -17,7 +17,8 @@ export default class Login extends Component {
 			method:"GET"
 		}).then((res) => {
 			return res.json();
-		}).then(() => {			
+		}).then(() => {		
+			console.log("will redirect");	
 			this.setState({
 				shouldRedirect: true
 			});

@@ -14,6 +14,7 @@ router.get('/login/', function(req, res, next) {
 });
 
 router.get('/login/callback/:code', async function(req, res, next) {
+	console.log("here");
 	let token = await getAccessToken(req);
 	let user = await getUserData(res, token);
 	if (!user.userPrincipalName.endsWith("@overlake.org")) {
