@@ -64,7 +64,7 @@ export default class ActiveAnnouncement extends Component {
 				<Module title={this.state.title} width="100%" height="auto">
 					{ this.state.hasLoaded ? 
 						<AnnouncementDisplay announcement={this.state.announcement} />:
-						<div className="loader">Loading...</div>	
+						<div className="white-loader">Loading...</div>	
 					}
 				</Module>
 			</div>

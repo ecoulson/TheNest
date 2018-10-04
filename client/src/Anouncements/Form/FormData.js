@@ -16,7 +16,7 @@ export default class FormData {
 			return this.getFailedValidation("Announcement can not be empty");
 		}
 		if (this.data.author === "") {
-			return this.getFailedValidation("Author can not be empty");
+			return this.getFailedValidation("Author must exist");
 		}
 		if (this.data.type === "") {
 			return this.getFailedValidation("Announcement must have a type");

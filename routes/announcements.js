@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 let Layers = require('../DataAccessLayer/Layers');
 const announcementLayer = Layers.announcementLayer;
+const User = require('../models/user');
 
 router.get('/', async function(req, res, next) {
-	console.log(req.session.getRole());
 	req.session.can('Announcement:Read').then(async (hasAccess) => {
 		if (hasAccess) {
 			let filters = [];
@@ -180,14 +180,13 @@ router.get('/:id', async function(req, res, next) {
 router.delete('/:id', async function(req, res, next) {
 	req.session.can('Admin').then(async (hasAccess) => {
 		if (hasAccess) {
-			let status = await announcementLayer.deleteAnnouncement(req.params.id);
+			await announcementLayer.deleteAnnouncement(req.params.id);
 			return res.json({
-				success: status
+				success: true
 			}).status(200);
 		} else {
 			return res.json({
 				success: false,
-				announcement: null
 			}).status(403);
 		}
 	});

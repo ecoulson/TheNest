@@ -23,9 +23,10 @@ router.get('/login/callback/:code', async function(req, res, next) {
 	}
 	user = await userLayer.getOrCreateUser(user);
 	await loginRole(req, user);
-	console.log(req.session.getRole());
+	console.log(user);
 	res.send({
 		success: true,
+		user: { id: user._id, username: user.displayName }
 	}).status(302);
 });
 

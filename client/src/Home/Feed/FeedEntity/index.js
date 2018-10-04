@@ -6,13 +6,13 @@ import { ContextMenuTrigger } from "react-contextmenu";
 import './feedentity.css';
 
 const icons = {
-	"sports": "futbol",
-	"art": "paint-brush",
-	"theatre": "theater-masks",
-	"band": "music",
-	"general": "bullhorn",
-	"club": "users",
-	"asb": "monument"
+	"Sports": "futbol",
+	"Art": "paint-brush",
+	"Theatre": "theater-masks",
+	"Band": "music",
+	"General": "bullhorn",
+	"Club": "users",
+	"Asb": "monument"
 }
 
 export default class FeedEntity extends Component {

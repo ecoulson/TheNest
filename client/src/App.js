@@ -40,7 +40,6 @@ import {
 	faBars,
 	faMonument
 } from '@fortawesome/free-solid-svg-icons'
-import AdminBar from './AdminBar';
 import Login from './Login';
 
 library.add(faBullhorn, faTrash, faBan, faHome, faCog, faCalendar);
@@ -100,7 +99,6 @@ class App extends Component {
 						</AnimatedSwitch>
 					</div>
 					<StatusBar/>
-					<AdminBar/>
 				</AppProvider>
 			</Router>
 		);

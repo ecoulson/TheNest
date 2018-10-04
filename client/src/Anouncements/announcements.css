@@ -1,13 +1,17 @@
 .announcement-container {
 	background-color: rgb(220, 220, 220);
 	display: flex;
-	height: -webkit-calc(100% - 60px);
-	height:    -moz-calc(100% - 60px);
-	height:         calc(100% - 60px);
 	min-height: calc(100vh - 60px);
 	padding-top: 60px;
 	width:100vw;
 	flex-wrap: wrap;
+	padding-bottom: 25px;
+}
+
+.loader-container {
+	width: 100vw;
+	text-align: center;
+	margin-top: 200px;
 }
 
 @media screen and (min-width: 768px) {

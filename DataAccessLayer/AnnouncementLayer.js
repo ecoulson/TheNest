@@ -9,6 +9,7 @@ class AnnouncementLayer {
 	}
 
 	async getAnnouncementCount(filters) {
+		console.log(convertFiltersToMongoQuery(filters, true, false));
 		return await Announcement.count(convertFiltersToMongoQuery(filters, true, false));
 	}
 
@@ -17,17 +18,19 @@ class AnnouncementLayer {
 	}
 
 	async loadPinnedAnnouncements(filters) {
+		console.log(convertFiltersToMongoQuery(filters, true, true));
 		return await Announcement.find(convertFiltersToMongoQuery(filters, true, true));
 	}
 	
 	async togglePinned(id) {
-		let announcement = await Announcement.findOne({ id: id });
+		let announcement = await Announcement.findById(id);
 		announcement.pinned = !announcement.pinned;
 		announcement.pinnedDate = moment().utc().format("YYYYMMDD h:m:s A");
 		return await Announcement.findByIdAndUpdate(id, announcement)
 	}
 
 	async loadApprovedAnnouncements(offset, filters) {
+		console.log(convertFiltersToMongoQuery(filters, true, false));
 		let query = convertFiltersToMongoQuery(filters, true, false);
 		return await Announcement.find(query).sort({dateCreated: -1}).limit(20);
 	}
@@ -57,7 +60,6 @@ class AnnouncementLayer {
 	}
 
 	async approveAnnouncement(id) {
-		console.log(id);
 		return await Announcement.findByIdAndUpdate(id, {
 			approved: true
 		});

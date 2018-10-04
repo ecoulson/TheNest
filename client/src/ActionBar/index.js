@@ -102,7 +102,7 @@ export default class Home extends Component {
 					<img alt="Owl" src={Owl} className="application-logo" size="2x" />
 					<span className="application-name">The Nest</span>
 				</Link>
-				<Dropdown 
+				{/* <Dropdown 
 					visible={this.state.notificationsVisible}
 					name="notifications" 
 					icon="bell"
@@ -114,7 +114,7 @@ export default class Home extends Component {
 					badgeCount={1}
 					>
 					{this.renderNotifications()}
-				</Dropdown>
+				</Dropdown> */}
 				<Dropdown 
 					visible={this.state.settingsVisible}
 					name="settings" 
@@ -137,7 +137,6 @@ export default class Home extends Component {
 					>
 					<h3 className="action-bar-header action-bar-menu-item">Navigation</h3>
 					<Navigation></Navigation>
-					<h3 className=" action-bar-header action-bar-menu-item">Feed</h3>
 				</Dropdown>
 			</div>
 		)

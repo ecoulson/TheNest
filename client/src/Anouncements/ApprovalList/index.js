@@ -53,7 +53,7 @@ export default class ApprovalList extends Component {
 	render() {
 		if (!this.state.fetched) {
 			return (
-				<div className="loader">Loading...</div>
+				<div className="white-loader">Loading...</div>
 			);
 		} else {
 			return (

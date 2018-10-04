@@ -13,7 +13,7 @@ export default class Navigation extends Component {
 	render() {
 		return (
 			<div className="action-bar-menu-item action-bar-navigation">
-				<Link id="home" className="action-bar-navlink" to="/">> Home</Link>
+				<Link id="home" className="action-bar-navlink" to="/">Home</Link>
 				<Link id="announcements" className="action-bar-navlink" to="/announcements">Announcements</Link>
 			</div>
 		)

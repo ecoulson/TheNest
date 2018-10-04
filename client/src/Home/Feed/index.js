@@ -66,9 +66,6 @@ export default class Feed extends Component {
 	
 	componentWillMount() {
 		this.fetchAdmin();
-		this.fetchAnnouncementCount(() => {
-			this.fetchAnnouncements();
-		});
 		this.fetchPinned();
 	}
 
@@ -95,12 +92,12 @@ export default class Feed extends Component {
 		fetch('/api/announcements/pinned', {
 			credentials: 'include'
 		})
-			.then(res => res.json())
-			.then((announcements) => {
-				this.setState({
-					announcements: announcements,
-				});
+		.then(res => res.json())
+		.then((announcements) => {
+			this.setState({
+				announcements: announcements,
 			});
+		});
 	}
 
 	fetchAnnouncements() {
@@ -108,20 +105,20 @@ export default class Feed extends Component {
 		fetch(`/api/announcements/load/${this.state.offset}${query}`, {
 			credentials: 'include'
 		})
-			.then(res => res.json())
-			.then((announcements) => {
-				let stateAnnouncements = this.state.announcements;
-				announcements.forEach((announcement) => {
-					stateAnnouncements.push(announcement);
-				});
-				this.setState({
-					announcements: stateAnnouncements,
-					hasFetchedAnnouncements: true,
-					fetchingNextAnnouncements: false,
-					offset: this.state.offset + LOAD_LIMIT,
-				});
-				this.addFeedScrollListener();
+		.then(res => res.json())
+		.then((announcements) => {
+			let stateAnnouncements = this.state.announcements;
+			announcements.forEach((announcement) => {
+				stateAnnouncements.push(announcement);
 			});
+			this.setState({
+				announcements: stateAnnouncements,
+				hasFetchedAnnouncements: true,
+				fetchingNextAnnouncements: false,
+				offset: this.state.offset + LOAD_LIMIT,
+			});
+			this.addFeedScrollListener();
+		});
 	}
 
 	addFeedScrollListener() {
@@ -224,7 +221,7 @@ export default class Feed extends Component {
 	}
 
 	handlePinnedAnnouncement(e, data) {
-		fetch(`/api/announcements/pinned/${data.entity.id}`, {
+		fetch(`/api/announcements/pinned/${data.entity._id}`, {
 			method: "PUT",
 			credentials: 'include'
 		}).then((res) => {
@@ -235,11 +232,13 @@ export default class Feed extends Component {
 				let index = this.getAnnouncementById(json.announcement._id);
 				let announcement = announcements[index];
 				announcement.pinned = !announcement.pinned;
+				console.log(announcements);
 				announcements = this.handleAnnouncementReposition(announcement, index);
+				console.log(announcements);
 				this.setState({
 					announcements: announcements
 				});
-				let pinAction = json.announcement.pinned ? "Pinned" : "Unpinned"
+				let pinAction = !json.announcement.pinned ? "Pinned" : "Unpinned"
 				this.showStatus({
 					message: `${pinAction} Announcement`,
 					color: "#37784f",
@@ -260,7 +259,7 @@ export default class Feed extends Component {
 	getAnnouncementById(id) {
 		let announcements = this.state.announcements;
 		for (let i = 0; i < announcements.length; i++) {
-			if (announcements[i].id === id) {
+			if (announcements[i]._id === id) {
 				return i;
 			}
 		}
@@ -277,9 +276,6 @@ export default class Feed extends Component {
 			repositionIndex = 0;
 		}
 		announcements.splice(repositionIndex, 0, announcement);
-		if (!announcement.pinned && repositionIndex + 1 === announcements.length) {
-			announcements.pop();
-		}
 		return announcements;
 	}
 
@@ -294,7 +290,7 @@ export default class Feed extends Component {
 	}
 
 	handleRejectedAnnouncement(e, data) {
-		fetch(`/api/announcements/unapprove/${data.entity.id}`, {
+		fetch(`/api/announcements/unapprove/${data.entity._id}`, {
 			method: "PUT",
 			credentials: 'include'
 		}).then((res) => {
@@ -302,7 +298,7 @@ export default class Feed extends Component {
 		}).then((json) => {
 			if (json.success) {
 				let announcements = this.state.announcements;
-				let index = this.getAnnouncementById(data.entity.id);
+				let index = this.getAnnouncementById(data.entity._id);
 				announcements.splice(index, 1);
 				this.setState({
 					announcements: announcements
@@ -325,7 +321,7 @@ export default class Feed extends Component {
 	}
 
 	handleDeleteAnnouncement(e, data) {
-		fetch(`/api/announcements/${data.entity.id}`, {
+		fetch(`/api/announcements/${data.entity._id}`, {
 			method: "DELETE",
 			credentials: 'include'
 		}).then((res) => {
@@ -333,7 +329,7 @@ export default class Feed extends Component {
 		}).then((json) => {
 			if (json.success) {
 				let announcements = this.state.announcements;
-				let index = this.getAnnouncementById(data.entity.id);
+				let index = this.getAnnouncementById(data.entity._id);
 				announcements.splice(index, 1);
 				this.setState({
 					announcements: announcements
@@ -358,7 +354,7 @@ export default class Feed extends Component {
 	render() {
 		if (!this.state.hasFetchedAnnouncements) {
 			return (
-				<div className="white-loader">Loading...</div>
+				<div className="loader">Loading...</div>
 			);
 		} else {
 			return (
@@ -375,7 +371,7 @@ export default class Feed extends Component {
 							transitionLeaveTimeout={250}>
 							{this.renderAnnouncements()}
 							{ this.state.fetchingNextAnnouncements ? 
-								<div className="white-loader">Loading...</div> :
+								<div className="loader">Loading...</div> :
 								null
 							}
 						</ReactCSSTransitionGroup>
