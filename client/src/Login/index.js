@@ -13,6 +13,7 @@ export default class Login extends Component {
 	componentWillMount() {
 		let code = getParameterByName("code");
 		fetch(`/api/user/login/callback/${code}`, {
+			credentials: "include",
 			method:"GET"
 		}).then((res) => {
 			return res.json();
