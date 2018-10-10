@@ -45,7 +45,7 @@
 	min-height: 200px;
 	resize: none;
 	border-radius: none;
-	white-space: pre-wrap;
+	white-space: pre-line;
 }
 
 .form-create {
