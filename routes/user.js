@@ -54,6 +54,7 @@ async function getToken(code) {
 	let tokenBody = await userLayer.getTokenBody(code, keyVault);
 	let string = [];
 	for (let key in tokenBody) {
+		console.log(key);
 		string.push(`${encodeURIComponent(key)}=${encodeURIComponent(tokenBody[key])}`);
 	}
 	return string.join("&");
