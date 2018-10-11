@@ -34,6 +34,7 @@ router.get('/login/callback/:code', async function(req, res, next) {
 
 async function getAccessToken(req) {
 	return new Promise(async (resolve) => {
+		console.log(await getToken(req.params.code));
 		fetch(tokenUrl, {
 			method: "POST",
 			headers: {
@@ -43,6 +44,7 @@ async function getAccessToken(req) {
 		}).then((res) => {
 			return res.json()
 		}).then((json) => {
+			console.log(json.access_token);
 			return resolve(json.access_token);
 		});
 	})
