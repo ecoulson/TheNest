@@ -18,7 +18,7 @@ router.get('/login/callback/:code', async function(req, res, next) {
 	console.log(token);
 	let user = await getUserData(res, token);
 	console.log(user);
-	if (!user.email.endsWith("@overlake.org")) {
+	if (!user.userPrincipalName.endsWith("@overlake.org")) {
 		return res.send({
 			succes: false,
 		}).status(302);
