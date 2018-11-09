@@ -15,9 +15,7 @@ router.get('/login/', function(req, res, next) {
 
 router.get('/login/callback/:code', async function(req, res, next) {
 	let token = await getAccessToken(req);
-	console.log(token);
 	let user = await getUserData(res, token);
-	console.log(user);
 	if (!user.userPrincipalName.endsWith("@overlake.org")) {
 		return res.send({
 			succes: false,
@@ -25,7 +23,6 @@ router.get('/login/callback/:code', async function(req, res, next) {
 	}
 	user = await userLayer.getOrCreateUser(user);
 	await loginRole(req, user);
-	console.log(user);
 	res.send({
 		success: true,
 		user: { id: user._id, username: user.displayName }
@@ -44,7 +41,6 @@ async function getAccessToken(req) {
 		}).then((res) => {
 			return res.json()
 		}).then((json) => {
-			console.log(json.access_token);
 			return resolve(json.access_token);
 		});
 	})
@@ -54,7 +50,6 @@ async function getToken(code) {
 	let tokenBody = await userLayer.getTokenBody(code, keyVault);
 	let string = [];
 	for (let key in tokenBody) {
-		console.log(key);
 		string.push(`${encodeURIComponent(key)}=${encodeURIComponent(tokenBody[key])}`);
 	}
 	return string.join("&");
