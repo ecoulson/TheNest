@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node server.js 3001",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+	"heroku-postbuild": "cd client && npm install && npm run build",
+	"stage": "git add -A && git commit -m \"staging current commit\" && git push staging"
   },
   "engines": {
     "node": "8.11.1",
