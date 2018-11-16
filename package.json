@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node server.js 3001",
-	  "heroku-postbuild": "cd client && npm install && npm run build",
-	  "stage": "git add -A && git commit -m \"staging current commit\" && git push staging"
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "stage": "git add -A && git commit -m \"staging current commit\" && git push staging"
   },
   "engines": {
     "node": "8.11.1",
@@ -18,7 +18,6 @@
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "@fortawesome/react-fontawesome": "0.1.0-11",
     "azure-keyvault": "^3.0.4",
-    "connect-memjs": "^0.2.1",
     "connect-mongodb-session": "^2.0.4",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
