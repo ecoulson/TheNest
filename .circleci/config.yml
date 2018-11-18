@@ -36,11 +36,12 @@ jobs:
 
 workflows:
   version: 2
-  stage:
-    - build
-    - stage:
-        requires:
-          - build
-        filters:
-          branches:
-            only: master
+  build-stage:
+    jobs:
+      - build
+      - stage:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
