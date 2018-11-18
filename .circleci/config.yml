@@ -30,9 +30,18 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy Master to Heroku
+          name: Deploy Develop to Staging Environment on Heroku
           command: |
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGING_APP_NAME.git master
+  develop:
+    docker:
+      - image: circleci/node:8.11.1
+    steps:
+      - checkout
+      - run:
+          name: Deploy Master to Staging Environment on Heroku
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_DEVELOP_APP_NAME.git master
 
 workflows:
   version: 2
@@ -44,4 +53,15 @@ workflows:
             - build
           filters:
             branches:
+              only: develop
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
               only: master
+
+
