@@ -3,7 +3,14 @@ import { AppContext } from '../../AppContext';
 import FormData from './FormData';
 import Select from 'react-select';
 import makeAnimated from 'react-select/lib/animated';
+import Dante from 'Dante2';
+import {ImageBlockConfig} from 'Dante2/package/es/components/blocks/image'
+import {CodeBlockConfig} from 'Dante2/package/es/components/blocks/code'
+import {EmbedBlockConfig} from 'Dante2/package/es/components/blocks/embed'
+import {VideoBlockConfig} from 'Dante2/package/es/components/blocks/video'
+import {PlaceholderBlockConfig} from 'Dante2/package/es/components/blocks/placeholder'
 import './form.css';
+import { convertToRaw } from 'draft-js';
 
 const options = {
 	grades: [
@@ -188,14 +195,14 @@ export default class Form extends Component {
 			desc: "",
 			author: JSON.parse(getCookie('user')).username,
 			grades: [],
-			type: ""
+			type: "",
 		}
 		this.handleTitleInput = this.handleTitleInput.bind(this);
-		this.handleAnnouncmentInput = this.handleAnnouncmentInput.bind(this);
 		this.handleSubmitClick = this.handleSubmitClick.bind(this);
 		this.handleSubmittedForm = this.handleSubmittedForm.bind(this);	
 		this.onGradeChange = this.onGradeChange.bind(this);
 		this.onTypeChange = this.onTypeChange.bind(this);
+		this.saveHandler = this.saveHandler.bind(this);
 	}
 
 	handleTitleInput(e) {
@@ -203,12 +210,6 @@ export default class Form extends Component {
 			title: e.target.value
 		});
 	} 
-
-	handleAnnouncmentInput(e) {
-		this.setState({
-			desc: e.target.value
-		});
-	}
 
 	handleSubmitClick() {
 		let formData = new FormData(this.state);
@@ -278,6 +279,13 @@ export default class Form extends Component {
 		});
 	}
 
+	saveHandler(editorContext, content) {
+		console.log(editorContext);
+		this.setState({
+			desc: convertToRaw(editorContext.editorState().getCurrentContent())
+		})
+	}
+
 	render() {
 		return (
 			<div className="form">
@@ -289,8 +297,32 @@ export default class Form extends Component {
 				</AppContext.Consumer>
 				<input disabled={this.props.disabled} value={this.state.title} onChange={this.handleTitleInput} placeholder="Title..." className="form-title"/>
 				<br/>
-				<textarea disabled={this.props.disabled} value={this.state.desc} onChange={this.handleAnnouncmentInput} placeholder="Announcement..." className="form-desc">
-				</textarea>
+				<div className="dante-editor">
+					<Dante data_storage={{
+						url: "/api/announcements/editor",
+						interval: 100,
+						method: "POST",
+						save_handler: this.saveHandler
+					}} background_placeholder="Write your announcement"
+					widgets={[
+						ImageBlockConfig({
+							options: {
+								upload_url: "/api/announcements/image",
+								upload_callback: (ctx, img) => {
+									alert("uploaded");
+									console.log(img)
+								},
+							  	upload_error_callback: (ctx, img) => {
+									console.log(img)
+							  	},
+							},
+						}),
+						CodeBlockConfig(),
+						EmbedBlockConfig(),
+						VideoBlockConfig(),
+						PlaceholderBlockConfig()
+					]}></Dante>
+				</div>
 				<br/>
 				<div style={{display: "flex", justifyContent: "center"}}>
 					<Select

@@ -70,9 +70,6 @@ export default class FeedEntity extends Component {
 							{this.renderGrades()}
 						</div>
 						<div className="split"/>
-						<div className="feed-entity-body">
-							<p className="feed-entity-desc">{this.shorten(this.props.entity.desc)}</p>
-						</div>
 						<div className="split"/>
 						<div className="feed-entity-footer">
 							<span className="feed-entity-date">{moment(this.props.entity.dateCreated).format("MMMM Do, YY h:mmA")}</span>

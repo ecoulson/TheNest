@@ -12,7 +12,7 @@ export default class FormData {
 		if (this.data.title === "") {
 			return this.getFailedValidation("Announcement title can not be empty");
 		}
-		if (this.data.desc === "") {
+		if (this.data.desc === null) {
 			return this.getFailedValidation("Announcement can not be empty");
 		}
 		if (this.data.author === "") {
@@ -34,6 +34,7 @@ export default class FormData {
 	}
 
 	serialize() {
+		this.data.desc = JSON.stringify(this.data.desc);
 		this.data.type = this.data.type.value;
 		this.data.grades = this.data.grades.map((grade) => {
 			return grade.value;

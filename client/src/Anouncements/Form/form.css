@@ -1,3 +1,8 @@
+.dante-editor > div {
+	width: 80%;
+	margin: 0 auto;
+}
+
 .form {
 	padding: 25px;
 	text-align: center;

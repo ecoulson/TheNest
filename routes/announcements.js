@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 let Layers = require('../DataAccessLayer/Layers');
 const announcementLayer = Layers.announcementLayer;
-const User = require('../models/user');
 
 router.get('/', async function(req, res, next) {
 	req.session.can('Announcement:Read').then(async (hasAccess) => {

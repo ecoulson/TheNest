@@ -1,9 +1,9 @@
 .active-container {
 	background-color: rgb(220, 220, 220);
 	display: flex;
-	height: -webkit-calc(100vh - 60px);
-	height:    -moz-calc(100vh - 60px);
-	height:         calc(100vh - 60px);
+	min-height: -webkit-calc(100vh - 60px);
+	min-height:    -moz-calc(100vh - 60px);
+	min-height:         calc(100vh - 60px);
 	padding-top: 50px;
 	width:100vw;
 	flex-wrap: wrap;
