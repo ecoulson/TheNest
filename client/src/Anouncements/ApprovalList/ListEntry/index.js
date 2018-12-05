@@ -3,7 +3,7 @@ import ReactTooltip from 'react-tooltip';
 import { AppContext } from '../../../AppContext';
 import $ from "jquery";
 import './entry.css';
-
+import Dante from 'Dante2'
 
 export default class ListEntry extends Component {
 	constructor(props) {
@@ -145,7 +145,7 @@ export default class ListEntry extends Component {
 					<input style={this.state.style} onClick={this.handleRejection} className="reject" type="button" value="reject"/>
 					<input style={this.state.style} onClick={this.handleApproval} className="approve" type="button" value="approve"/>
 					<div id={`list-desc-entry-${this.state.entry.id}`}>
-						<p>{this.state.entry.desc}</p>
+						<Dante content={JSON.parse(this.state.entry.desc)} read_only={true}></Dante>
 						<span>By: {this.state.entry.author}</span>
 						<span style={{float:"right"}}>Grades: {this.state.entry.grades}</span>
 					</div>
