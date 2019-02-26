@@ -11,13 +11,10 @@ router.post('/images', multipartMiddleware, async function(req, res, next) {
 		if (hasAccess) {
 			const destinationPath = path.resolve(__dirname, '../client/public/content', req.files.image.originalFilename);
 			const writeStream = fs.createWriteStream(destinationPath);
-			const url = req.body.publicRoot.trim().length > 0 ?
-				path.join(req.body.publicRoot, 'content', req.files.image.originalFilename) :
-				path.join('content', req.files.image.originalFilename);
 			fs.createReadStream(req.files.image.path)
 				.pipe(writeStream);
 			res.json({
-				link: url
+				link: path.join('content', req.files.image.originalFilename);
 			}).status(200);
 		} else {
 			res.json({
