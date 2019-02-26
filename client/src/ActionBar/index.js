@@ -5,8 +5,9 @@ import './actionbar.css';
 import Owl from '../bird.png';
 import Dropdown from './ActionBarDropdown';
 import Navigation from './Navigation';
+import WhoAmI from './WhoAmI';
 
-export default class Home extends Component {
+export default class ActionBar extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -101,6 +102,7 @@ export default class Home extends Component {
 					<img alt="Owl" src={Owl} className="application-logo" size="2x" />
 					<span className="application-name">The Nest</span>
 				</Link>
+				<WhoAmI></WhoAmI>
 				<Dropdown 
 					visible={this.state.settingsVisible}
 					name="settings" 

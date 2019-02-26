@@ -12,20 +12,27 @@
 .icon-link {
 	display: flex;
 	text-decoration: none;
-	width: 100%;
+	width: 70%;
 }
 
 .application-name {
-	margin: 0;
-	padding: 0;
-	margin-top:5px;
-	padding-left: 25px;
-	display: block;
-	font-size: 28px;
-	height: 40px;
-	padding-top: 5px;
-	color: white;
-	transition: all 0.5s ease;
+	opacity: 0;
+}
+
+@media screen and (min-width: 480px) {
+	.application-name {
+		opacity: 1;
+		margin: 0;
+		padding: 0;
+		margin-top:5px;
+		padding-left: 25px;
+		display: block;
+		font-size: 28px;
+		height: 40px;
+		padding-top: 5px;
+		color: white;
+		transition: all 0.5s ease;
+	}
 }
 
 .action-bar-button {

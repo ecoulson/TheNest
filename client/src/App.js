@@ -78,11 +78,15 @@ const bounceTransition = {
 };
 
 class App extends Component {
+	constructor() {
+		super();
+	}
+
 	render() {
 		return (
 			<Router>
 				<AppProvider>
-					<ActionBar/>
+					<ActionBar />
 					<div className="app-container">
 						<AnimatedSwitch
 							atEnter={bounceTransition.atEnter}
@@ -94,7 +98,6 @@ class App extends Component {
 							<Route exact path="/announcements" component={Anouncements}/>
 							<Route path="/announcements/:id" component={ActiveAnnouncement}/>
 							<Route path="/login" component={Login}/>
-							<Route path="/iostest" component={Home}/>
 							<Route component={NotFound} />
 						</AnimatedSwitch>
 					</div>

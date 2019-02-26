@@ -3,11 +3,18 @@ import { Redirect } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 
 export default class Login extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
-			shouldRedirect: false
+			shouldRedirect: false,
 		}
+	}
+
+	componentWillReceiveProps(props) {
+		this.setState({
+			recievedRefresh: true,
+			refresh: props.bar.current.refresh
+		});
 	}
 
 	componentWillMount() {
@@ -17,7 +24,7 @@ export default class Login extends Component {
 			method:"GET"
 		}).then((res) => {
 			return res.json();
-		}).then((json) => {		
+		}).then((json) => {
 			document.cookie = `user=${JSON.stringify(json.user)}`;
 			this.setState({
 				shouldRedirect: true
@@ -49,7 +56,7 @@ export default class Login extends Component {
 
 	renderRedirect() {
 		if (this.state.shouldRedirect) {
-			return <Redirect to='/'></Redirect>
+			window.location = '/';
 		}
 	}
 }

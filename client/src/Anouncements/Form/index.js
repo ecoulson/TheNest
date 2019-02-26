@@ -320,7 +320,10 @@ export default class Form extends Component {
 						imageUploadMethod: 'POST',
 						events: {
 							'froalaEditor.image.error': (e, editor, error, response) => {
+								console.log(e);
+								console.log(editor);
 								console.log(error);
+								console.log(response);
 							},
 							'froalaEditor.image.removed': (e, editor, img) => {
 								console.log($(img).attr('src').split('/')[1]);
