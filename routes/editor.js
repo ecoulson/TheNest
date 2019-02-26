@@ -35,9 +35,10 @@ async function ensureContentFolderExists(contentPath) {
 						return reject(error);
 					}
 				})
-			} 
-			if (stats.isDirectory()) {
+			}  else if (stats.isDirectory()) {
 				resolve();
+			} else {
+				reject(new Error('Content directory should not be a file'));
 			}
 		});
 	})
