@@ -9,7 +9,9 @@ var path = require('path');
 router.post('/images', multipartMiddleware, async function(req, res, next) {
 	req.session.can('Announcement:Create').then(async (hasAccess) => {
 		if (hasAccess) {
-			const destinationPath = path.resolve(__dirname, '../client/public/content', req.files.image.originalFilename);
+			const contentPath = path.resolve(__dirname, '../client/public/content');
+			await ensureContentFolderExists(contentPath);
+			const destinationPath = path.resolve(contentPath, req.files.image.originalFilename);
 			const writeStream = fs.createWriteStream(destinationPath);
 			fs.createReadStream(req.files.image.path)
 				.pipe(writeStream);
@@ -23,6 +25,23 @@ router.post('/images', multipartMiddleware, async function(req, res, next) {
 		}
 	});
 });
+
+async function ensureContentFolderExists(contentPath) {
+	return new Promise((resolve, reject) => {
+		fs.stat(contentPath, (error, stats) => {
+			if (error) {
+				fs.mkdir(contentPath, (error) => {
+					if (error) {
+						return reject(error);
+					}
+				})
+			} 
+			if (stats.isDirectory()) {
+				resolve();
+			}
+		});
+	})
+}
 
 router.delete('/images', multipartMiddleware, async function(req, res, next) {
 	req.session.can('Announcement:Create').then(async (hasAccess) => {

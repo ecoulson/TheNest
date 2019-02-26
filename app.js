@@ -9,6 +9,7 @@ const session = require('express-session');
 const eSession = require('easy-session');
 const Layers = require('./DataAccessLayer/Layers');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const fs = require('fs');
 Layers.connectToDatabase();
 
 var indexRouter = require('./routes/index');
