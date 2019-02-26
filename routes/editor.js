@@ -29,16 +29,19 @@ router.post('/images', multipartMiddleware, async function(req, res, next) {
 async function ensureContentFolderExists(contentPath) {
 	return new Promise((resolve, reject) => {
 		fs.stat(contentPath, (error, stats) => {
-			if (error) {
+			if (error && error.code === 'ENOENT') {
 				fs.mkdir(contentPath, (error) => {
 					if (error) {
 						return reject(error);
 					}
-				})
-			}  else if (stats.isDirectory()) {
-				resolve();
+				});
+				return resolve();
+			} else if (error) {
+				return reject(error);
+			} else if (stats.isDirectory()) {
+				return resolve();
 			} else {
-				reject(new Error('Content directory should not be a file'));
+				return reject(new Error('Content directory should not be a file'));
 			}
 		});
 	})
