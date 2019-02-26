@@ -34,6 +34,7 @@
     "react-animate-height": "^2.0.3",
     "react-contextmenu": "^2.9.3",
     "react-dom": "^16.6.3",
+    "react-medium-editor": "^1.8.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-transition": "^1.2.1",

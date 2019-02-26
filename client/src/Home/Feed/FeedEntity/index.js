@@ -32,7 +32,7 @@ export default class FeedEntity extends Component {
 			<div className="feed-entity-grades">
 				Grades:
 				{
-					this.props.entity.grades == "" ? " All Grades" : this.props.entity.grades.map((grade) => {
+					this.props.entity.grades === "" ? " All Grades" : this.props.entity.grades.map((grade) => {
 						return parseInt(grade, 10);
 					}).sort((a,b) => {
 						return a < b;

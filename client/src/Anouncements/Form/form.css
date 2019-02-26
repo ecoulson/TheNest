@@ -1,6 +1,8 @@
-.dante-editor > div {
-	width: 80%;
-	margin: 0 auto;
+*[contenteditable=true] {
+	padding: 5px 9px;
+	background-color: #eaeaea;
+	border-radius: 4px;
+	outline: 0;
 }
 
 .form {

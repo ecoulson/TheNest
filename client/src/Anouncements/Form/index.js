@@ -3,14 +3,10 @@ import { AppContext } from '../../AppContext';
 import FormData from './FormData';
 import Select from 'react-select';
 import makeAnimated from 'react-select/lib/animated';
-import Dante from 'Dante2';
-import {ImageBlockConfig} from 'Dante2/package/es/components/blocks/image'
-import {CodeBlockConfig} from 'Dante2/package/es/components/blocks/code'
-import {EmbedBlockConfig} from 'Dante2/package/es/components/blocks/embed'
-import {VideoBlockConfig} from 'Dante2/package/es/components/blocks/video'
-import {PlaceholderBlockConfig} from 'Dante2/package/es/components/blocks/placeholder'
+import Editor from 'react-medium-editor';
 import './form.css';
-import { convertToRaw } from 'draft-js';
+import 'medium-editor/dist/css/medium-editor.css';
+import 'medium-editor/dist/css/themes/default.css';
 
 const options = {
 	grades: [
@@ -192,7 +188,7 @@ export default class Form extends Component {
 		super();
 		this.state = {
 			title: "",
-			desc: "",
+			desc: "Announcement!",
 			author: JSON.parse(getCookie('user')).username,
 			grades: [],
 			type: "",
@@ -279,10 +275,10 @@ export default class Form extends Component {
 		});
 	}
 
-	saveHandler(editorContext, content) {
-		console.log(editorContext);
+	saveHandler(text) {
+		console.log(text);
 		this.setState({
-			desc: convertToRaw(editorContext.editorState().getCurrentContent())
+			desc: text
 		})
 	}
 
@@ -297,32 +293,10 @@ export default class Form extends Component {
 				</AppContext.Consumer>
 				<input disabled={this.props.disabled} value={this.state.title} onChange={this.handleTitleInput} placeholder="Title..." className="form-title"/>
 				<br/>
-				<div className="dante-editor">
-					<Dante data_storage={{
-						url: "/api/announcements/editor",
-						interval: 100,
-						method: "POST",
-						save_handler: this.saveHandler
-					}} background_placeholder="Write your announcement"
-					widgets={[
-						ImageBlockConfig({
-							options: {
-								upload_url: "/api/announcements/image",
-								upload_callback: (ctx, img) => {
-									alert("uploaded");
-									console.log(img)
-								},
-							  	upload_error_callback: (ctx, img) => {
-									console.log(img)
-							  	},
-							},
-						}),
-						CodeBlockConfig(),
-						EmbedBlockConfig(),
-						VideoBlockConfig(),
-						PlaceholderBlockConfig()
-					]}></Dante>
-				</div>
+				<Editor
+					text={this.state.desc}
+					onChange={this.saveHandler}
+				/>
 				<br/>
 				<div style={{display: "flex", justifyContent: "center"}}>
 					<Select
@@ -356,10 +330,10 @@ function getCookie(cname) {
     var ca = decodedCookie.split(';');
     for(var i = 0; i <ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
             c = c.substring(1);
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
             return c.substring(name.length, c.length);
         }
     }

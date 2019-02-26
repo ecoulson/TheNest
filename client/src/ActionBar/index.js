@@ -4,7 +4,6 @@ import { AppContext } from '../AppContext';
 import './actionbar.css';
 import Owl from '../bird.png';
 import Dropdown from './ActionBarDropdown';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Navigation from './Navigation';
 
 export default class Home extends Component {
@@ -102,19 +101,6 @@ export default class Home extends Component {
 					<img alt="Owl" src={Owl} className="application-logo" size="2x" />
 					<span className="application-name">The Nest</span>
 				</Link>
-				{/* <Dropdown 
-					visible={this.state.notificationsVisible}
-					name="notifications" 
-					icon="bell"
-					items={this.notifications}
-					closeOther={[this.closeSettings, this.closeMenu]}
-					toggle={this.toggleNotifications}
-					menuWidth={300}
-					badge={true}
-					badgeCount={1}
-					>
-					{this.renderNotifications()}
-				</Dropdown> */}
 				<Dropdown 
 					visible={this.state.settingsVisible}
 					name="settings" 

@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import ReactTooltip from 'react-tooltip';
 import { AppContext } from '../../../AppContext';
 import $ from "jquery";
+import Editor from 'react-medium-editor';
 import './entry.css';
-import Dante from 'Dante2'
+import 'medium-editor/dist/css/medium-editor.css';
+import 'medium-editor/dist/css/themes/default.css';
 
 export default class ListEntry extends Component {
 	constructor(props) {
@@ -145,7 +147,10 @@ export default class ListEntry extends Component {
 					<input style={this.state.style} onClick={this.handleRejection} className="reject" type="button" value="reject"/>
 					<input style={this.state.style} onClick={this.handleApproval} className="approve" type="button" value="approve"/>
 					<div id={`list-desc-entry-${this.state.entry.id}`}>
-						<Dante content={JSON.parse(this.state.entry.desc)} read_only={true}></Dante>
+						<Editor
+							text={this.state.entry.desc}
+							options={{disableEditing: true, toolbar: false }}
+						/>
 						<span>By: {this.state.entry.author}</span>
 						<span style={{float:"right"}}>Grades: {this.state.entry.grades}</span>
 					</div>
