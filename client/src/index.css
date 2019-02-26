@@ -6,6 +6,11 @@ body {
   font-family: 'Comfortaa', 'cursive';
 }
 
+a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
+	opacity: 0;
+	display: none;
+}
+
 input {
 	border-radius: 0;
 	-webkit-appearance: none;
