@@ -14,7 +14,7 @@ router.post('/images', multipartMiddleware, async function(req, res, next) {
 			fs.createReadStream(req.files.image.path)
 				.pipe(writeStream);
 			res.json({
-				link: path.join('content', req.files.image.originalFilename);
+				link: path.join('content', req.files.image.originalFilename)
 			}).status(200);
 		} else {
 			res.json({
