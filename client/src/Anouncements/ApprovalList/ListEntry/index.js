@@ -2,10 +2,18 @@ import React, { Component } from 'react';
 import ReactTooltip from 'react-tooltip';
 import { AppContext } from '../../../AppContext';
 import $ from "jquery";
-import Editor from 'react-medium-editor';
+// Require Editor JS files.
+import 'froala-editor/js/froala_editor.pkgd.min.js';
+
+// Require Editor CSS files.
+import 'froala-editor/css/froala_style.min.css';
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+
+// Require Font Awesome.
+import 'font-awesome/css/font-awesome.css';
+
+import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
 import './entry.css';
-import 'medium-editor/dist/css/medium-editor.css';
-import 'medium-editor/dist/css/themes/default.css';
 
 export default class ListEntry extends Component {
 	constructor(props) {
@@ -135,6 +143,7 @@ export default class ListEntry extends Component {
 	}
 
 	render() {
+		console.log(this.state.entry.desc);
 		return (
 			<div>
 				<AppContext.Consumer>
@@ -147,9 +156,8 @@ export default class ListEntry extends Component {
 					<input style={this.state.style} onClick={this.handleRejection} className="reject" type="button" value="reject"/>
 					<input style={this.state.style} onClick={this.handleApproval} className="approve" type="button" value="approve"/>
 					<div id={`list-desc-entry-${this.state.entry.id}`}>
-						<Editor
-							text={this.state.entry.desc}
-							options={{disableEditing: true, toolbar: false }}
+						<FroalaEditorView
+							model={this.state.entry.desc}
 						/>
 						<span>By: {this.state.entry.author}</span>
 						<span style={{float:"right"}}>Grades: {this.state.entry.grades}</span>

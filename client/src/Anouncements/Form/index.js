@@ -3,10 +3,21 @@ import { AppContext } from '../../AppContext';
 import FormData from './FormData';
 import Select from 'react-select';
 import makeAnimated from 'react-select/lib/animated';
-import Editor from 'react-medium-editor';
 import './form.css';
-import 'medium-editor/dist/css/medium-editor.css';
-import 'medium-editor/dist/css/themes/default.css';
+// Require Editor JS files.
+import * as $ from 'jquery';
+import "froala-editor/js/froala_editor.pkgd.min.js";
+
+// Require Editor CSS files.
+import 'froala-editor/css/froala_style.min.css';
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+
+// Require Font Awesome.
+import 'font-awesome/css/font-awesome.css';
+
+import FroalaEditor from 'react-froala-wysiwyg';
+
+window["$"] = $; window["jQuery"] = $;
 
 const options = {
 	grades: [
@@ -188,7 +199,7 @@ export default class Form extends Component {
 		super();
 		this.state = {
 			title: "",
-			desc: "Announcement!",
+			desc: "",
 			author: JSON.parse(getCookie('user')).username,
 			grades: [],
 			type: "",
@@ -276,7 +287,6 @@ export default class Form extends Component {
 	}
 
 	saveHandler(text) {
-		console.log(text);
 		this.setState({
 			desc: text
 		})
@@ -293,9 +303,42 @@ export default class Form extends Component {
 				</AppContext.Consumer>
 				<input disabled={this.props.disabled} value={this.state.title} onChange={this.handleTitleInput} placeholder="Title..." className="form-title"/>
 				<br/>
-				<Editor
-					text={this.state.desc}
-					onChange={this.saveHandler}
+				<FroalaEditor
+ 					tag='textarea'
+					model={this.state.desc}
+					config={{
+						placeholder: "Write your anouncement!",
+						toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineClass', 'inlineStyle', 'paragraphStyle', 'lineHeight', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'getPDF', 'spellChecker', 'help', '|', 'undo', 'redo'],
+						quickInsertButtons: ['image', 'ul', 'ol', 'hr'],
+						spellcheck: true,
+						imageInsertButtons: ['imageByURL', 'imageUpload'],
+						imageUploadURL: '/api/editor/images',
+						imageUploadParam: 'image',
+						imageUploadParams: {
+							publicRoot: process.env.PUBLIC_URL
+						},
+						imageUploadMethod: 'POST',
+						events: {
+							'froalaEditor.image.error': (e, editor, error, response) => {
+								console.log(error);
+							},
+							'froalaEditor.image.removed': (e, editor, img) => {
+								console.log($(img).attr('src').split('/')[1]);
+								fetch('/api/editor/images', {
+									method: "DELETE",
+									credentials: 'include',
+									headers: {
+										'Accept': 'application/json, text/plain, */*',
+										'Content-Type': 'application/json'
+									},
+									body: JSON.stringify({
+										name: $(img).attr('src').split('/')[1]
+									})
+								});
+							}
+						}
+					}}
+					onModelChange={this.saveHandler}
 				/>
 				<br/>
 				<div style={{display: "flex", justifyContent: "center"}}>

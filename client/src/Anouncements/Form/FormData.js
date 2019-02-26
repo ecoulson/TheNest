@@ -34,7 +34,7 @@ export default class FormData {
 	}
 
 	serialize() {
-		this.data.desc = JSON.stringify(this.data.desc);
+		this.data.desc = this.data.desc;
 		this.data.type = this.data.type.value;
 		this.data.grades = this.data.grades.map((grade) => {
 			return grade.value;
