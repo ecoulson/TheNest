@@ -25,6 +25,7 @@ export default class ApprovalList extends Component {
 	removeEntry(id) {
 		let unapproved = this.state.unapproved;
 		let index = this.getIndex(id, unapproved);
+		console.log(index);
 		unapproved.splice(index, 1);
 		this.setState({
 			unapproved: unapproved
@@ -33,7 +34,7 @@ export default class ApprovalList extends Component {
 
 	getIndex(id, unapproved) {
 		for (let i = 0; i < unapproved.length; i++) {
-			if (unapproved[i].id === id) {
+			if (unapproved[i]._id === id) {
 				return i;
 			}
 		}
