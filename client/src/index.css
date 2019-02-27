@@ -12,6 +12,10 @@ a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
 	position: absolute; 
 }
 
+p[data-f-id] {
+	display: none;
+}
+
 input {
 	border-radius: 0;
 	-webkit-appearance: none;
