@@ -311,7 +311,7 @@ export default class Form extends Component {
 						toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineClass', 'inlineStyle', 'paragraphStyle', 'lineHeight', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'getPDF', 'spellChecker', 'help', '|', 'undo', 'redo'],
 						quickInsertButtons: ['image', 'ul', 'ol', 'hr'],
 						spellcheck: true,
-						imageInsertButtons: ['imageByURL'],
+						imageInsertButtons: ['imageByURL', 'imageUpload'],
 						imageUploadURL: '/api/editor/images',
 						imageUploadParam: 'image',
 						imageUploadParams: {
