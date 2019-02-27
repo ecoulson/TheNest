@@ -315,7 +315,7 @@ export default class Form extends Component {
 						imageUploadURL: '/api/editor/images',
 						imageUploadParam: 'image',
 						imageUploadParams: {
-							publicRoot: process.env.PUBLIC_URL
+							url: window.location.origin
 						},
 						imageUploadMethod: 'POST',
 						events: {

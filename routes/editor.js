@@ -9,7 +9,6 @@ var path = require('path');
 router.post('/images', multipartMiddleware, async function(req, res, next) {
 	req.session.can('Announcement:Create').then(async (hasAccess) => {
 		if (hasAccess) {
-			console.log("there");
 			const contentPath = path.resolve(__dirname, '../client/public/content');
 			await ensureContentFolderExists(contentPath);
 			const destinationPath = path.resolve(contentPath, req.files.image.originalFilename);
@@ -18,9 +17,9 @@ router.post('/images', multipartMiddleware, async function(req, res, next) {
 				.pipe(writeStream);
 			writeStream.on('close', () => {
 				res.json({
-					link: path.join('content', req.files.image.originalFilename)
+					link: req.body.url + path.join('/content', req.files.image.originalFilename)
 				}).status(200);
-			})
+			});
 		} else {
 			console.log("here")
 			res.json({
