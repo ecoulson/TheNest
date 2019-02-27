@@ -3,8 +3,8 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 
 class GithubCDN {
-	static async write(filename, filePath) {
-		const fileURL = `${CDNUrl}${filename}`;
+	static async writeImage(filename, filePath) {
+		const fileURL = `${CDNUrl}images/${filename}`;
 		console.log(fileURL);
 		const response = await fetch(fileURL, {
 			method: "PUT",
