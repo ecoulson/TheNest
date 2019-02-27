@@ -19,6 +19,7 @@ router.post('/images', multipartMiddleware, async function(req, res, next) {
 				link: path.join('content', req.files.image.originalFilename)
 			}).status(200);
 		} else {
+			console.log("here")
 			res.json({
 				success: false,
 			}).status(401)
