@@ -64,7 +64,7 @@ export default class ListEntry extends Component {
 	}
 
 	hideAnnouncement() {
-		let element = document.getElementById(`list-desc-entry-${this.state.entry.id}`);
+		let element = document.getElementById(`list-desc-entry-${this.state.entry._id}`);
 		if (element != null) {
 			setTimeout(() => {
 				$(element).hide();
@@ -131,7 +131,8 @@ export default class ListEntry extends Component {
 	}
 
 	showDesc(e) {
-		let element = document.getElementById(`list-desc-entry-${this.state.entry.id}`);
+		console.log(this.state.entry._id);
+		let element = document.getElementById(`list-desc-entry-${this.state.entry._id}`);
 		if (element !== null && e.target.className.trim() !== "approve") {
 			$(element).slideToggle();
 		} else {
@@ -155,7 +156,7 @@ export default class ListEntry extends Component {
 					<span style={this.state.style} className="entry-title">{this.state.entry.displayTitle}</span>
 					<input style={this.state.style} onClick={this.handleRejection} className="reject" type="button" value="reject"/>
 					<input style={this.state.style} onClick={this.handleApproval} className="approve" type="button" value="approve"/>
-					<div id={`list-desc-entry-${this.state.entry.id}`}>
+					<div id={`list-desc-entry-${this.state.entry._id}`}>
 						<FroalaEditorView
 							model={this.state.entry.desc}
 						/>
