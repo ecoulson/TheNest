@@ -32,8 +32,8 @@ export default class WhoAmI extends Component {
 	}
 
 	render() {
-		let user = JSON.parse(getCookie('user')).username;
 		if (this.state.hasFetched && this.state.canCreate) {
+			let user = JSON.parse(getCookie('user')).username;
 			return <h3 className="whoami">{user}</h3>;
 		} else {
 			return <h3 className="whoami">Guest</h3>;
