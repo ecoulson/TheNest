@@ -48,10 +48,17 @@ app.use(session({
 
 app.use(eSession.main(session, Roles));
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/public')));
 
 app.use('/api', indexRouter);
 
+app.use('/content/:file', function(request, response) {
+	console.log("there!");
+	response.sendFile(path.resolve(__dirname, 'client', 'public', request.params.file));
+});
+
 app.get('*', function (request, response){
+	console.log("here!");
 	response.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
 })
 
