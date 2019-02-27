@@ -58,7 +58,7 @@ export default class ListEntry extends Component {
 	}
 
 	handleApproval() {
-		this.props.removeEntry(this.state.entry.id);
+		this.props.removeEntry(this.state.entry._id);
 		this.hideAnnouncement();
 		this.requestApproval();
 	}
@@ -100,7 +100,7 @@ export default class ListEntry extends Component {
 	}
 
 	handleRejection() {
-		this.props.removeEntry(this.state.entry.id);
+		this.props.removeEntry(this.state.entry._id);
 		this.hideAnnouncement();
 		this.requestRejection();
 	}
