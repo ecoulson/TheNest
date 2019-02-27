@@ -6,12 +6,6 @@ body {
   font-family: 'Comfortaa', 'cursive';
 }
 
-a[href^="https://www.froala.com/"] {	
-	display: none !important;
-	z-index: -50;
-	position: absolute; 
-}
-
 
 input {
 	border-radius: 0;
