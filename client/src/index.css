@@ -6,15 +6,12 @@ body {
   font-family: 'Comfortaa', 'cursive';
 }
 
-a[href="https://www.froala.com/wysiwyg-editor?k=u"] {	
+a[href^="https://www.froala.com/"] {	
 	display: none !important;
 	z-index: -50;
 	position: absolute; 
 }
 
-p[data-f-id] {
-	display: none;
-}
 
 input {
 	border-radius: 0;
