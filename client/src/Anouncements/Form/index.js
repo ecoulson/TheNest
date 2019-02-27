@@ -327,20 +327,6 @@ export default class Form extends Component {
 								console.log(error);
 								console.log(response);
 							},
-							'froalaEditor.image.removed': (e, editor, img) => {
-								console.log($(img).attr('src').split('/')[1]);
-								fetch('/api/editor/images', {
-									method: "DELETE",
-									credentials: 'include',
-									headers: {
-										'Accept': 'application/json, text/plain, */*',
-										'Content-Type': 'application/json'
-									},
-									body: JSON.stringify({
-										name: $(img).attr('src').split('/')[1]
-									})
-								});
-							}
 						}
 					}}
 					onModelChange={this.saveHandler}
