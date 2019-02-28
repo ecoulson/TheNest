@@ -312,6 +312,7 @@ export default class Form extends Component {
 						toolbarButtonsSM: ['fullscreen', 'bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'insertLink', 'insertImage', 'insertTable', 'undo', 'redo'],
 						toolbarButtonsXS: ['bold', 'italic', 'fontFamily', 'fontSize', 'undo', 'redo'],
 						quickInsertButtons: ['image', 'ul', 'ol', 'hr'],
+						fileUploadURL: '/api/editor/files',
 						spellcheck: true,
 						imageInsertButtons: ['imageByURL', 'imageUpload'],
 						imageUploadURL: '/api/editor/images',
