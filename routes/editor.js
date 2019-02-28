@@ -39,7 +39,10 @@ router.post('/files', async function(req, res, next) {
 					}
 					const path = files.file[0].path;
 					const fileParts = files.file[0].originalFilename.split('.');
-					const filename = fileParts[0] + new Date().getTime() + "." + fileParts[1];
+					const filename = fileParts[0].replace(/[^a-zA-Z0-9_-]/g, "") + 
+										new Date().getTime() + 
+										"." + 
+										fileParts[1];
 					let url = await CDN.writeFile(filename, path);
 					res.json({
 						link: url
