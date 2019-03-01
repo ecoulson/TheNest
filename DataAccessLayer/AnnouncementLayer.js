@@ -102,13 +102,15 @@ function convertFiltersToMongoQuery(filters, approved, pinned) {
 			filter.forEach((filter) => {
 				let orComponent = {};
 				let orComparator = {};
-				orComparator[filter.comparator] = filter.value;
+				orComparator[filter.comparator] = new RegExp(`${filter.value}`, "i");
 				orComponent[filter.key.toLowerCase()] = orComparator;
 				orQuery["$or"].push(orComponent);
 			});
 			andQuery["$and"].push(orQuery);
 		}
 	});
+	console.log(andQuery);
+	console.log(orQuery["$or"]);
 	if (andQuery["$and"].length != 0) {
 		return {
 			...andQuery,
