@@ -53,17 +53,14 @@ app.use(express.static(path.join(__dirname, 'client/public')));
 app.use('/api', indexRouter);
 
 app.use('/content/:file', function(request, response) {
-	console.log("there!");
 	response.sendFile(path.resolve(__dirname, 'client', 'public', request.params.file));
 });
 
 app.get('*', function (request, response){
-	console.log("here!");
 	response.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
 })
 
 app.use(function(req, res, next) {
-	console.log(`Not Found @${req.url}\n${createError(404)}`);
 	res.status(404);
 	res.send(`Not Found @${req.url}\n${createError(404)}`);
 });

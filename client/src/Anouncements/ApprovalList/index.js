@@ -25,7 +25,6 @@ export default class ApprovalList extends Component {
 	removeEntry(id) {
 		let unapproved = this.state.unapproved;
 		let index = this.getIndex(id, unapproved);
-		console.log(index);
 		unapproved.splice(index, 1);
 		this.setState({
 			unapproved: unapproved

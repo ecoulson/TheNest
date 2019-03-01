@@ -9,7 +9,6 @@ class AnnouncementLayer {
 	}
 
 	async getAnnouncementCount(filters) {
-		console.log(convertFiltersToMongoQuery(filters, true, false));
 		return await Announcement.count(convertFiltersToMongoQuery(filters, true, false));
 	}
 
@@ -18,7 +17,6 @@ class AnnouncementLayer {
 	}
 
 	async loadPinnedAnnouncements(filters) {
-		console.log(convertFiltersToMongoQuery(filters, true, true));
 		return await Announcement.find(convertFiltersToMongoQuery(filters, true, true));
 	}
 	
@@ -30,9 +28,12 @@ class AnnouncementLayer {
 	}
 
 	async loadApprovedAnnouncements(offset, filters) {
-		console.log(convertFiltersToMongoQuery(filters, true, false));
 		let query = convertFiltersToMongoQuery(filters, true, false);
-		return await Announcement.find(query).sort({dateCreated: -1}).limit(20);
+		let announcements = await Announcement.find(query)
+									.skip(parseInt(offset))
+									.sort({dateCreated: -1})
+									.limit(20);
+		return announcements;
 	}
 
 	async loadUnapprovedAnnouncements() {
@@ -109,8 +110,6 @@ function convertFiltersToMongoQuery(filters, approved, pinned) {
 			andQuery["$and"].push(orQuery);
 		}
 	});
-	console.log(andQuery);
-	console.log(orQuery["$or"]);
 	if (andQuery["$and"].length != 0) {
 		return {
 			...andQuery,

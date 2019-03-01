@@ -41,15 +41,19 @@ export default class AnnouncementDisplay extends Component {
 	render() {
 		return (
 			<div className="announcement-display">
-				<span className="announcement-display-grades">Grades: {this.formatGrades(this.state.announcement.grades)}</span>
-				<span className="announcement-display-type">{this.state.announcement.type}</span>
+				<div className="entry-author-container">
+					<span className="announcement-display-grades">Grades: {this.formatGrades(this.state.announcement.grades)}</span>
+					<span className="announcement-display-type">{this.state.announcement.type}</span>
+				</div>
 				<div className="announcement-display-split"/>
 				<FroalaEditorView
 					model={this.state.announcement.desc}
 				/>
 				<div className="announcement-display-split"/>
-				<span className="announcement-display-date">{moment(this.state.announcement.dateCreated).format("MMMM Do, YY h:mmA")}</span>
-				<span className="announcement-display-author">{this.state.announcement.author}</span>
+				<div className="entry-author-container">
+					<span className="announcement-display-date">{moment(this.state.announcement.dateCreated).format("MMMM Do, YY h:mmA")}</span>
+					<span className="announcement-display-author">{this.state.announcement.author}</span>
+				</div>
 			</div>
 		)
 	}

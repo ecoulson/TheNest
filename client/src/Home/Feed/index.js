@@ -167,7 +167,7 @@ export default class Feed extends Component {
 		}
 		return [
 			{
-				key: "Announcement",
+				key: "Desc",
 				value: search,
 				comparator: "$regex",
 			},
@@ -232,9 +232,7 @@ export default class Feed extends Component {
 				let index = this.getAnnouncementById(json.announcement._id);
 				let announcement = announcements[index];
 				announcement.pinned = !announcement.pinned;
-				console.log(announcements);
 				announcements = this.handleAnnouncementReposition(announcement, index);
-				console.log(announcements);
 				this.setState({
 					announcements: announcements
 				});

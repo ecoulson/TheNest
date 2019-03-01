@@ -321,14 +321,6 @@ export default class Form extends Component {
 							url: window.location.origin
 						},
 						imageUploadMethod: 'POST',
-						events: {
-							'froalaEditor.image.error': (e, editor, error, response) => {
-								console.log(e);
-								console.log(editor);
-								console.log(error);
-								console.log(response);
-							},
-						}
 					}}
 					onModelChange={this.saveHandler}
 				/>

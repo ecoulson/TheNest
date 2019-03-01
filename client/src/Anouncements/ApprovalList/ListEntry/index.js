@@ -131,7 +131,6 @@ export default class ListEntry extends Component {
 	}
 
 	showDesc(e) {
-		console.log(this.state.entry._id);
 		let element = document.getElementById(`list-desc-entry-${this.state.entry._id}`);
 		if (element !== null && e.target.className.trim() !== "approve") {
 			$(element).slideToggle();
@@ -144,7 +143,7 @@ export default class ListEntry extends Component {
 	}
 
 	render() {
-		console.log(this.state.entry.desc);
+		console.log(this.state.entry.grades);
 		return (
 			<div>
 				<AppContext.Consumer>
@@ -161,7 +160,7 @@ export default class ListEntry extends Component {
 							model={this.state.entry.desc}
 						/>
 						<span>By: {this.state.entry.author}</span>
-						<span style={{float:"right"}}>Grades: {this.state.entry.grades}</span>
+						<span style={{float:"right"}}>Grades: {this.state.entry.grades.join(", ")}</span>
 					</div>
 				</div>
 				{ this.state.showingDesc ? 

@@ -26,12 +26,33 @@
 	display: block;
 }
 
-.announcement-display-grades, .announcement-display-date {
-	float:left;
+.announcement-display-type, .announcement-display-author {
+	width: 50%;
+	display: block;
+	text-align: right;
 	text-transform: capitalize;
+	padding-top: 10px;
 }
 
-.announcement-display-type, .announcement-display-author {
-	float:right;
-	text-transform: capitalize;
+.announcement-display-grades, .announcement-display-date {
+	width: 50%;
+	display: block;
+	padding-top: 10px;
+}
+
+.entry-author-container {
+	display: flex;
+}
+
+@media screen and (max-width: 780px) {
+	.announcement-display-grades, .announcement-display-date {
+		width: 100%;
+	}	
+	.announcement-display-type, .announcement-display-author {
+		width: 100%;
+		text-align: left;
+	}
+	.entry-author-container {
+		display: block;
+	}
 }

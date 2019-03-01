@@ -35,7 +35,6 @@ async function readFile(path) {
 			if (error) {
 				return reject(error);
 			} else {
-				console.log(data);
 				return resolve(data);
 			}
 		});
