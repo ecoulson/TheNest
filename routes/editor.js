@@ -9,7 +9,10 @@ router.post('/images', multipartMiddleware, async function(req, res, next) {
 	req.session.can('Announcement:Create').then(async (hasAccess) => {
 		if (hasAccess) {
 			try {
-				let url = await CDN.writeImage(req.files.image.originalFilename, req.files.image.path);
+				let url = await CDN.writeImage(
+							req.files.image.originalFilename.replace(/[^a-zA-Z0-9_-]/g, ""), 
+							req.files.image.path
+						);
 				res.json({
 					link: url
 				}).status(200);

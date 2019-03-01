@@ -109,7 +109,7 @@ function convertFiltersToMongoQuery(filters, approved, pinned) {
 			andQuery["$and"].push(orQuery);
 		}
 	});
-	if (andQuery.length == 0) {
+	if (andQuery["$and"].length != 0) {
 		return {
 			...andQuery,
 			approved: approved,
