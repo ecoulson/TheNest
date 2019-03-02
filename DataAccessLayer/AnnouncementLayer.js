@@ -33,7 +33,6 @@ class AnnouncementLayer {
 									.skip(parseInt(offset))
 									.sort({dateCreated: -1})
 									.limit(20);
-		console.log(announcements[19], offset);
 		return announcements;
 	}
 

@@ -201,6 +201,9 @@ export default class Feed extends Component {
 		if (type === null || type === "") {
 			return null;
 		}
+		if (type == "ASB") {
+			type = "Asb";
+		}
 		return {
 			key: "Type",
 			value: type == null ? "" : type,

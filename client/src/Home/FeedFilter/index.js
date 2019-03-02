@@ -23,7 +23,7 @@ export default class FeedFilter extends Component {
 					"Art",
 					"ASB",
 					"Band",
-					"Clubs",
+					"Club",
 					"General",
 					"Sports",
 					"Theatre",
