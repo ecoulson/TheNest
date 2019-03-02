@@ -47,7 +47,7 @@ export default class Module extends Component {
 		let width = window.innerWidth;
 		return {
 			width: width > 1224 ? this.props.width : window.innerWidth - 50,
-			marginRight: width > 1224 ? 0: "25px",
+			marginRight: "25px",
 			height: this.props.height,
 		}
 	}

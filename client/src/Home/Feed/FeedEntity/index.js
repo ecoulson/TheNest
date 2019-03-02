@@ -60,24 +60,22 @@ export default class FeedEntity extends Component {
 
 	render() {
 		return (
-			<div>
-				<ContextMenuTrigger collect={props => props} entity={this.props.entity} id={`contextmenu-${this.props.source ? this.props.source : "announcements"}`}>
-					<Link to={`/announcements/${this.props.entity._id}`} className="feed-entity-container">
-						<div className="feed-entity-header">
-							{this.renderPin()}
-							<FontAwesomeIcon className="feed-entity-type" size="1x" icon={this.getIcon()} />
-							<h2 className="feed-entity-title">{this.props.entity.title}</h2>
-							{this.renderGrades()}
-						</div>
-						<div className="split"/>
-						<div className="split"/>
-						<div className="feed-entity-footer">
-							<span className="feed-entity-date">{moment(this.props.entity.dateCreated).format("MMMM Do, YY h:mmA")}</span>
-							<span className="feed-entity-author">{this.props.entity.author}</span>
-						</div>
-					</Link>
-				</ContextMenuTrigger>
-			</div>
+			<ContextMenuTrigger collect={props => props} entity={this.props.entity} id={`contextmenu-${this.props.source ? this.props.source : "announcements"}`}>
+				<Link to={`/announcements/${this.props.entity._id}`} className="feed-entity-container">
+					<div className="feed-entity-header">
+						{this.renderPin()}
+						<FontAwesomeIcon className="feed-entity-type" size="1x" icon={this.getIcon()} />
+						<h2 className="feed-entity-title">{this.props.entity.title}</h2>
+						{this.renderGrades()}
+					</div>
+					<div className="split"/>
+					<div className="split"/>
+					<div className="feed-entity-footer">
+						<span className="feed-entity-date">{moment(this.props.entity.dateCreated).format("MMMM Do, YY h:mmA")}</span>
+						<span className="feed-entity-author">{this.props.entity.author}</span>
+					</div>
+				</Link>
+			</ContextMenuTrigger>
 		)
 	}
 }

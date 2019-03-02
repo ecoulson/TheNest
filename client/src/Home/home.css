@@ -41,11 +41,10 @@
 
 .home-container {
 	background-color: rgb(220, 220, 220);
-	/* https://www.google.com/search?q=forest+background+drawing&rlz=1C5CHFA_enUS691US691&tbm=isch&source=lnt&tbs=isz:lt,islt:4mp&sa=X&ved=0ahUKEwiNjY2dgefcAhWVIDQIHc42Bk0QpwUIIA&biw=1280&bih=703&dpr=2#imgrc=Y1zSaJZPmC2-VM: */
 	display: flex;
-	height: -webkit-calc(100vh - 60px);
-	height:    -moz-calc(100vh - 60px);
-	height:         calc(100vh - 60px);
+	height: -webkit-calc(100vh - 50px);
+	height:    -moz-calc(100vh - 50px);
+	height:         calc(100vh - 50px);
 	padding-top: 50px;
 	width:100vw;
 	flex-wrap: wrap;
@@ -79,7 +78,6 @@
 	width: 150px;
 	height: 25px;
 	text-align: center;
-	/* //saved blue #7bf2ff */
 	background-color: #efdd8d;
 	color: black;
 	text-decoration: none;

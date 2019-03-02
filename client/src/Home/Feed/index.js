@@ -71,7 +71,7 @@ export default class Feed extends Component {
 
 	componentWillUnmount() {
 		let element = document.getElementsByClassName('feed-container')[0];
-		element.removeEventListener("scroll", this.handleFeedScroll);
+		element.parentElement.removeEventListener("scroll", this.handleFeedScroll);
 	}
 
 	fetchAnnouncementCount(next) {
@@ -124,8 +124,8 @@ export default class Feed extends Component {
 	addFeedScrollListener() {
 		let element = document.getElementsByClassName('feed-container')[0];
 		if (element) {
-			element.removeEventListener("scroll", this.handleFeedScroll);
-			element.addEventListener("scroll", this.handleFeedScroll);
+			element.parentElement.removeEventListener("scroll", this.handleFeedScroll);
+			element.parentElement.addEventListener("scroll", this.handleFeedScroll);
 		}
 	}
 
@@ -352,17 +352,33 @@ export default class Feed extends Component {
 	render() {
 		if (!this.state.hasFetchedAnnouncements) {
 			return (
-				<div className="loader">Loading...</div>
+				null
 			);
 		} else {
 			return (
 				<div className="feed-scroll-container">
+					<AppContext.Consumer>
+						{context => {
+							this.showStatus = context.showStatus;
+						}}
+					</AppContext.Consumer>
+					{!this.state.isAdmin ? null : 
+						<ContextMenu onShow={this.getPinAction} collect={props => props} id={`contextmenu-${this.props.feedSource ? this.props.feedSource : "announcements"}`}>
+							<MenuItem onClick={this.handlePinnedAnnouncement}>
+								<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="thumbtack"/>
+								{this.state.pinAction} Announcement
+							</MenuItem>
+							<MenuItem  onClick={this.handleRejectedAnnouncement}>
+								<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="ban"/>
+								Unapprove Announcement
+							</MenuItem>
+							<MenuItem  onClick={this.handleDeleteAnnouncement}>
+								<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="trash"/>
+								Delete Announcement
+							</MenuItem>
+						</ContextMenu>
+					}
 					<div className="feed-container">
-						<AppContext.Consumer>
-							{context => {
-								this.showStatus = context.showStatus;
-							}}
-						</AppContext.Consumer>
 						<ReactCSSTransitionGroup
 							transitionName="feather"
 							transitionEnterTimeout={250}
@@ -373,22 +389,6 @@ export default class Feed extends Component {
 								null
 							}
 						</ReactCSSTransitionGroup>
-						{!this.state.isAdmin ? null : 
-							<ContextMenu onShow={this.getPinAction} collect={props => props} id={`contextmenu-${this.props.feedSource ? this.props.feedSource : "announcements"}`}>
-								<MenuItem onClick={this.handlePinnedAnnouncement}>
-									<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="thumbtack"/>
-									{this.state.pinAction} Announcement
-								</MenuItem>
-								<MenuItem  onClick={this.handleRejectedAnnouncement}>
-									<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="ban"/>
-									Unapprove Announcement
-								</MenuItem>
-								<MenuItem  onClick={this.handleDeleteAnnouncement}>
-									<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="trash"/>
-									Delete Announcement
-								</MenuItem>
-							</ContextMenu>
-						}
 					</div>
 				</div>
 			)
