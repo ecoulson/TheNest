@@ -33,7 +33,6 @@ export default class Feed extends Component {
 	}
 
 	componentWillReceiveProps(props) {
-		console.log('here');
 		this.setState({
 			offset: 0,
 			filters: props.filters,
@@ -41,7 +40,9 @@ export default class Feed extends Component {
 			fetchingNextAnnouncements: true,
 		}, () => {
 			this.fetchAnnouncementCount(() => {
-				this.fetchAnnouncements();
+				this.fetchPinned(() => {
+					this.fetchAnnouncements();
+				});
 			});
 		});
 		
@@ -67,7 +68,6 @@ export default class Feed extends Component {
 	
 	componentWillMount() {
 		this.fetchAdmin();
-		this.fetchPinned();
 	}
 
 	componentWillUnmount() {
@@ -89,20 +89,16 @@ export default class Feed extends Component {
 		});
 	}
 
-	fetchPinned() {
+	fetchPinned(next) {
 		fetch('/api/announcements/pinned', {
 			credentials: 'include'
 		})
 		.then(res => res.json())
 		.then((body) => {
-			console.log("there");
-			let announcements = this.state.announcements;
-			body.announcements.forEach((announcement) => {
-				announcements.push(announcement);
-			})
 			this.setState({
-				announcements: announcements,
+				announcements: body.announcements,
 			});
+			next();
 		});
 	}
 
