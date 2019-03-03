@@ -39,6 +39,7 @@ class AnnouncementRoute extends Route {
 
 	// gets count of total announcements in the database
 	async getCount(request, response) {
+		console.log(getFilters(request));
 		const resolver = new RouteResolver('count', this.layer.getAnnouncementCount, [ getFilters(request) ]);
 		await this.handleRoute(request, response, 'Announcement:Read', resolver);
 	}
