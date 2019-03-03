@@ -28,10 +28,7 @@ class AnnouncementLayer {
 	}
 
 	async loadPinnedAnnouncements(filters) {
-		let pinned = await this.model.find(this.getMongoQuery(filters, true, true));
-		console.log('here');
-		console.log(pinned);
-		return pinned;
+		return await this.model.find(this.getMongoQuery(filters, true, true));
 	}
 	
 	async togglePinned(id) {

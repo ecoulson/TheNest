@@ -33,6 +33,7 @@ export default class Feed extends Component {
 	}
 
 	componentWillReceiveProps(props) {
+		console.log('here');
 		this.setState({
 			offset: 0,
 			filters: props.filters,
@@ -94,8 +95,13 @@ export default class Feed extends Component {
 		})
 		.then(res => res.json())
 		.then((body) => {
+			console.log("there");
+			let announcements = this.state.announcements;
+			body.announcements.forEach((announcement) => {
+				announcements.push(announcement);
+			})
 			this.setState({
-				announcements: body.announcements,
+				announcements: announcements,
 			});
 		});
 	}
