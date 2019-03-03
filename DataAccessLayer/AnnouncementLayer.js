@@ -24,11 +24,14 @@ class AnnouncementLayer {
 	}
 
 	async getAnnouncement(id) {
-		return this.model.findById(id);
+		return await this.model.findById(id);
 	}
 
 	async loadPinnedAnnouncements(filters) {
-		return await this.model.find(this.getMongoQuery(filters, true, true));
+		let pinned = await this.model.find(this.getMongoQuery(filters, true, true));
+		console.log('here');
+		console.log(pinned);
+		return pinned;
 	}
 	
 	async togglePinned(id) {
