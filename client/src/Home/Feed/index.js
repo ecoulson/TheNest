@@ -108,9 +108,11 @@ export default class Feed extends Component {
 		.then(res => res.json())
 		.then((body) => {
 			let stateAnnouncements = this.state.announcements;
-			body.announcements.forEach((announcement) => {
-				stateAnnouncements.push(announcement);
-			});
+			if (body.success) {
+				body.announcements.forEach((announcement) => {
+					stateAnnouncements.push(announcement);
+				});
+			}
 			this.setState({
 				announcements: stateAnnouncements,
 				hasFetchedAnnouncements: true,
@@ -168,7 +170,7 @@ export default class Feed extends Component {
 		return [
 			{
 				key: "Desc",
-				value: search,
+				value: `${search}`,
 				comparator: "$regex",
 			},
 			{

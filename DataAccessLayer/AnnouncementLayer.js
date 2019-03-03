@@ -1,11 +1,11 @@
-const Announcement = require('../models/announcement');
 const Counter = require('../models/counter');
 const moment = require('moment');
 const LOAD_LIMIT = 20;
 
 class AnnouncementLayer {
-	constructor(mongoDatabase) {
-		this.mongoDatabase = mongoDatabase;
+	constructor(model) {
+		this.model = model;
+
 		this.getAnnouncementCount = this.getAnnouncementCount.bind(this);
 		this.getAnnouncement = this.getAnnouncement.bind(this);
 		this.loadPinnedAnnouncements = this.loadPinnedAnnouncements.bind(this);
@@ -20,27 +20,27 @@ class AnnouncementLayer {
 	}
 
 	async getAnnouncementCount(filters) {
-		return await Announcement.count(convertFiltersToMongoQuery(filters, true, false));
+		return await this.model.count(this.getMongoQuery(filters, true, false));
 	}
 
 	async getAnnouncement(id) {
-		return Announcement.findById(id);
+		return this.model.findById(id);
 	}
 
 	async loadPinnedAnnouncements(filters) {
-		return await Announcement.find(convertFiltersToMongoQuery(filters, true, true));
+		return await this.model.find(this.getMongoQuery(filters, true, true));
 	}
 	
 	async togglePinned(id) {
-		let announcement = await Announcement.findById(id);
+		let announcement = await this.model.findById(id);
 		announcement.pinned = !announcement.pinned;
 		announcement.pinnedDate = moment().utc().format("YYYYMMDD h:m:s A");
-		return await Announcement.findByIdAndUpdate(id, announcement)
+		return await this.model.findByIdAndUpdate(id, announcement)
 	}
 
 	async loadApprovedAnnouncements(offset, filters) {
-		let query = convertFiltersToMongoQuery(filters, true, false);
-		let announcements = await Announcement.find(query)
+		let query = this.getMongoQuery(filters, true, false);
+		let announcements = await this.model.find(query)
 									.skip(parseInt(offset))
 									.sort({dateCreated: -1})
 									.limit(LOAD_LIMIT);
@@ -48,7 +48,7 @@ class AnnouncementLayer {
 	}
 
 	async loadUnapprovedAnnouncements() {
-		return await Announcement.find({
+		return await this.model.find({
 			approved: false
 		});
 	}
@@ -57,7 +57,7 @@ class AnnouncementLayer {
 		let announcementIDCounter = await Counter.findByIdAndUpdate("announcementID", {$inc: {value: 1}});
 		let type = announcementData.type.substring(0,1).toUpperCase() + 
 					announcementData.type.substring(1, announcementData.type.length);
-		return await Announcement.create({
+		return await this.model.create({
 			_id: announcementIDCounter.value + 1,
 			title: announcementData.title,
 			desc: announcementData.desc,
@@ -72,13 +72,13 @@ class AnnouncementLayer {
 	}
 
 	async approveAnnouncement(id) {
-		return await Announcement.findByIdAndUpdate(id, {
+		return await this.model.findByIdAndUpdate(id, {
 			approved: true
 		});
 	}
 
 	async unapproveAnnouncement(id) {
-		return await Announcement.updateOne({
+		return await this.model.updateOne({
 			_id: id
 		}, {
 			approved: false
@@ -86,7 +86,7 @@ class AnnouncementLayer {
 	}
 
 	async rejectAnnouncement(id) {
-		return await Announcement.deleteOne({
+		return await this.model.deleteOne({
 			_id: id
 		});
 	}
@@ -94,43 +94,43 @@ class AnnouncementLayer {
 	async deleteAnnouncement(id) {
 		this.rejectAnnouncement(id);
 	}
-}
 
-function convertFiltersToMongoQuery(filters, approved, pinned) {
-	let andQuery = { "$and": [] };
-	let orQuery = { "$or": [] };
-	filters.forEach((filter) => {
-		if (!Array.isArray(filter)) {
-			let andComponent = {};
-			let andComparator = {};
-			if (filter.key.toLowerCase() == "grades") {
-				andComparator[filter.comparator] = [ parseInt(filter.value) ];
+	getMongoQuery(filters, approved, pinned) {
+		let andQuery = { "$and": [] };
+		let orQuery = { "$or": [] };
+		filters.forEach((filter) => {
+			if (!Array.isArray(filter)) {
+				let andComponent = {};
+				let andComparator = {};
+				if (filter.key.toLowerCase() == "grades") {
+					andComparator[filter.comparator] = [ parseInt(filter.value) ];
+				} else {
+					andComparator[filter.comparator] = filter.value;	
+				}
+				andComponent[filter.key.toLowerCase()] = andComparator;
+				andQuery["$and"].push(andComponent);
 			} else {
-				andComparator[filter.comparator] = filter.value;	
+				filter.forEach((filter) => {
+					let orComponent = {};
+					let orComparator = {};
+					orComparator[filter.comparator] = new RegExp(`${filter.value}`, "i");
+					orComponent[filter.key.toLowerCase()] = orComparator;
+					orQuery["$or"].push(orComponent);
+				});
+				andQuery["$and"].push(orQuery);
 			}
-			andComponent[filter.key.toLowerCase()] = andComparator;
-			andQuery["$and"].push(andComponent);
+		});
+		if (andQuery["$and"].length != 0) {
+			return {
+				...andQuery,
+				approved: approved,
+				pinned: pinned,
+			};
 		} else {
-			filter.forEach((filter) => {
-				let orComponent = {};
-				let orComparator = {};
-				orComparator[filter.comparator] = new RegExp(`${filter.value}`, "i");
-				orComponent[filter.key.toLowerCase()] = orComparator;
-				orQuery["$or"].push(orComponent);
-			});
-			andQuery["$and"].push(orQuery);
-		}
-	});
-	if (andQuery["$and"].length != 0) {
-		return {
-			...andQuery,
-			approved: approved,
-			pinned: pinned,
-		};
-	} else {
-		return {
-			approved: approved,
-			pinned: pinned,
+			return {
+				approved: approved,
+				pinned: pinned,
+			}
 		}
 	}
 }

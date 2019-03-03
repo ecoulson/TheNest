@@ -9,7 +9,6 @@ class Route {
 			body[resolver.name] = await resolver.resolve();
 			response.json(body).status(200);
 		} catch (error) {
-			console.log(error);
 			response.json({ success: false }).status(500);
 		}
 	}

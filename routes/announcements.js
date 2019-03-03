@@ -58,7 +58,7 @@ class AnnouncementRoute extends Route {
 
 	// pins an announcement with the passed id in the request parameters
 	async pin(request, response) {
-		const resolver = new RouteResolver('announcement', this.layer.togglePinned, [ request.body ]);
+		const resolver = new RouteResolver('announcement', this.layer.togglePinned, [ request.params.id ]);
 		await this.handleRoute(request, response, 'Admin', resolver);
 	}
 
