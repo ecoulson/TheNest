@@ -6,6 +6,17 @@ const LOAD_LIMIT = 20;
 class AnnouncementLayer {
 	constructor(mongoDatabase) {
 		this.mongoDatabase = mongoDatabase;
+		this.getAnnouncementCount = this.getAnnouncementCount.bind(this);
+		this.getAnnouncement = this.getAnnouncement.bind(this);
+		this.loadPinnedAnnouncements = this.loadPinnedAnnouncements.bind(this);
+		this.togglePinned = this.togglePinned.bind(this);
+		this.loadApprovedAnnouncements = this.loadApprovedAnnouncements.bind(this);
+		this.loadUnapprovedAnnouncements = this.loadUnapprovedAnnouncements.bind(this);
+		this.createAnnouncement = this.createAnnouncement.bind(this);
+		this.approveAnnouncement = this.approveAnnouncement.bind(this);
+		this.unapproveAnnouncement = this.unapproveAnnouncement.bind(this);
+		this.rejectAnnouncement = this.rejectAnnouncement.bind(this);
+		this.deleteAnnouncement = this.deleteAnnouncement.bind(this);
 	}
 
 	async getAnnouncementCount(filters) {
@@ -32,7 +43,7 @@ class AnnouncementLayer {
 		let announcements = await Announcement.find(query)
 									.skip(parseInt(offset))
 									.sort({dateCreated: -1})
-									.limit(20);
+									.limit(LOAD_LIMIT);
 		return announcements;
 	}
 
@@ -42,7 +53,7 @@ class AnnouncementLayer {
 		});
 	}
 
-	async createAnnouncement(announcementData, outputEntry) {
+	async createAnnouncement(announcementData) {
 		let announcementIDCounter = await Counter.findByIdAndUpdate("announcementID", {$inc: {value: 1}});
 		let type = announcementData.type.substring(0,1).toUpperCase() + 
 					announcementData.type.substring(1, announcementData.type.length);

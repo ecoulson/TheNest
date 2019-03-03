@@ -93,9 +93,9 @@ export default class Feed extends Component {
 			credentials: 'include'
 		})
 		.then(res => res.json())
-		.then((announcements) => {
+		.then((body) => {
 			this.setState({
-				announcements: announcements,
+				announcements: body.announcements,
 			});
 		});
 	}
@@ -106,9 +106,9 @@ export default class Feed extends Component {
 			credentials: 'include'
 		})
 		.then(res => res.json())
-		.then((announcements) => {
+		.then((body) => {
 			let stateAnnouncements = this.state.announcements;
-			announcements.forEach((announcement) => {
+			body.announcements.forEach((announcement) => {
 				stateAnnouncements.push(announcement);
 			});
 			this.setState({
@@ -366,7 +366,7 @@ export default class Feed extends Component {
 						}}
 					</AppContext.Consumer>
 					{!this.state.isAdmin ? null : 
-						<ContextMenu onShow={this.getPinAction} collect={props => props} id={`contextmenu-${this.props.feedSource ? this.props.feedSource : "announcements"}`}>
+						<ContextMenu  onShow={this.getPinAction} collect={props => props} id={`contextmenu-${this.props.feedSource ? this.props.feedSource : "announcements"}`}>
 							<MenuItem onClick={this.handlePinnedAnnouncement}>
 								<FontAwesomeIcon className="entity-context-menu-icon" size="1x" icon="thumbtack"/>
 								{this.state.pinAction} Announcement

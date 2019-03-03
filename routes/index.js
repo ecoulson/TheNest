@@ -1,11 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var announcements = require('./announcements');
+var AnnouncementRoute = require('./announcements');
 var user = require('./user');
 var editor = require('./editor');
+let Layers = require('../DataAccessLayer/Layers');
+const announcementLayer = Layers.announcementLayer;
 
-router.use('/announcements', announcements);
+let announcementRoute = new AnnouncementRoute(announcementLayer);
+router.use('/announcements', announcementRoute.setup());
 router.use('/user', user);
-router.use('/editor', editor)
+router.use('/editor', editor);
 
 module.exports = router;

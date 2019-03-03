@@ -56,7 +56,7 @@ app.use('/content/:file', function(request, response) {
 	response.sendFile(path.resolve(__dirname, 'client', 'public', request.params.file));
 });
 
-app.get('*', function (request, response){
+app.get('*', function (request, response) {
 	response.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
 })
 
