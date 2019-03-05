@@ -46,11 +46,7 @@ class UserLayer {
 }
 
 function getRedirectUrl() {
-	if (process.env.NODE_ENV == 'production') {
-		return process.env.REDIRECT_URL;
-	} else {
-		return "http://localhost:3000/login"
-	}
+	return process.env.REDIRECT_URL;
 }
 
 module.exports = UserLayer;

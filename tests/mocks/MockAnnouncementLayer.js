@@ -1,6 +1,8 @@
-class MockAnnouncementLayer {
+const Mock = require('./Mock');
+
+class MockAnnouncementLayer extends Mock {
 	constructor() {
-		this.shouldThrow = false;
+		super();
 
 		this.getAnnouncementCount = this.getAnnouncementCount.bind(this);
 		this.loadApprovedAnnouncements = this.loadApprovedAnnouncements.bind(this);
@@ -15,64 +17,48 @@ class MockAnnouncementLayer {
 		this.deleteAnnouncement = this.deleteAnnouncement.bind(this);
 	}
 
-	setErrorMode() {
-		this.shouldThrow = true;
-	}
-
-	setCorrectMode() {
-		this.shouldThrow = false;
-	}
-
 	async getAnnouncementCount(filters) {
-		return handleCall(this.shouldThrow, 0);
+		return this.handleCall(0);
 	}
 
 	async loadApprovedAnnouncements(offset, filters) {
-		return handleCall(this.shouldThrow, []);
+		return this.handleCall([]);
 	}
 
 	async loadPinnedAnnouncements(filters) {
-		return handleCall(this.shouldThrow, []);
+		return this.handleCall([]);
 	}
 
 	async togglePinned(id) {
-		return handleCall(this.shouldThrow, {});
+		return this.handleCall({});
 	}
 
 	async createAnnouncement(announcement) {
-		return handleCall(this.shouldThrow, {});
+		return this.handleCall({});
 	}
 
 	async loadUnapprovedAnnouncements() {
-		return handleCall(this.shouldThrow, [])
+		return this.handleCall([])
 	}
 
 	async approveAnnouncement(id) {
-		return handleCall(this.shouldThrow, {});
+		return this.handleCall({});
 	}
 
 	async unapproveAnnouncement(id) {
-		return handleCall(this.shouldThrow, {});
+		return this.handleCall({});
 	}
 	
 	async rejectAnnouncement(id) {
-		return handleCall(this.shouldThrow, {});
+		return this.handleCall({});
 	}
 
 	async getAnnouncement(id) {
-		return handleCall(this.shouldThrow, {});
+		return this.handleCall({});
 	}
 
 	async deleteAnnouncement() {
-		return handleCall(this.shouldThrow, null);
-	}
-}
-
-function handleCall(shouldThrow, data) {
-	if (shouldThrow) {
-		throw new Error("Error should be thrown for testing");
-	} else {
-		return data;
+		return this.handleCall({});
 	}
 }
 

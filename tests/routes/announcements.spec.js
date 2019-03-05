@@ -38,7 +38,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to get announcement count due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.getCount(request, response);
 			
@@ -73,7 +73,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to load announcements from offset due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.loadFromOffest(request, response);
 			
@@ -109,7 +109,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to get pinned announcements due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.getPinned(request, response);
 			
@@ -144,7 +144,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to pin announcement due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.pin(request, response);
 			
@@ -181,7 +181,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to create announcement due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.create(request, response);
 			
@@ -217,7 +217,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to get unapproved announcements due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.getUnapproved(request, response);
 			
@@ -252,7 +252,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to approve announcement due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.approve(request, response);
 			
@@ -288,7 +288,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to approve announcement due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.unapprove(request, response);
 			
@@ -324,7 +324,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to reject announcement due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.reject(request, response);
 			
@@ -360,7 +360,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to get announcement by id due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.getByID(request, response);
 			
@@ -396,7 +396,7 @@ describe('AnnouncementRoute', () => {
 
 		it('Should fail to get announcement by id due to internal error', async () => {
 			session.grantAccess();
-			announcementLayer.setErrorMode();
+			announcementLayer.toggleThrowMode();
 
 			await route.delete(request, response);
 			
@@ -406,14 +406,14 @@ describe('AnnouncementRoute', () => {
 			expect(response.status).to.be.calledWith(500);
 		})
 
-		it('Should get announcement by id', async () => {
+		it('Should delete announcement by id', async () => {
 			request.params.id = 0;
 			session.grantAccess();
 
 			await route.delete(request, response);
 	
 			expect(response.json).to.be.calledWith({
-				announcement: null,
+				announcement: {},
 				success: true
 			});
 			expect(response.status).to.be.calledWith(200);

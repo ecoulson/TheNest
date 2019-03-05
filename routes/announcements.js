@@ -2,6 +2,10 @@ const Route = require('./route');
 const RouteResolver = require('./RouteResolver');
 
 
+/**
+ * The announcement route handles all requests made to the /announcements path
+ * This ranges from pinning announcements to creating announcements.
+ */
 class AnnouncementRoute extends Route {
 	constructor(announcementLayer) {
 		super();
@@ -17,7 +21,6 @@ class AnnouncementRoute extends Route {
 		this.unapprove = this.unapprove.bind(this);
 		this.reject = this.reject.bind(this);
 		this.getByID = this.getByID.bind(this);
-		this.delete = this.delete.bind(this);
 	}
 
 	// Sets up all announcement endpoints
@@ -100,7 +103,7 @@ class AnnouncementRoute extends Route {
 
 	// Deletes an announcement with the id to be deleted in the request
 	async delete(request, response) {
-		const resolver = new RouteResolver('announcement', this.layer.deleteAnnouncement, [request.params.id]);
+		const resolver = new RouteResolver('announcement', this.layer.rejectAnnouncement, [request.params.id]);
 		await this.handleRoute(request, response, 'Admin', resolver);
 	}
 
@@ -114,6 +117,7 @@ class AnnouncementRoute extends Route {
 	}
 }
 
+// gets filters from the request
 function getFilters(request) {
 	if (request.query.filters) {
 		return JSON.parse(request.query.filters);
