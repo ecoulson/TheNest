@@ -1,102 +1,110 @@
-var express = require('express');
-var router = express.Router();
-var fetch = require('node-fetch');
-var Layers = require('../DataAccessLayer/Layers');
-var userLayer = Layers.userLayer;
-var keyVault = Layers.keyVault;
-
+const Request = require('../http/Request');
 const tokenUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+const Route = require('./route');
+const Express = require('express');
 
-router.get('/login/', function(req, res, next) {
-	return res.json({
-		location: userLayer.getLoginUrl()
-	}).status(302);
-});
+class UserRoute extends Route {
+	constructor(userLayer) {
+		super();
+		this.request = new Request();
+		this.userLayer = userLayer;
 
-router.get('/login/callback/:code', async function(req, res, next) {
-	let token = await getAccessToken(req);
-	let user = await getUserData(res, token);
-	if (!user.userPrincipalName.endsWith("@overlake.org")) {
-		return res.send({
-			succes: false,
+		this.redirectLogin = this.redirectLogin.bind(this);
+		this.handleLogin = this.handleLogin.bind(this);
+		this.handlePermissionCheck = this.handlePermissionCheck.bind(this);
+		this.handleLogout = this.handleLogout.bind(this);
+		this.getRole = this.getRole.bind(this);
+	}
+
+	setup() {
+		const router = Express.Router();
+		router.get('/login/', this.redirectLogin);
+		router.get('/login/callback/:code', this.handleLogin);
+		router.get('/can/:action', this.handlePermissionCheck);
+		router.get('/logout', this.handleLogout);
+		router.get('/', this.getRole);
+		return router;
+	}
+
+	redirectLogin(req, res) {
+		return res.json({
+			location: process.env.MICROSOFT_LOGIN_URL
 		}).status(302);
 	}
-	user = await userLayer.getOrCreateUser(user);
-	await loginRole(req, user);
-	res.send({
-		success: true,
-		user: { id: user._id, username: user.displayName }
-	}).status(302);
-});
 
-async function getAccessToken(req) {
-	return new Promise(async (resolve) => {
-		fetch(tokenUrl, {
+	async handleLogin(req, res) {
+		let token = await this.getAccessToken(req);
+		let user = await this.getUserData(res, token.access_token);
+		if (!user.userPrincipalName.endsWith("@overlake.org")) {
+			return res.json({
+				success: false,
+			}).status(302);
+		}
+		user = await this.userLayer.getOrCreateUser(user);
+		await this.setRole(req, user);
+		return res.json({
+			success: true,
+			user: { id: user._id, username: user.displayName }
+		}).status(302);
+	}
+
+	async getAccessToken(req) {
+		return await this.request.makeRequest(tokenUrl,  {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded"
 			},
-			body: await getToken(req.params.code)
-		}).then((res) => {
-			return res.json()
-		}).then((json) => {
-			return resolve(json.access_token);
-		});
-	})
-}
-
-async function getToken(code) {
-	let tokenBody = await userLayer.getTokenBody(code, keyVault);
-	let string = [];
-	for (let key in tokenBody) {
-		string.push(`${encodeURIComponent(key)}=${encodeURIComponent(tokenBody[key])}`);
+			body: this.getToken(req.params.code)
+		})
 	}
-	return string.join("&");
-}
 
-async function getUserData(originalRes, access_token) {
-	return new Promise((resolve) => {
+	async getUserData(originalRes, access_token) {
 		originalRes.cookie('userToken', access_token, { maxAge: 900000, httpOnly: true });
-		fetch(`https://graph.microsoft.com/v1.0/me`, {
+		return await this.request.makeRequest(`https://graph.microsoft.com/v1.0/me`, {
 			method: "GET",
 			headers: {
 				Authorization: `Bearer ${access_token}`
 			}
-		}).then((res) => {
-			return res.json();
-		}).then((json) => {
-			return resolve(json);
 		});
-	})
-}
+	}
+	
+	async setRole(req, user) {
+		await req.session.login(user.role.toLowerCase());
+	}
 
-async function loginRole(req, user) {
-	await req.session.login(user.role.toLowerCase());
-}
+	getToken(code) {
+		let tokenBody = this.userLayer.getTokenBody(code);
+		let string = [];
+		for (let key in tokenBody) {
+			string.push(`${encodeURIComponent(key)}=${encodeURIComponent(tokenBody[key])}`);
+		}
+		return string.join("&");
+	}
 
-router.get('/can/:action', function(req, res, next) {
-	req.session.can(req.params.action).then((hasAccess) => {
-		return res.json({
-			success: true,
-			can: hasAccess
-		}).status(200);
-	})
-})
+	handlePermissionCheck(req, res) {
+		return req.session.can(req.params.action).then((hasAccess) => {
+			return res.json({
+				success: true,
+				can: hasAccess
+			}).status(200);
+		})
+	}
 
-router.get('/logout', function (req, res, next) {
-    req.session.logout().then(() => {
+	handleLogout(req, res) {
+		return req.session.logout().then(() => {
+			res.json({
+				role: "guest",
+				success: true
+			});
+		});
+	}
+
+	getRole(req, res) {
 		res.json({
-			role: "guest",
-			succes: true
-		});
-	});
-});
+			role: req.session.getRole(),
+			success: true
+		}).status(200);
+	}	
+}
 
-router.get('/', function (req, res, next){
-    res.send({
-		role: req.session.getRole(),
-		succes: true
-	}).status(200);
-});
-
-module.exports = router;
+module.exports = UserRoute;

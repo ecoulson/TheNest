@@ -1,6 +1,6 @@
 const Route = require('./route');
 const RouteResolver = require('./RouteResolver');
-
+const Express = require('express');
 
 /**
  * The announcement route handles all requests made to the /announcements path
@@ -10,6 +10,7 @@ class AnnouncementRoute extends Route {
 	constructor(announcementLayer) {
 		super();
 		this.layer = announcementLayer;
+
 		this.setup = this.setup.bind(this);
 		this.getCount = this.getCount.bind(this);
 		this.loadFromOffest = this.loadFromOffest.bind(this);
@@ -25,7 +26,7 @@ class AnnouncementRoute extends Route {
 
 	// Sets up all announcement endpoints
 	setup() {
-		const router = require('express').Router();
+		const router = Express.Router();
 		router.get(`/`, this.getCount);
 		router.get(`/load/:offset`, this.loadFromOffest);
 		router.get(`/pinned`, this.getPinned);
