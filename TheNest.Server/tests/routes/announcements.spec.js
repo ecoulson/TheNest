@@ -2,7 +2,7 @@ require("mocha");
 const { use, expect } = require('chai');
 const sinonChai = require('sinon-chai');
 const { mockReq, mockRes } = require('sinon-express-mock');
-const AnnouncementRoute = require('../../routes/announcements');
+const AnnouncementRoute = require('../../src/routes/announcements');
 const MockSession = require('../mocks/MockSession');
 const MockAnnouncementLayer = require('../mocks/MockAnnouncementLayer');
 

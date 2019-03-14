@@ -1,20 +1,13 @@
 .whoami {
 	color: white;
 	height: 56%;
-	width: 30%;
-	margin-top: 6px;
+	margin-top: 17px;
 	padding-bottom: 13px;
 	text-align: right;
 }
 
 @media screen and (min-width: 600px) {
 	.whoami {
-		margin-top: 15px;
 		padding-bottom: 5px;
 	}
-}
-
-.whoami:hover {
-	cursor: default;
-	border-bottom: 3px solid #efdd8d;
 }

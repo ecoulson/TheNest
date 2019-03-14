@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const MongoQueryBuilder = require('../../DataAccessLayer/MongoQueryBuilder');
+const MongoQueryBuilder = require('../../src/DataAccessLayer/MongoQueryBuilder');
 
 describe('MongoQuery', () => {
 	describe('getQueryFromFilters', () => {

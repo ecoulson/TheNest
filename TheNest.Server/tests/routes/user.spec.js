@@ -1,4 +1,4 @@
-const UserRoute = require('../../routes/user');
+const UserRoute = require('../../src/routes/user');
 const MockUserLayer = require('../mocks/MockUserLayer');
 const { mockReq, mockRes } = require('sinon-express-mock');
 const sinonChai = require('sinon-chai');

@@ -91,7 +91,7 @@ const multiStyle = {
 				borderRadius: "none",
 				"&:hover": {
 					border: "3px solid #efdd8d",
-					backgroundColor: "#37784f",
+					backgroundColor: "#356a20",
 					color: "white"
 				},
 				overflow: "hidden",
@@ -121,7 +121,7 @@ const multiStyle = {
 	},
 	multiValue: (base) => ({
 		...base,
-		backgroundColor: "#37784f",
+		backgroundColor: "#356a20",
 		borderRadius: "none",
 	}),
 	singleValue: (base) => ({
@@ -162,7 +162,7 @@ const multiStyle = {
 	option: (base, state) => ({
 		...base,
 		color: state.isFocused ? "white" : "black",
-		backgroundColor: state.isFocused ? "#37784f" : "rgb(234, 234, 234)",
+		backgroundColor: state.isFocused ? "#356a20" : "rgb(234, 234, 234)",
 		cursor: state.isFocused ? "pointer" : "default"
 	}),
 	indicatorsContainer: (base) => ({
@@ -259,7 +259,7 @@ export default class Form extends Component {
 		if (success) {
 			this.showStatus({
 				message: "Successfully Submitted Announcement For Approval",
-				color: "#37784f",
+				color: "#356a20",
 				fontColor: "white",
 				duration: 3
 			});
