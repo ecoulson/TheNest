@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var app = require('./app');
+var app = require('./TheNest.Server/src/app');
 var debug = require('debug')('overlakeasb:server');
 var http = require('http');
 var path = require('path');
