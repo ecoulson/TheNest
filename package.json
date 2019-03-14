@@ -6,7 +6,7 @@
     "start": "node ./TheNest.Server/src/server.js 3001",
     "heroku-postbuild": "cd ./TheNest.Server && npm install && cd ../TheNest.Infrastructure && npm install && cd ../TheNest.Client && npm install && npm run build"
   },
-  "cacheDirectories": ["TheNest.Server/node_modules", "TheNest.Client/node_modules", "TheNest.Infrastructure"],
+  "cacheDirectories": ["TheNest.Server/node_modules", "TheNest.Client/node_modules", "TheNest.Infrastructure/node_modules"],
   "engines": {
     "node": "8.11.1",
     "npm": "5.6.0"
