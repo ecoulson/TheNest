@@ -39,9 +39,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy Master to Staging Environment on Heroku
+          name: Deploy Master to PROD Environment on Heroku
           command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_DEVELOP_APP_NAME.git master
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_DEPLOY_APP_NAME.git master
 
 workflows:
   version: 2
