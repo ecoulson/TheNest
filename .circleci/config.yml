@@ -24,7 +24,7 @@ jobs:
         
       - run: npm test
       #todo: add code coverage test runner
-  stage:
+  deploy:
     docker:
       - image: circleci/node:8.11.1
     steps:
