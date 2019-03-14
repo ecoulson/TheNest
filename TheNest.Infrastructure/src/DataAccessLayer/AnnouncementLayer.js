@@ -67,6 +67,7 @@ class AnnouncementLayer {
 		let id = await this.counter.findByIdAndUpdate("announcementID", {
 			$inc: {value: 1}
 		});
+		console.log(id);
 		return await this.announcement.create(new AnnouncmentDTO(requestBody, id.value + 1));
 	}
 
