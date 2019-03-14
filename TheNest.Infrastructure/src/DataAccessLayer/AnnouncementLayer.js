@@ -45,6 +45,7 @@ class AnnouncementLayer {
 		return await this.announcement.findByIdAndUpdate(id, announcement)
 	}
 
+	
 	async loadApprovedAnnouncements(offset, filters) {
 		let query = MongoQuery.buildQueryFromFilters(filters, {
 			approved: true,
