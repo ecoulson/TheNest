@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node index.js 3001",
-    "heroku-postbuild": "cd ../TheNest.Client && npm install && npm run build"
+    "start": "cd ./TheNest.Server/ node server.js 3001",
+    "heroku-postbuild": "cd ./TheNest.Client && npm install && npm run build"
   },
   "engines": {
     "node": "8.11.1",
