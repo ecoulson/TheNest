@@ -1,0 +1,24 @@
+{
+  "name": "the-nest",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "cd ./TheNest.Server && npm start",
+    "heroku-postbuild": "cd ../TheNest.Client && npm install && npm run build"
+  },
+  "engines": {
+    "node": "8.11.1",
+    "npm": "5.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ecoulson/TheNest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ecoulson/TheNest/issues"
+  },
+  "homepage": "https://github.com/ecoulson/TheNest#readme"
+}

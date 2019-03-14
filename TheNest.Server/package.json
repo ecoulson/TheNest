@@ -4,13 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node src/server.js 3001",
-    "test": "mocha tests/**/*.spec.js",
-    "heroku-postbuild": "cd client && npm install && npm run build",
-    "stage": "git add -A && git commit -m \"staging current commit\" && git push staging"
-  },
-  "engines": {
-    "node": "8.11.1",
-    "npm": "5.6.0"
+    "test": "mocha tests/**/*.spec.js"
   },
   "dependencies": {
     "chai": "^4.2.0",
