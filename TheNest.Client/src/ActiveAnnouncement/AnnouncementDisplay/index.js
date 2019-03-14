@@ -23,6 +23,8 @@ export default class AnnouncementDisplay extends Component {
 	formatGrades(grades) {
 		if (!grades) {
 			return "";
+		} else if (grades.length === 0) {
+			return "All Grades";
 		} else {
 			let string = "";
 			for (let i = 0; i < grades.length; i++) {
