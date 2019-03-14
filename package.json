@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "node ./TheNest.Server/src/server.js 3001",
-    "heroku-postbuild": "cd ./TheNest.Client && npm install && npm run build"
+    "heroku-postbuild": "cd ./TheNest.Server && npm install && cd ../TheNest.Infrastructure && npm install && cd ../TheNest.Client && npm install && npm run build"
   },
   "engines": {
     "node": "8.11.1",
