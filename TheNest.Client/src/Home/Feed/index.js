@@ -246,7 +246,7 @@ export default class Feed extends Component {
 				let pinAction = !json.announcement.pinned ? "Pinned" : "Unpinned"
 				this.showStatus({
 					message: `${pinAction} Announcement`,
-					color: "#37784f",
+					color: "#356a20",
 					fontColor: "white",
 					duration: 3
 				});

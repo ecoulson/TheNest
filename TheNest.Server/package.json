@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node server.js 3001",
+    "start": "node src/server.js 3001",
     "test": "mocha tests/**/*.spec.js",
     "heroku-postbuild": "cd client && npm install && npm run build",
     "stage": "git add -A && git commit -m \"staging current commit\" && git push staging"

@@ -42,7 +42,7 @@
 }
 
 .form-title:focus, .form-author:focus, .form-desc:focus {
-	border-color: #37784f;
+	border-color: #356a20;
 	border-radius: none;
 }
 
@@ -71,7 +71,7 @@
 .form-create:hover {
 	border: 3px solid #efdd8d;
 	cursor: pointer;
-	background-color: #37784f;
+	background-color: #356a20;
 	color: white;
 	border-radius: none;
 }

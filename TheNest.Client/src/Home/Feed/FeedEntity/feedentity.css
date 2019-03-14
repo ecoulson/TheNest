@@ -1,9 +1,8 @@
 .feed-entity-container {
-	padding: 10px;
 	background: rgb(250,250,250);
 	font-size: 16px;
 	transition: border 0.25s ease;
-	display: block;
+	display: flex;
 	text-decoration: none;
 	color: black;
 	margin: 3px 0;
@@ -41,12 +40,36 @@
 	overflow: hidden;
 }
 
-.feed-entity-grades {
+.feed-left-buff {
+	padding: 10px;
+	width: 85%;
+}
+
+.feed-right-buff {
+	border-left: 3px solid rgb(200,200,200);
+	padding: 10px;
+	width: 15%;
+	color: white;
 	text-align: right;
-	width: 50%;
+	background-color: #356a20;
+}
+
+@media screen and (max-width: 780px) {
+	.feed-left-buff {
+		width: 65%;
+	}
+	
+	.feed-right-buff {
+		text-align: left;
+		width: 35%;
+	}
+}
+
+.feed-entity-grades {
 	margin-top:5px;
 	font-size: 14px;
 	margin-right: 15px;
+	margin-bottom: 5px;
 }
 
 .split {
@@ -74,8 +97,6 @@
 }
 
 .feed-entity-author {
-	width: 50%;
-	text-align: right;
 	text-transform: capitalize;
 	margin-right: 15px;
 	font-size: 14px;

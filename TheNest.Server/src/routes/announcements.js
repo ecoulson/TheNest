@@ -22,6 +22,7 @@ class AnnouncementRoute extends Route {
 		this.unapprove = this.unapprove.bind(this);
 		this.reject = this.reject.bind(this);
 		this.getByID = this.getByID.bind(this);
+		this.delete = this.delete.bind(this);
 	}
 
 	// Sets up all announcement endpoints

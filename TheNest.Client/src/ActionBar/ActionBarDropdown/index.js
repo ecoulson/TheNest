@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class ActionBarDropdown extends Component {
 	constructor(props) {
@@ -65,10 +64,7 @@ export default class ActionBarDropdown extends Component {
 		return (
 			<div className="action-bar-dropdown">
 				<div onClick={this.toggle} data-badge-count={badgeCount} className={`action-bar-button ${badgeClass}`}>
-					<FontAwesomeIcon 
-						data-badge-count={badgeCount}
-						size="2x" 
-						icon={this.props.icon} />
+					{this.props.icon}
 				</div>
 				<ul style={{width: this.props.menuWidth}} id={this.props.name} className="action-bar-menu">
 					{this.props.children}

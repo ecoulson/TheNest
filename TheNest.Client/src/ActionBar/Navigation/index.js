@@ -14,6 +14,7 @@ export default class Navigation extends Component {
 		return (
 			<div className="action-bar-menu-item action-bar-navigation">
 				<Link id="home" className="action-bar-navlink" to="/">Home</Link>
+				<hr className="action-bar-menu-item divider"/>
 				<Link id="announcements" className="action-bar-navlink" to="/announcements">Announcements</Link>
 			</div>
 		)

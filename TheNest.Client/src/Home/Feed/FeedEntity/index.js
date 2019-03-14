@@ -25,22 +25,14 @@ export default class FeedEntity extends Component {
 	}
 
 	renderGrades() {
-		if (this.props.entity.grades.length === 0) {
-			return null;
-		}
 		return (
 			<div className="feed-entity-grades">
-				Grades:
 				{
-					this.props.entity.grades === "" ? " All Grades" : this.props.entity.grades.map((grade) => {
+					this.props.entity.grades.length === 0 ? "All Grades" : "Grades " + this.props.entity.grades.map((grade) => {
 						return parseInt(grade, 10);
 					}).sort((a,b) => {
 						return a < b;
-					}).map((grade) => {
-						return (
-							<span key={grade} className="feed-entity-grade"> {grade}</span>
-						)
-					})
+					}).join(", ")
 				}
 			</div>
 		);
@@ -62,16 +54,20 @@ export default class FeedEntity extends Component {
 		return (
 			<ContextMenuTrigger collect={props => props} entity={this.props.entity} id={`contextmenu-${this.props.source ? this.props.source : "announcements"}`}>
 				<Link to={`/announcements/${this.props.entity._id}`} className="feed-entity-container">
-					<div className="feed-entity-header">
-						{this.renderPin()}
-						<FontAwesomeIcon className="feed-entity-type" size="1x" icon={this.getIcon()} />
-						<h2 className="feed-entity-title">{this.props.entity.title}</h2>
-						{this.renderGrades()}
+					<div className="feed-left-buff">
+						<div className="feed-entity-header">
+							{this.renderPin()}
+							<FontAwesomeIcon className="feed-entity-type" size="1x" icon={this.getIcon()} />
+							<h2 className="feed-entity-title">{this.props.entity.title}</h2>
+						</div>
+						<div className="split"/>
+						<div className="split"/>
+						<div className="feed-entity-footer">
+							<span className="feed-entity-date">{moment(this.props.entity.dateCreated).format("MMMM Do, YY h:mmA")}</span>
+						</div>
 					</div>
-					<div className="split"/>
-					<div className="split"/>
-					<div className="feed-entity-footer">
-						<span className="feed-entity-date">{moment(this.props.entity.dateCreated).format("MMMM Do, YY h:mmA")}</span>
+					<div className="feed-right-buff">
+						{this.renderGrades()}
 						<span className="feed-entity-author">{this.props.entity.author}</span>
 					</div>
 				</Link>

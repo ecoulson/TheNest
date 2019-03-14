@@ -92,7 +92,7 @@ export default class ListEntry extends Component {
 		}).then(() => {
 			this.showStatus({
 				message: "Announcement Approved",
-				color: "#37784f",
+				color: "#356a20",
 				fontColor: "white",
 				duration: 3
 			});

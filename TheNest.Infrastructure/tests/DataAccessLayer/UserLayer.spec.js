@@ -1,4 +1,4 @@
-const UserLayer = require('../../DataAccessLayer/UserLayer');
+const UserLayer = require('../../src/DataAccessLayer/UserLayer');
 const MockUserModel = require('../mocks/MockUserModel');
 const { expect, use } = require('chai');
 const mockedEnv = require('mocked-env');

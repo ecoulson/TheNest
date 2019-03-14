@@ -1,4 +1,4 @@
-const AnnouncementLayer = require('../../DataAccessLayer/AnnouncementLayer');
+const AnnouncementLayer = require('../../src/DataAccessLayer/AnnouncementLayer');
 const MockAnnouncementModel = require('../mocks/MockAnnouncementModel');
 const MockCounterModel = require('../mocks/MockCounterModel');
 const { expect, use } = require('chai');

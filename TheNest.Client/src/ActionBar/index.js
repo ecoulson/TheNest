@@ -6,6 +6,7 @@ import Owl from '../bird.png';
 import Dropdown from './ActionBarDropdown';
 import Navigation from './Navigation';
 import WhoAmI from './WhoAmI';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default class ActionBar extends Component {
 	constructor() {
@@ -102,14 +103,13 @@ export default class ActionBar extends Component {
 					<img alt="Owl" src={Owl} className="application-logo" size="2x" />
 					<span className="application-name">The Nest</span>
 				</Link>
-				<WhoAmI></WhoAmI>
 				<Dropdown 
 					visible={this.state.settingsVisible}
 					name="settings" 
-					icon="cog" 
+					icon={<WhoAmI></WhoAmI>}
 					closeOther={[this.closeNotifications, this.closeMenu]}
 					toggle={this.toggleSettings}
-					menuWidth={150}
+					menuWidth={300}
 					>
 					<li onClick={this.handleLogin} key={"user"} className="action-bar-menu-item">Login</li>
 					<hr className="action-bar-menu-item divider"/>
@@ -118,12 +118,15 @@ export default class ActionBar extends Component {
 				<Dropdown
 					visible={this.state.menuVisible}
 					name="menu" 
-					icon="bars" 
+					icon={
+						<FontAwesomeIcon 
+							size="2x" 
+							icon="bars" />
+					}
 					closeOther={[this.closeNotifications, this.closeSettings]}
 					toggle={this.toggleMenu}
 					menuWidth={300}
 					>
-					<h3 className="action-bar-header action-bar-menu-item">Navigation</h3>
 					<Navigation></Navigation>
 				</Dropdown>
 			</div>
